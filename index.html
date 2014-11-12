@@ -15,7 +15,7 @@
     <div class="container">
         <h2>bootstrap combox 搜索建议插件</h2>
         <p>这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件.</p>
-        <p>使用说明：<a href="README.html" target="_blank">README.html</a>
+        <p>使用说明：<a href="README.html" target="_blank">README.html</a> <a href="https://github.com/lzwme/bootstrap-suggest-plugin" target="_blank">Github</a></p>
         <form action="index_submit" method="get" accept-charset="utf-8" role="form">
             <h3>测试(URL 获取)</h3>
             <div class="row">
@@ -92,11 +92,14 @@
     <script src="bootstrap-suggest.js"></script>
     <script type="text/javascript">
     var testBsSuggest = $("#test").bsSuggest({
-        //url: "/rest/sys/getuserlist?keyword=",
-        //url: "/rest/taskAction/ownerList?q=",
-        url: "data.json?q=",
-        //url: "userlists.json?q=",
-        effectiveFields: ["userName", "shortAccount"]
+        //url: "/rest/sys/getuserlist?keyword={keyword}",
+        //url: "/rest/taskAction/ownerList?q={keyword}",
+        url: "/rest/sys/getuserlist",
+        //url: "data.json?q={keyword}",
+        //url: "userlists.json?q={keyword}",
+        effectiveFields: ["userName"],
+        indexId: 5,
+        indexKey: 0
     });
 
 	//data 数据中获取

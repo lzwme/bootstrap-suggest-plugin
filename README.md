@@ -3,7 +3,7 @@
 Bootstrap Search Suggest - v0.0.1
 ====================
 
-[Demo|示例](http://lzw.me/pages/demo/bootstrap-suggest-plugin)
+[Demo|示例](http://lzw.me/pages/demo/bootstrap-suggest-plugin) 
 
 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
 
@@ -28,31 +28,37 @@ Bootstrap Search Suggest - v0.0.1
 具体使用请参考参数配置说明及demo 示例页面源码([Demo](http://lzw.me/pages/demo/bootstrap-suggest-plugin))
 
 ####方法参考
-  禁用提示： `$("input#test").bsSuggest("disable");`
-  启用提示： `$("input#test").bsSuggest("enable");`
-  销毁插件： `$("input#test").bsSuggest("destroy");`
+1. 禁用提示： `$("input#test").bsSuggest("disable");`
+2. 启用提示： `$("input#test").bsSuggest("enable");`
+3. 销毁插件： `$("input#test").bsSuggest("destroy");`
 
 ## 参数说明
 
 参数列表中的值均为插件默认值
 ```js
 {
-  url: null, //设置此参数，则数据从 URL 请求
-  jsonp: null, //设置此参数名，将开启jsonp功能
-  data: {}, //使用此参数数据。当 url 参数为空时，此参数有效
-  getDataMethod: "firstByUrl", //获取数据的方式。url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据
-  indexId: 0, //data.value 的第几个数据，作为input输入框的 data-id
-  indexKey: 0, //data.value 的第几个数据，作为input输入框的内容
-  effectiveFields: null, //data 中有效的字段，非有效字段会被过滤，默认使用全部字段
-  allowNoKeyword: true, //是否允许无关键字时请求数据
-  multiWord: false,  //是否支持多关键字输入提示，多关键字以分隔符号 separator 分割
-  separator: " ", //多关键字支持时的分隔符，默认为空格
-  processData: processData, //格式化数据的方法
-  getData: getData, //获取数据的方法
-  autoMinWidth: false, //是否自动最小宽度，设为 false 则最小宽度与下拉式菜单等齐
-  listStyle: {"max-height": "375px", "max-width": "800px", "overflow": "auto"}, //列表的样式控制
-  listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
-  listHoverCSS: "jhover" //提示框列表鼠标悬浮的样式名称
+	url: null,
+	jsonp: null, //设置此参数名，将开启jsonp功能，否则使用json数据结构
+	data: {},
+	getDataMethod: "firstByUrl", //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据
+	indexId: 0,	//data.value 的第几个数据，作为input输入框的 data-id，设为 -1 则不设置此值
+	indexKey: 0, //data.value 的第几个数据，作为input输入框的内容
+	effectiveFields: null, //data 中有效的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效  TODO
+	allowNoKeyword: true, //是否允许无关键字时请求数据
+	multiWord: false, //以分隔符号分割的多关键字支持
+	separator: " ", //多关键字支持时的分隔符，默认为空格
+	processData: processData, //格式化数据的方法
+	getData: getData, //获取数据的方法
+	autoMinWidth: false, //是否自动最小宽度，设为 false 则最小宽度与下拉式菜单等齐
+	inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
+	listStyle: {"max-height": "375px", "max-width": "800px", "overflow": "auto"}, //列表的样式控制
+	listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
+	listHoverCSS: "jhover", //提示框列表鼠标悬浮的样式名称
+	keyLeft: 37,	//向左方向键
+	keyUp: 38,		//向上方向键
+	keyRight: 39,	//向右方向键
+	keyDown: 40,	//向下方向键
+	keyEnter: 13	//回车键
 }
 ```
 

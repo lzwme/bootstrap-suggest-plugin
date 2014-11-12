@@ -48,15 +48,15 @@
 				url: null,
 				jsonp: null, //设置此参数名，将开启jsonp功能，否则使用json数据结构
 				data: {},
-				getDataMethod: "firstByUrl",//获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据
+				getDataMethod: "firstByUrl", //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据
 				indexId: 0,	//data.value 的第几个数据，作为input输入框的 data-id，设为 -1 则不设置此值
-				indexKey: 0,//data.value 的第几个数据，作为input输入框的内容
-				effectiveFields: null,//data 中有效的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效  TODO
+				indexKey: 0, //data.value 的第几个数据，作为input输入框的内容
+				effectiveFields: null, //data 中有效的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效  TODO
 				allowNoKeyword: true, //是否允许无关键字时请求数据
-				multiWord: false,  //以分隔符号分割的多关键字支持
+				multiWord: false, //以分隔符号分割的多关键字支持
 				separator: " ", //多关键字支持时的分隔符，默认为空格
 				processData: processData, //格式化数据的方法
-				getData: getData,	//获取数据的方法
+				getData: getData, //获取数据的方法
 				autoMinWidth: false, //是否自动最小宽度，设为 false 则最小宽度与下拉式菜单等齐
 				inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
 				listStyle: {"max-height": "375px", "max-width": "800px", "overflow": "auto"}, //列表的样式控制
@@ -398,7 +398,9 @@
 				var $dropdownMenu = $input.parent().find("ul.dropdown-menu"),
 				len, i, j, index = 0,
 				html = '<table class="table table-condensed">',
-				thead = "<thead><tr>";
+				thead = "<thead><tr>", tr,
+				indexIdValue, indexKeyValue;
+				
 				opts = opts || options;
 				data = processData(data);
 				if (data === false || (len = data.value.length) === 0) {
@@ -430,27 +432,35 @@
 				//console.log(data, len);
 				//按列加数据
 				for (i = 0; i < len; i++) {
-					html += '<tr data-index=' + i +'>';
 					index = 0;
+					tr = ""; 
+					indexIdValue = "";
+					indexKeyValue = "";
+					
 					for (j in data.value[i]) {
+						//标记作为 value 和 作为 id 的值
+						if (opts.indexKey === index) {
+							indexKeyValue = data.value[i][j];
+						}
+						if (opts.indexId === index) {
+							indexIdValue = data.value[i][j];
+						}
+						
+						index++;
+						
 						//过滤无效字段
 						if (inEffectiveFields(j) === false) {
 							continue;
 						}
 						
-						if (opts.indexId === index && opts.indexKey === index) {
-							html +='<td data-name="' + j + '" class="indexid indexkey">' + data.value[i][j] + '</td>';
-						} else if (opts.indexId === index) {
-							html +='<td data-name="' + j + '" class="indexid">' + data.value[i][j] + '</td>';
-						} else if (opts.indexKey === index) {
-							html +='<td data-name="' + j + '" class="indexkey">' + data.value[i][j] + '</td>';
-						} else {
-							html +='<td data-name="' + j + '">' + data.value[i][j] + '</td>';
-						}
-						
-						index ++;
+						tr +='<td data-name="' + j + '">' + data.value[i][j] + '</td>';
 					}
-					html += '</tr>';
+					
+					tr = '<tr data-index="' + i + '" data-indexid="' + indexIdValue +
+						'" data-indexkey="' + indexKeyValue +'">' + tr + '</tr>';
+					
+					
+					html += tr;
 				}
 				html += '</tbody></table>';
 				
@@ -490,8 +500,8 @@
 			 */
 			function getPointKeyword(list) {
 				var data = {};
-				data.id = list.find('td.indexid').text();
-				data.key = list.find('td.indexkey').text();
+				data.id = list.attr('data-indexid');
+				data.key = list.attr('data-indexkey');
 				return data;
 			}
 			/**
