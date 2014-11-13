@@ -113,7 +113,7 @@
 				
 				//是否自动最小宽度
 				if(options.autoMinWidth === false) {
-					$dropdownMenu.css("min-width", $("#test").parent().width());
+					$dropdownMenu.css("min-width", $input.parent().width());
 				}
 
 				//开始事件处理
