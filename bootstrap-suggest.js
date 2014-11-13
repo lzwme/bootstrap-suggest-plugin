@@ -49,8 +49,10 @@
 				jsonp: null, //设置此参数名，将开启jsonp功能，否则使用json数据结构
 				data: {},
 				getDataMethod: "firstByUrl", //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据
-				indexId: 0,	//data.value 的第几个数据，作为input输入框的 data-id，设为 -1 则不设置此值
-				indexKey: 0, //data.value 的第几个数据，作为input输入框的内容
+				indexId: 0,	//每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
+				indexKey: 0, //每组数据的第几个数据，作为input输入框的内容
+				idField: "", // 每组数据的哪个字段作为 data-id，优先级高于 indexId 设置
+				keyField: "", // 每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置
 				effectiveFields: null, //data 中有效的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效  TODO
 				allowNoKeyword: true, //是否允许无关键字时请求数据
 				multiWord: false, //以分隔符号分割的多关键字支持
@@ -105,7 +107,7 @@
 				}
 
 				//移除 disabled 类，并禁用自动完成
-				$input.removeClass("disabled").attr("autocomplete", "off");
+				$input.removeClass("disabled").attr("disabled", false).attr("autocomplete", "off");
 				//dropdown-menu 增加修饰
 				$dropdownMenu.css(options.listStyle || {
 					"max-height": "300px", "max-width": "800px", "overflow": "auto"
@@ -242,7 +244,7 @@
 			 * 当设置了 indexId，而输入框的 data-id 为空时，输入框加载警告色
 			 */
 			function setBackground ($input, opts) {
-				if ($input.val() === "" || opts.indexId === -1 || opts.multiWord || $input.attr("data-id") !== "") {
+				if ($input.val() === "" || (opts.indexId === -1 && !opts.idField) || opts.multiWord || $input.attr("data-id") !== "") {
 					return $input.css("background", "rgba(255,255,255,.1)");
 				}
 				return $input.css("background", opts.inputWarnColor || "rgba(255,255,0,.1)");
@@ -398,8 +400,8 @@
 				var $dropdownMenu = $input.parent().find("ul.dropdown-menu"),
 				len, i, j, index = 0,
 				html = '<table class="table table-condensed">',
-				thead = "<thead><tr>", tr,
-				indexIdValue, indexKeyValue;
+				thead, tr,
+				idValue, keyValue; //作为输入框 data-id 和内容的字段值
 				
 				opts = opts || options;
 				data = processData(data);
@@ -408,25 +410,26 @@
 					//return false;
 				}
 				
-				//生成表头
-				for (j in data.value[0]) {
-					if (inEffectiveFields(j) === false) {
-						continue;
+				//生成表头，只有一条数据时，不需要表头了
+				if (index < 2) {
+					thead = "<thead><tr>";
+					for (j in data.value[0]) {
+						if (inEffectiveFields(j) === false) {
+							continue;
+						}
+						
+						if ( index === 0 ) {
+							//表头第一列记录总数
+							thead += '<th>' + j + "(" + len + ")" + '</th>';
+						} else {
+							thead += '<th>' + j + '</th>';
+						}
+						index++;
 					}
-					
-					if ( index === 0 ) {
-						//表头第一列记录总数
-						thead += '<th>' + j + "(" + len + ")" + '</th>';
-					} else {
-						thead += '<th>' + j + '</th>';
-					}
-					
-					index++;
+					thead += "</tr></thead>";
+						thead = "";
 				}
-				thead += "</tr></thead>";
-				if (index < 2) {//只有一条数据时，不需要表头了
-					thead = "";
-				}
+				
 				html += thead + "<tbody>";
 				
 				//console.log(data, len);
@@ -434,16 +437,16 @@
 				for (i = 0; i < len; i++) {
 					index = 0;
 					tr = ""; 
-					indexIdValue = "";
-					indexKeyValue = "";
+					idValue = data.value[i][opts.idField] || "";
+					keyValue = data.value[i][opts.keyField] || "";
 					
 					for (j in data.value[i]) {
 						//标记作为 value 和 作为 id 的值
-						if (opts.indexKey === index) {
-							indexKeyValue = data.value[i][j];
+						if (!keyValue && opts.indexKey === index) {
+							keyValue = data.value[i][j];
 						}
-						if (opts.indexId === index) {
-							indexIdValue = data.value[i][j];
+						if (!idValue && opts.indexId === index) {
+							idValue = data.value[i][j];
 						}
 						
 						index++;
@@ -456,8 +459,8 @@
 						tr +='<td data-name="' + j + '">' + data.value[i][j] + '</td>';
 					}
 					
-					tr = '<tr data-index="' + i + '" data-indexid="' + indexIdValue +
-						'" data-indexkey="' + indexKeyValue +'">' + tr + '</tr>';
+					tr = '<tr data-index="' + i + '" data-indexid="' + idValue +
+						'" data-indexkey="' + keyValue +'">' + tr + '</tr>';
 					
 					
 					html += tr;
