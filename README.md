@@ -33,10 +33,14 @@ Bootstrap Search Suggest
 3. 销毁插件： `$("input#test").bsSuggest("destroy");`
 
 ####事件监听
-	dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
+ dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
 ```js
-$("input#test").on("dataRequestSuccess", function(event, result){ console.log(result); });
+$("input#test").on("dataRequestSuccess", function (event, result) {
+	console.log(result); 
+});
 ```
+ onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
+ onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
 
 ## 配置参数
 
@@ -58,7 +62,7 @@ $("input#test").on("dataRequestSuccess", function(event, result){ console.log(re
 	indexKey: 0, //每组数据的第几个数据，作为input输入框的内容
 	idField: "", //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
 	keyField: "", //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
-	effectiveFields: [], //data 中有效的字段数组，非有效字段都会过滤，默认全部，对自定义getData方法无效  TODO
+	effectiveFields: [], //data 中有效的字段数组，非有效字段都会过滤，默认全部，对自定义getData方法无效
 	effectiveFieldsAlias: {userName: "姓名"}, //有效字段的别名对象，用于 header 的显示
 	showHeader: false, //是否显示选择列表的 header，默认有效字段大于一列时显示，否则不显示
 	allowNoKeyword: true, //是否允许无关键字时请求数据
@@ -71,11 +75,11 @@ $("input#test").on("dataRequestSuccess", function(event, result){ console.log(re
 	listStyle: {"padding-top":0, "max-height": "375px", "max-width": "800px", "overflow": "auto", "width": "auto"}, //列表的样式控制
 	listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
 	listHoverCSS: "jhover", //提示框列表鼠标悬浮的样式名称
-	keyLeft: 37, //向左方向键
-	keyUp: 38, //向上方向键
-	keyRight: 39, //向右方向键
-	keyDown: 40, //向下方向键
-	keyEnter: 13 //回车键
+	keyLeft: 37,	//向左方向键
+	keyUp: 38,		//向上方向键
+	keyRight: 39,	//向右方向键
+	keyDown: 40,	//向下方向键
+	keyEnter: 13	//回车键
 }
 ```
 

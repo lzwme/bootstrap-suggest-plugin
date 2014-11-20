@@ -1,1 +1,64 @@
-{"message":"","value":[{"FOWNER":"淳芸"},{"FOWNER":"orion-01"},{"FOWNER":"穆晓晨"},{"FOWNER":"张欢引"},{"FOWNER":"吴琼"},{"FOWNER":"吴东鹏"},{"FOWNER":"黄少铅"},{"FOWNER":"胡运燕"},{"FOWNER":"刘幸"},{"FOWNER":"陈媛媛"},{"FOWNER":"旷东林"},{"FOWNER":"唐宏禹"}],"code":200,"redirect":""}
+{
+	"message": "",
+	"value": [
+		{
+			"userName": "淳芸",
+			"shortName": "chunyun",
+			"userId": 20001
+		}, {
+			"userName": "orion-01",
+			"shortName": "chunyun",
+			"userId": 20000
+		}, {
+			"userName": "穆晓晨",
+			"shortName": "chunyun",
+			"userId": 20002
+		}, {
+			"userName": "张欢引",
+			"shortName": "chunyun",
+			"userId": 20003
+		}, {
+			"userName": "吴琼",
+			"shortName": "wuqiong",
+			"userId": 20004
+		}, {
+			"userName": "吴东鹏",
+			"shortName": "wudongpeng",
+			"userId": 20005
+		}, {
+			"userName": "黄少铅",
+			"shortName": "huangshaoqian",
+			"userId": 20006
+		}, {
+			"userName": "胡运燕",
+			"shortName": "yunyan",
+			"userId": 20007
+		}, {
+			"userName": "刘幸",
+			"shortName": "liuxing",
+			"userId": 20008
+		}, {
+			"userName": "陈媛媛",
+			"shortName": "chenyuanyuan",
+			"userId": 20009
+		}, {
+			"userName": "旷东林",
+			"shortName": "chunyun",
+			"userId": 20010
+		}, {
+			"userName": "唐宏禹",
+			"shortName": "chunyun",
+			"userId": 20011
+		}, {
+			"userName": "旷东林",
+			"shortName": "kuangdonglin",
+			"userId": 20010
+		}, {
+			"userName": "唐宏禹",
+			"shortName": "tanghongyu",
+			"userId": 20011
+		}
+	],
+	"code": 200,
+	"redirect": ""
+}

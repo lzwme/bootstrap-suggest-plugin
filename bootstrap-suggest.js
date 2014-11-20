@@ -3,7 +3,7 @@
  * Description: 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
  * Author: lizhiwen#meizu.com
  * Date  : 2014-10-09
- * Update: 2014-11-18
+ * Update: 2014-11-20
  *===============================================================================
  * 一、功能说明：
  * 1. 搜索方式：从 data.value 的所有字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
@@ -24,8 +24,10 @@
  *  启用提示：bsSuggest.bsSuggest("enable");
  *  销毁插件：bsSuggest.bsSuggest("destroy");
  * 5. 事件：
- *  dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数，示例：
- *      bsSuggest.on("dataRequestSuccess", function (event, result) { console.log(result); });
+ *  onDataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数，示例：
+ *      bsSuggest.on("onDataRequestSuccess", function (event, result) { console.log(result); });
+ *  onSetSelectValue：当从下拉菜单选取值时触发
+ *  onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（显示背景警告色）
  *
  *=============================================================================== 
  * (c) Copyright 2014 lizhiwen. All Rights Reserved.
@@ -50,20 +52,13 @@
 			options = $.extend({
 				url: null, //请求数据的 URL 地址
 				jsonp: null, //设置此参数名，将开启jsonp功能，否则使用json数据结构
-				data: {
-					value: [
-						{'id':'0','word':'lzw','description':'http://lzw.me'},
-						{'id':'1','word':'lzwme','description':'http://w.lzw.me'},
-						{'id':'2','word':'meizu','description':'http://www.meizu.com'},
-						{'id':'3','word':'flyme','description':'http://flyme.meizu.com'}
-					]
-				},
-				getDataMethod: "firstByUrl", //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据
+				data: {},
+				getDataMethod: "firstByUrl", //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
 				indexId: 0,	//每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
 				indexKey: 0, //每组数据的第几个数据，作为input输入框的内容
 				idField: "", //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
 				keyField: "", //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
-				effectiveFields: [], //data 中有效的字段数组，非有效字段都会过滤，默认全部，对自定义getData方法无效  TODO
+				effectiveFields: [], //data 中有效的字段数组，非有效字段都会过滤，默认全部，对自定义getData方法无效
 				effectiveFieldsAlias: {userName: "姓名"}, //有效字段的别名对象，用于 header 的显示
 				showHeader: false, //是否显示选择列表的 header，默认有效字段大于一列时显示，否则不显示
 				allowNoKeyword: true, //是否允许无关键字时请求数据
@@ -106,7 +101,7 @@
 				}).done(function(result) {
 					options.data = result;
 					options.url = null;
-					$(self).trigger("dataRequestSuccess", result);
+					$(self).trigger("onDataRequestSuccess", result);
 				}).fail(function (err) {
 					throw new Error(err);
 				});
@@ -232,13 +227,14 @@
 					
 				}).on("blur", function () {
 					$dropdownMenu.css("display", "");
-				}).off("click").on("click", function () {
+				}).on("click", function () {
 					var word = $(this).val(), words;
-
-					if (
-						$.trim(word) !== '' && word === $(this).attr('alt') ||
-						$dropdownMenu.css('display') !== 'none'
-					) {
+					
+					if($.trim(word) !== '' && word === $(this).attr('alt') && $dropdownMenu.find("table tr").length) {
+						return $dropdownMenu.show();
+					}
+					
+					if ($dropdownMenu.css('display') !== 'none') {
 						return;
 					}
 
@@ -258,6 +254,9 @@
 				
 				//下拉按钮点击时
 				$input.parent().find("button:eq(0)").off().on("click", function(){
+					if ($dropdownMenu.css("display") !== "none") {
+						return $dropdownMenu.hide();
+					}
 					if (options.url) {
 						$input.click().focus();
 					} else {
@@ -271,15 +270,27 @@
 			 */
 			function setBackground ($input, opts) {
 				//console.log("setBackground", opts);
+				var inputbg, bg, warnbg;
 				
 				if ((opts.indexId === -1 && !opts.idField) || opts.multiWord) {
 					return $input;
 				}
 				
+				inputbg = $input.css("background-color").replace(/ /g, "").split(",",3).join(",");
+				//console.log(inputbg);
+				bg = "rgba(255,255,255,0.1)";
+				warnbg = opts.inputWarnColor || "rgba(255,255,0,0.1)";
+				
 				if (!$input.val() || $input.attr("data-id")) {
-					return $input.css("background", "rgba(255,255,255,.1)");
+					return $input.css("background", bg);
 				}
-				return $input.css("background", opts.inputWarnColor || "rgba(255,255,0,.1)");
+				
+				//自由输入的内容，设置背景色
+				if (-1 === warnbg.indexOf(inputbg)) {
+					$input.trigger("onUnsetSelectValue"); //触发取消dat-id事件
+					$input.css("background", warnbg);
+				}
+				return $input;
 			}
 			/**
 			 * 调整滑动条
@@ -353,7 +364,7 @@
 						timeout: 3000
 					}).done(function(result) {
 						callback($input, result, opts); //为 refreshDropMenu
-						$input.trigger("dataRequestSuccess", result);
+						$input.trigger("onDataRequestSuccess", result);
 					}).fail(handleError);
 				} else {
 					/**没有给出url 参数，则从 data 参数获取或自行构造data帮助内容 **/
@@ -403,7 +414,7 @@
 					return false;
 				}
 				if (data.value.length === 0) {
-					handleError("返回数据为空!");
+					//handleError("返回数据为空!");
 					return false;
 				}
 
@@ -562,6 +573,8 @@
 				} else {
 					$input.attr("data-id", id).focus().val(key);
 				}
+				
+				$input.trigger("onSetSelectValue", _keywords);
 			}
 			/**
 			 * 错误处理

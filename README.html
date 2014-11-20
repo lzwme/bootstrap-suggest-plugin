@@ -1029,11 +1029,14 @@ body .markdown-body
 <li>销毁插件： <code>$("input#test").bsSuggest("destroy");</code></li>
 </ol>
 <h4 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>事件监听</h4>
-<pre><code>dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
-</code></pre>
-<pre><code class="js">$(&quot;input#test&quot;).on(&quot;dataRequestSuccess&quot;, function(event, result){ console.log(result); });
+<p>dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数</p>
+<pre><code class="js">$(&quot;input#test&quot;).on(&quot;dataRequestSuccess&quot;, function (event, result) {
+    console.log(result); 
+});
 </code></pre>
 
+<p>onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数<br />
+ onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）</p>
 <h2 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>配置参数</h2>
 <p>参数列表中的值均为插件默认值</p>
 <pre><code class="js">{
