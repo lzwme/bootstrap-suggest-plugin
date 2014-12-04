@@ -58,17 +58,23 @@
 				indexKey: 0, //每组数据的第几个数据，作为input输入框的内容
 				idField: "", //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
 				keyField: "", //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
-				effectiveFields: [], //data 中有效的字段数组，非有效字段都会过滤，默认全部，对自定义getData方法无效
+				effectiveFields: [], //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
 				effectiveFieldsAlias: {userName: "姓名"}, //有效字段的别名对象，用于 header 的显示
+				searchFields: [], //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
 				showHeader: false, //是否显示选择列表的 header，默认有效字段大于一列时显示，否则不显示
 				allowNoKeyword: true, //是否允许无关键字时请求数据
 				multiWord: false, //以分隔符号分割的多关键字支持
 				separator: ",", //多关键字支持时的分隔符，默认为半角逗号
 				processData: processData, //格式化数据的方法，返回数据格式参考 data 参数
 				getData: getData, //获取数据的方法
-				autoMinWidth: false, //是否自动最小宽度，设为 false 则最小宽度与下拉式菜单等齐
+				autoMinWidth: false, //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+				listAlign: "left", //提示列表对齐位置，left/right/auto
 				inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
-				listStyle: {"padding-top":0, "max-height": "375px", "max-width": "800px", "overflow": "auto", "width": "auto"}, //列表的样式控制
+				listStyle: {
+					"padding-top":0, "max-height": "375px", "max-width": "800px",
+					"overflow": "auto", "width": "auto", 
+					"transition": "0.5s", "-webkit-transition": "0.5s", "-moz-transition": "0.5s", "-o-transition": "0.5s"
+				}, //列表的样式控制
 				listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
 				listHoverCSS: "jhover", //提示框列表鼠标悬浮的样式名称
 				keyLeft: 37,	//向左方向键
@@ -102,8 +108,8 @@
 					options.data = result;
 					options.url = null;
 					$(self).trigger("onDataRequestSuccess", result);
-				}).fail(function (err) {
-					throw new Error(err);
+				}).fail(function (o, err) {
+					throw new Error(URL + " : " + err);
 				});
 			}
 			
@@ -133,7 +139,19 @@
 				} else {
 					$dropdownMenu.css("width", "auto");
 				}
-
+				//列表对齐方式
+				if (options.listAlign === "left") {
+					$dropdownMenu.css({
+						"left": $input.siblings("div").width() - $input.parent().width(),
+						"right": "auto"
+					});
+				} else if (options.listAlign === "right") {
+					$dropdownMenu.css({
+						"left": "auto",
+						"right": "0"
+					});
+				}
+				
 				//开始事件处理
 				$input.on("keydown", function (event) {
 					var currentList, tipsKeyword = '';//提示列表上被选中的关键字
@@ -227,6 +245,15 @@
 					
 				}).on("blur", function () {
 					$dropdownMenu.css("display", "");
+					
+					if ((opts.indexId === -1 && !opts.idField) || opts.multiWord) {
+						return;
+					}
+					
+					//必须从列表选择，否则失去焦点时清空输入框
+					if ($input.val() && !$input.attr("data-id")) {
+						return $input.val("").css("background", "rgba(255,255,255,0.1)");
+					}
 				}).on("click", function () {
 					var word = $(this).val(), words;
 					
@@ -253,15 +280,23 @@
 				});
 				
 				//下拉按钮点击时
-				$input.parent().find("button:eq(0)").off().on("click", function(){
-					if ($dropdownMenu.css("display") !== "none") {
-						return $dropdownMenu.hide();
+				$input.parent().find("button:eq(0)").on("click", function(){
+					if ($dropdownMenu.css("display") === "none") {
+						if (options.url) {
+							$input.click().focus();
+						} else {
+							refreshDropMenu($input, options.data, options);
+						}
 					}
-					if (options.url) {
-						$input.click().focus();
-					} else {
-						refreshDropMenu($input, options.data, options);
-					}
+					$dropdownMenu.css("display", "");
+				});
+				
+				//列表中滑动时，输入框失去焦点
+				$dropdownMenu.on("mouseenter", function(){
+					//$input.blur();
+					$(this).show();
+				}).on("mouseleave", function(){
+					$input.focus();
 				});
 			});
 			/**
@@ -365,6 +400,10 @@
 					}).done(function(result) {
 						callback($input, result, opts); //为 refreshDropMenu
 						$input.trigger("onDataRequestSuccess", result);
+						if (options.getDataMethod === "firstByUrl") {
+							options.data = result;
+							options.url = null;
+						}
 					}).fail(handleError);
 				} else {
 					/**没有给出url 参数，则从 data 参数获取或自行构造data帮助内容 **/
@@ -372,16 +411,20 @@
 					validData = checkData(data);
 					//本地的 data 数据，则在本地过滤
 					if (validData) { //输入不为空时则进行匹配
-						len = data.value.length;
-						for (i = 0; i < len; i++) {
-							for (obj in data.value[i]) {
-								if (
-									$.trim(data.value[i][obj]) &&
-									inEffectiveFields(obj) === true &&
-									(data.value[i][obj].toString().indexOf(keyword) !== -1 || keyword.indexOf(data.value[i][obj]) !== -1)
-								){
-									filterData.value.push(data.value[i]);
-									break;
+						if (!keyword) {
+							filterData = data;
+						} else {
+							len = data.value.length;
+							for (i = 0; i < len; i++) {
+								for (obj in data.value[i]) {
+									if (
+										$.trim(data.value[i][obj]) &&
+										(inSearchFields(obj, opts) || inEffectiveFields(obj, opts)) &&
+										(data.value[i][obj].toString().indexOf(keyword) !== -1 || keyword.indexOf(data.value[i][obj]) !== -1)
+									){
+										filterData.value.push(data.value[i]);
+										break;
+									}
 								}
 							}
 						}
@@ -425,7 +468,8 @@
 			 * 判断字段名是否在 effectiveFields 配置项中
 			 * effectiveFields 为空时始终返回 TRUE
 			 */
-			function inEffectiveFields(filed) {
+			function inEffectiveFields(filed, opts) {
+				opts = opts || options;
 				if(
 					$.isArray(opts.effectiveFields) &&
 					opts.effectiveFields.length > 0 &&
@@ -436,14 +480,23 @@
 				return true;
 			}
 			/**
+			 * 判断字段名是否在 searchFields 搜索字段配置中
+			 */
+			function inSearchFields(filed, opts) {
+				if ($.inArray(filed, opts.searchFields) !== -1) {
+					return true;
+				}
+				return false;
+			}
+			/**
 			 * 下拉列表刷新
 			 * 作为 getData 的 callback 函数调用
 			 */
 			function refreshDropMenu($input, data, opts) {
 				var $dropdownMenu = $input.parent().find("ul.dropdown-menu"),
 				len, i, j, index = 0,
-				html = '<table class="table table-condensed">',
-				thead = "<thead><tr>", tr,
+				html = ['<table class="table table-condensed">'],
+				thead, tr,
 				idValue, keyValue; //作为输入框 data-id 和内容的字段值
 				
 				opts = opts || options;
@@ -455,6 +508,7 @@
 
 				//生成表头
 				if (opts.showHeader) {
+					thead = "<thead><tr>";
 					for (j in data.value[0]) {
 						if (inEffectiveFields(j) === false) {
 							continue;
@@ -470,9 +524,9 @@
 						index++;
 					}
 					thead += "</tr></thead>";
-					html += thead;
+					html.push(thead);
 				}
-				html += "<tbody>";
+				html.push("<tbody>");
 				
 				//console.log(data, len);
 				//按列加数据
@@ -503,13 +557,12 @@
 					
 					tr = '<tr data-index="' + i + '" data-id="' + idValue +
 						'" data-key="' + keyValue +'">' + tr + '</tr>';
-					
-					
-					html += tr;
+
+					html.push(tr);
 				}
-				html += '</tbody></table>';
+				html.push('</tbody></table>');
 				
-				$dropdownMenu.html(html).show();
+				$dropdownMenu.html(html.join("")).show();
 				listEventBind($input, $dropdownMenu, opts);
 				//scrollbar 存在时，调整 padding
 				if (
@@ -579,8 +632,11 @@
 			/**
 			 * 错误处理
 			 */
-			function handleError(err){
-				console.log(err);
+			function handleError(e1, e2){
+				console.log(e1);
+				if(e2) {
+					console.log(e2);
+				}
 			}
 		},
 		show: function(){

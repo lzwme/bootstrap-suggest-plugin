@@ -70,17 +70,25 @@ module.exports = function(grunt) {
 				dest: 'index.min.css'
 			}
 		},*/
+		//复制到发布目录
+		copy: {
+			main: {
+				src: 'bootstrap-suggest.min.js',
+				dest: '../../resources/orion/js/common/bootstrap-suggest.min.js',
+			},
+		}
 	});
 	//加载包含 jshint、concat 和 uglify 任务的插件
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	
 	//默认被执行的任务列表
 	grunt.registerTask('default', ['jshint', 'uglify', 'concat']);
 	//自定义任务列表
-	grunt.registerTask('development', ['jshint', 'uglify', 'concat']);
+	grunt.registerTask('development', ['jshint', 'uglify', 'concat', 'copy']);
 	grunt.registerTask('production', [ 'uglify', 'concat']);
 };

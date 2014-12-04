@@ -133,7 +133,7 @@ body .markdown-body
 }
 
 .markdown-body .codehilitetable pre,
-.markdown-body div.codehilite {
+.markdown-body .codehilitetable div.codehilite {
   margin: 0;
 }
 
@@ -583,16 +583,11 @@ body .markdown-body
 .markdown-body .admonition {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
+  position: relative;
   border-radius: 3px;
-  padding: 0.5em 1em 0.5em 1em;
-  color: #888888;
-  background-color: #F7F7F7;
-  border: 1px solid #888888;
-}
-
-.markdown-body .admonition blockquote {
-  color: rgba(136, 136, 136, 0.5);
-  border-left: 4px solid rgba(136, 136, 136, 0.5);
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
 }
 
 .markdown-body .admonition table {
@@ -601,7 +596,6 @@ body .markdown-body
 
 .markdown-body .admonition p {
   padding: 0;
-  margin: 0;
 }
 
 .markdown-body .admonition-title {
@@ -609,110 +603,125 @@ body .markdown-body
   margin: 0;
 }
 
-.markdown-body .admonition-icon {
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
   font: normal normal 16px fontawesome-mini;
-  line-height: 1.5;
   -moz-osx-font-smoothing: grayscale;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  float: left;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
 }
 
 .markdown-body .attention {
-  color: #4F8A10;
-  background-color: #DFF2BF;
-  border: 1px solid #4F8A10;
+  border-left: 6px solid #a6d796;
 }
 
 .markdown-body .caution {
-  color: #D63301;
-  background-color: #FFCCBA;
-  border: 1px solid #D63301;
+  border-left: 6px solid #d7a796;
 }
 
 .markdown-body .hint {
-  color: #00529B;
-  background-color: #BDE5F8;
-  border: 1px solid #00529B;
+  border-left: 6px solid #96c6d7;
 }
 
 .markdown-body .danger {
-  color: #D8000C;
-  background-color: #FFBABA;
-  border: 1px solid #D8000C;
+  border-left: 6px solid #c25f77;
 }
 
 .markdown-body .question {
-  color: #00049b;
-  background-color: #BDC8F8;
-  border: 1px solid #00049b;
+  border-left: 6px solid #96a6d7;
 }
 
 .markdown-body .note {
-  color: #9F6000;
-  background-color: #FEEFB3;
-  border: 1px solid #9F6000;
+  border-left: 6px solid #d7c896;
 }
 
-.markdown-body .attention {
-  color: #4F8A10;
-  background-color: #DFF2BF;
-  border: 1px solid #4F8A10;
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
 }
 
-.markdown-body .caution blockquote {
-  color: rgba(214, 51, 1, .5);
-  border-left: 4px solid rgba(214, 51, 1, .5);
-}
-
-.markdown-body .hint blockquote {
-  color: rgba(0, 82, 155, .5);
-  border-left: 4px solid rgba(0, 82, 155, .5);
-}
-
-.markdown-body .danger blockquote {
-  color: rgba(216, 0, 12, .5);
-  border-left: 4px solid rgba(216, 0, 12, .5);
-}
-
-.markdown-body .question blockquote {
-  color: rgba(0, 4, 155, .5);
-  border-left: 4px solid rgba(0, 4, 155, .5);;
-}
-
-.markdown-body .note blockquote {
-  color: rgba(159, 96, 0, .5);
-  border-left: 4px solid rgba(159, 96, 0, .5);
-}
-
-.markdown-body .admonition-icon:before {
-  content: "\f040\00a0";
-}
-
-.markdown-body .attention > .admonition-icon:before {
-  content: "\f058\00a0";
-}
-
-.markdown-body .caution > .admonition-icon:before {
-  content: "\f06a\00a0";
-}
-
-.markdown-body .hint > .admonition-icon:before {
-  content: "\f05a\00a0";
-}
-
-.markdown-body .danger > .admonition-icon:before {
-  content: "\f056\00a0";
-}
-
-.markdown-body .question > .admonition-icon:before {
-  content: "\f059\00a0";
-}
-
-.markdown-body .note > .admonition-icon:before {
-  content: "\f040\00a0";
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
 }
 
 /* progress bar*/
@@ -721,11 +730,10 @@ body .markdown-body
   width: 300px;
   margin: 10px 0;
   height: 24px;
-  border: 1px solid #ccc;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background-color: #F8F8F8;
+  background-color: #ededed;
   position: relative;
   box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
 }
@@ -746,81 +754,71 @@ body .markdown-body
 .markdown-body .progress-bar {
   height: 24px;
   float: left;
-  border-right: 1px solid #ccc;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background-color: #34c2e3;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5);
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
   background-size: 30px 30px;
   background-image: -webkit-linear-gradient(
     135deg, rgba(255, 255, 255, .4) 27%,
     transparent 27%,
-    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
     rgba(255, 255, 255, .4) 77%,
     transparent 77%, transparent
   );
   background-image: -moz-linear-gradient(
     135deg,
     rgba(255, 255, 255, .4) 27%, transparent 27%,
-    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
     rgba(255, 255, 255, .4) 77%, transparent 77%,
     transparent
   );
   background-image: -ms-linear-gradient(
     135deg,
     rgba(255, 255, 255, .4) 27%, transparent 27%,
-    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
     rgba(255, 255, 255, .4) 77%, transparent 77%,
     transparent
   );
   background-image: -o-linear-gradient(
     135deg,
     rgba(255, 255, 255, .4) 27%, transparent 27%,
-    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
     rgba(255, 255, 255, .4) 77%, transparent 77%,
     transparent
   );
   background-image: linear-gradient(
     135deg,
     rgba(255, 255, 255, .4) 27%, transparent 27%,
-    transparent 53%, rgba(255, 255, 255, .4) 53%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
     rgba(255, 255, 255, .4) 77%, transparent 77%,
     transparent
   );
 }
 
 .markdown-body .progress-100plus .progress-bar {
-  background-color: #1ee038;
+  background-color: #a6d796;
 }
 
 .markdown-body .progress-80plus .progress-bar {
-  background-color: #86e01e;
+  background-color: #c6d796;
 }
 
 .markdown-body .progress-60plus .progress-bar {
-  background-color: #f2d31b;
+  background-color: #d7c896;
 }
 
 .markdown-body .progress-40plus .progress-bar {
-  background-color: #f2b01e;
+  background-color: #d7a796;
 }
 
 .markdown-body .progress-20plus .progress-bar {
-  background-color: #f27011;
+  background-color: #d796a6;
 }
 
 .markdown-body .progress-0plus .progress-bar {
-  background-color: #f63a0f;
-}
-
-.markdown-body .gloss .progress-bar {
-  box-shadow:
-    inset -1px 1px 0 rgba(255, 255, 255, .5),
-    inset 0 -4px 12px rgba(255, 255, 255, .7),
-    inset 0 4px 12px rgba(255, 255, 255, .7),
-    inset 0 -12px 0 rgba(0, 0, 0, .05),
-    inset 1px -1px 0 rgba(255, 255, 255, .2);
+  background-color: #c25f77;
 }
 
 .markdown-body .candystripe-animate .progress-bar{
@@ -857,6 +855,12 @@ body .markdown-body
   100% {
     background-position: 60px 0;
   }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
 }
 
 /* Multimarkdown Critic Blocks */
@@ -975,7 +979,18 @@ body .markdown-body
 
   .markdown-body .progress,
   .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
     box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
   }
 
   .markdown-body tr,
@@ -1000,45 +1015,43 @@ body .markdown-body
   }
 }
 </style><title>README</title></head><body><article class="markdown-body"><p><a href="http://lzw.me"><img alt="Code Climate" src="http://lzw.me/images/logo.png" /></a></p>
-<h1 id="bootstrap-search-suggest"><a name="user-content-bootstrap-search-suggest" href="#bootstrap-search-suggest" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Bootstrap Search Suggest</h1>
+<h1 id="bootstrap-search-suggest"><a name="user-content-bootstrap-search-suggest" href="#bootstrap-search-suggest" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Bootstrap Search Suggest</h1>
 <p><a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin">Demo|示例</a> </p>
 <p>这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。</p>
-<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>功能说明</h2>
+<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>功能说明</h2>
 <ul>
 <li>搜索方式：从 data.value 的有效字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中</li>
 <li>支持单关键字、多关键字的输入搜索建议，多关键字可自定义分隔符</li>
 <li>支持按 data 数组数据搜索、按  URL 请求搜索和按首次请求URL数据并缓存搜索三种方式【getDataMethod】</li>
 <li>单关键字会设置 data-id 和输入框内容两个值，以 indexId/idField 和 indexKey/idFiled 取值 data 的数据为准；多关键字只设置输入框值</li>
 </ul>
-<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>快速上手</h2>
+<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>快速上手</h2>
 <ol>
 <li>引入 jQuery、bootstrap.min.css、bootstrap.min.js</li>
 <li>引入插件js: <code>bootstrap-suggest.min.js</code></li>
 <li>初始化插件</li>
 </ol>
-<pre><code class="js">    var bsSuggest = $(&quot;input#test&quot;).bsSuggest({
+<p><pre><code class="js">    var bsSuggest = $(&quot;input#test&quot;).bsSuggest({
       url: &quot;/rest/sys/getuserlist?keyword=&quot;
     });
-</code></pre>
-
-<p>具体使用请参考参数配置说明及demo 示例页面源码(<a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin">Demo</a>)</p>
-<h4 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>方法调用</h4>
+</code></pre><br />
+具体使用请参考参数配置说明及demo 示例页面源码(<a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin">Demo</a>)</p>
+<h4 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>方法调用</h4>
 <ol>
 <li>禁用提示： <code>$("input#test").bsSuggest("disable");</code></li>
 <li>启用提示： <code>$("input#test").bsSuggest("enable");</code></li>
 <li>销毁插件： <code>$("input#test").bsSuggest("destroy");</code></li>
 </ol>
-<h4 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>事件监听</h4>
-<p>dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数</p>
+<h4 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>事件监听</h4>
+<p>dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数<br />
 <pre><code class="js">$(&quot;input#test&quot;).on(&quot;dataRequestSuccess&quot;, function (event, result) {
     console.log(result); 
 });
-</code></pre>
-
-<p>onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数<br />
+</code></pre><br />
+ onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数<br />
  onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）</p>
-<h2 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>配置参数</h2>
-<p>参数列表中的值均为插件默认值</p>
+<h2 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>配置参数</h2>
+<p>参数列表中的值均为插件默认值<br />
 <pre><code class="js">{
     url: null, //请求数据的 URL 地址
     jsonp: null, //设置此参数名，将开启jsonp功能，否则使用json数据结构
@@ -1050,45 +1063,46 @@ body .markdown-body
             {'id':'3','word':'flyme','description':'http://flyme.meizu.com'}
         ]
     },
-    getDataMethod: &quot;firstByUrl&quot;, //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据
+    getDataMethod: &quot;firstByUrl&quot;, //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
     indexId: 0, //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
     indexKey: 0, //每组数据的第几个数据，作为input输入框的内容
     idField: &quot;&quot;, //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
     keyField: &quot;&quot;, //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
-    effectiveFields: [], //data 中有效的字段数组，非有效字段都会过滤，默认全部，对自定义getData方法无效  TODO
+    effectiveFields: [], //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
     effectiveFieldsAlias: {userName: &quot;姓名&quot;}, //有效字段的别名对象，用于 header 的显示
+    searchFields: [], //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
     showHeader: false, //是否显示选择列表的 header，默认有效字段大于一列时显示，否则不显示
     allowNoKeyword: true, //是否允许无关键字时请求数据
     multiWord: false, //以分隔符号分割的多关键字支持
     separator: &quot;,&quot;, //多关键字支持时的分隔符，默认为半角逗号
     processData: processData, //格式化数据的方法，返回数据格式参考 data 参数
     getData: getData, //获取数据的方法
-    autoMinWidth: false, //是否自动最小宽度，设为 false 则最小宽度与下拉式菜单等齐
+    autoMinWidth: false, //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+    listAlign: &quot;left&quot;, //提示列表对齐位置，left/right/auto
     inputWarnColor: &quot;rgba(255,0,0,.1)&quot;, //输入框内容不是下拉列表选择时的警告色
     listStyle: {&quot;padding-top&quot;:0, &quot;max-height&quot;: &quot;375px&quot;, &quot;max-width&quot;: &quot;800px&quot;, &quot;overflow&quot;: &quot;auto&quot;, &quot;width&quot;: &quot;auto&quot;}, //列表的样式控制
     listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
     listHoverCSS: &quot;jhover&quot;, //提示框列表鼠标悬浮的样式名称
-    keyLeft: 37, //向左方向键
-    keyUp: 38, //向上方向键
-    keyRight: 39, //向右方向键
-    keyDown: 40, //向下方向键
-    keyEnter: 13 //回车键
+    keyLeft: 37,    //向左方向键
+    keyUp: 38,      //向上方向键
+    keyRight: 39,   //向右方向键
+    keyDown: 40,    //向下方向键
+    keyEnter: 13    //回车键
 }
-</code></pre>
-
-<h2 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>使用示例</h2>
+</code></pre></p>
+<h2 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>使用示例</h2>
 <p>请参考 index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索API、淘宝搜索API的接口演示。</p>
-<h2 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>二次开发</h2>
+<h2 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>二次开发</h2>
 <ol>
 <li><code>npm install grunt-cli -g</code></li>
 <li><code>npm install</code></li>
 <li><code>grunt watch</code></li>
 </ol>
-<h2 id="note-on-patches-pull-requests"><a name="user-content-note-on-patches-pull-requests" href="#note-on-patches-pull-requests" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Note on Patches / Pull Requests</h2>
+<h2 id="note-on-patches-pull-requests"><a name="user-content-note-on-patches-pull-requests" href="#note-on-patches-pull-requests" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Note on Patches / Pull Requests</h2>
 <ul>
 <li>Fork the project.</li>
 <li>Make your feature addition or bug fix.</li>
 <li>Send me a pull request. Bonus points for topic branches.</li>
 </ul>
-<h2 id="_8"><a name="user-content-_8" href="#_8" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>设计制作</h2>
+<h2 id="_8"><a name="user-content-_8" href="#_8" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>设计制作</h2>
 <p>该插件由<a href="http://lzw.me">志文工作室</a>开发和维护.</p></article></body></html>

@@ -98,10 +98,12 @@
     var testBsSuggest = $("#test").bsSuggest({
         //url: "/rest/sys/getuserlist?keyword={keyword}",
         //url: "/rest/taskAction/ownerList?q={keyword}",
-        //url: "/rest/sys/getuserlist",
-        url: "data.json?q={keyword}",
+        url: "/rest/sys/getuserlist",
+        //url: "data.json?q={keyword}",
         //url: "userlists.json?q={keyword}",
-        effectiveFields: ["userName"],
+        effectiveFields: ["userName", "shortAccount"],
+        searchFields: [ "shortAccount"],
+        effectiveFieldsAlias:{userName: "姓名"},
         /*indexId: -1,
         indexKey: 0,*/
         idField: "userId",
