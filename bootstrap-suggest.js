@@ -245,15 +245,15 @@
 					
 				}).on("blur", function () {
 					$dropdownMenu.css("display", "");
-					
+					console.log("blur");
 					if ((opts.indexId === -1 && !opts.idField) || opts.multiWord) {
 						return;
 					}
 					
 					//必须从列表选择，否则失去焦点时清空输入框
-					if ($input.val() && !$input.attr("data-id")) {
+					/*if ($input.val() && !$input.attr("data-id")) {
 						return $input.val("").css("background", "rgba(255,255,255,0.1)");
-					}
+					}*/
 				}).on("click", function () {
 					var word = $(this).val(), words;
 					
@@ -280,20 +280,24 @@
 				});
 				
 				//下拉按钮点击时
-				$input.parent().find("button:eq(0)").on("click", function(){
+				$input.parent().find("button:eq(0)").attr("data-toggle", "").on("click", function(){
+					var display;
 					if ($dropdownMenu.css("display") === "none") {
+						display = "block";
 						if (options.url) {
 							$input.click().focus();
 						} else {
 							refreshDropMenu($input, options.data, options);
 						}
+					} else {
+						display = "none";
 					}
-					$dropdownMenu.css("display", "");
+					$dropdownMenu.css("display", display);
 				});
 				
 				//列表中滑动时，输入框失去焦点
 				$dropdownMenu.on("mouseenter", function(){
-					//$input.blur();
+					$input.blur();
 					$(this).show();
 				}).on("mouseleave", function(){
 					$input.focus();

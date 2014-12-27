@@ -96,16 +96,11 @@
     <script src="bootstrap-suggest.js"></script>
     <script type="text/javascript">
     var testBsSuggest = $("#test").bsSuggest({
-        //url: "/rest/sys/getuserlist?keyword={keyword}",
-        //url: "/rest/taskAction/ownerList?q={keyword}",
-        url: "/rest/sys/getuserlist",
-        //url: "data.json?q={keyword}",
-        //url: "userlists.json?q={keyword}",
-        effectiveFields: ["userName", "shortAccount"],
+        //url: "/rest/sys/getuserlist?keyword=",
+        url: "data.json",
+        /*effectiveFields: ["userName", "shortAccount"],
         searchFields: [ "shortAccount"],
-        effectiveFieldsAlias:{userName: "姓名"},
-        /*indexId: -1,
-        indexKey: 0,*/
+        effectiveFieldsAlias:{userName: "姓名"},*/
         idField: "userId",
         keyField: "userName"
     }).on('onDataRequestSuccess', function (e, result) {
@@ -195,7 +190,7 @@
 
     $("form").submit(function(e) {
         return false;
-    })
+    });
     </script>
 </body>
 
