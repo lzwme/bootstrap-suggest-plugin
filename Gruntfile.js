@@ -89,6 +89,6 @@ module.exports = function(grunt) {
 	//默认被执行的任务列表
 	grunt.registerTask('default', ['jshint', 'uglify', 'concat']);
 	//自定义任务列表
-	grunt.registerTask('development', ['jshint', 'uglify', 'concat', 'copy']);
+	grunt.registerTask('development', ['jshint', 'uglify', 'concat'/*, 'copy'*/]);
 	grunt.registerTask('production', [ 'uglify', 'concat']);
 };

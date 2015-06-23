@@ -47,38 +47,39 @@ $("input#test").on("dataRequestSuccess", function (event, result) {
 参数列表中的值均为插件默认值
 ```js
 {
-	url: null, //请求数据的 URL 地址
-	jsonp: null, //设置此参数名，将开启jsonp功能，否则使用json数据结构
-	data: {},
-	getDataMethod: "firstByUrl", //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-	indexId: 0,	//每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
-	indexKey: 0, //每组数据的第几个数据，作为input输入框的内容
-	idField: "", //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-	keyField: "", //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
-	effectiveFields: [], //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
-	effectiveFieldsAlias: {userName: "姓名"}, //有效字段的别名对象，用于 header 的显示
-	searchFields: [], //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
-	showHeader: false, //是否显示选择列表的 header，默认有效字段大于一列时显示，否则不显示
-	allowNoKeyword: true, //是否允许无关键字时请求数据
-	multiWord: false, //以分隔符号分割的多关键字支持
-	separator: ",", //多关键字支持时的分隔符，默认为半角逗号
-	processData: processData, //格式化数据的方法，返回数据格式参考 data 参数
-	getData: getData, //获取数据的方法
-	autoMinWidth: false, //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
-	listAlign: "left", //提示列表对齐位置，left/right/auto
-	inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
-	listStyle: {
-		"padding-top":0, "max-height": "375px", "max-width": "800px",
-		"overflow": "auto", "width": "auto", 
-		"transition": "0.5s", "-webkit-transition": "0.5s", "-moz-transition": "0.5s", "-o-transition": "0.5s"
-	}, //列表的样式控制
-	listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
-	listHoverCSS: "jhover", //提示框列表鼠标悬浮的样式名称
-	keyLeft: 37,	//向左方向键
-	keyUp: 38,		//向上方向键
-	keyRight: 39,	//向右方向键
-	keyDown: 40,	//向下方向键
-	keyEnter: 13	//回车键
+    url: null,                      //请求数据的 URL 地址
+    jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
+    data: {},                       //提示所用的数据
+    getDataMethod: "firstByUrl",    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+    indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
+    indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
+    idField: "",                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+    keyField: "",                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+    effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
+    effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
+    searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
+    showHeader: false,              //是否显示选择列表的 header，默认有效字段大于一列时显示，否则不显示
+    showBtn: true,                  //是否显示下拉按钮
+    allowNoKeyword: true,           //是否允许无关键字时请求数据
+    multiWord: false,               //以分隔符号分割的多关键字支持
+    separator: ",",                 //多关键字支持时的分隔符，默认为半角逗号
+    processData: processData,       //格式化数据的方法，返回数据格式参考 data 参数
+    getData: getData,               //获取数据的方法
+    autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+    listAlign: "left",              //提示列表对齐位置，left/right/auto
+    inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
+    listStyle: {
+        "padding-top":0, "max-height": "375px", "max-width": "800px",
+        "overflow": "auto", "width": "auto",
+        "transition": "0.5s", "-webkit-transition": "0.5s", "-moz-transition": "0.5s", "-o-transition": "0.5s"
+    },                              //列表的样式控制
+    listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
+    listHoverCSS: "jhover",         //提示框列表鼠标悬浮的样式名称
+    keyLeft: 37,                    //向左方向键
+    keyUp: 38,                      //向上方向键
+    keyRight: 39,                   //向右方向键
+    keyDown: 40,                    //向下方向键
+    keyEnter: 13                    //回车键
 }
 ```
 
