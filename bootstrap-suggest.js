@@ -3,7 +3,7 @@
  * Description: 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
  * Author: lizhiwen#meizu.com
  * Date  : 2014-10-09
- * Update: 2014-12-09
+ * Update: 2015-08-24
  *===============================================================================
  * 一、功能说明：
  * 1. 搜索方式：从 data.value 的所有字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
@@ -30,7 +30,7 @@
  *  onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（显示背景警告色）
  *
  *===============================================================================
- * (c) Copyright 2014 lizhiwen. All Rights Reserved.
+ * (c) Copyright 2015 lzw.me. All Rights Reserved.
  ********************************************************************************/
 (function ($) {
     /* 搜索建议插件 */
@@ -72,7 +72,7 @@
                 listAlign: "left",              //提示列表对齐位置，left/right/auto
                 inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
                 listStyle: {
-                    "padding-top":0, "max-height": "375px", "max-width": "800px",
+                    "padding-top": 0, "max-height": "375px", "max-width": "800px",
                     "overflow": "auto", "width": "auto",
                     "transition": "0.5s", "-webkit-transition": "0.5s", "-moz-transition": "0.5s", "-o-transition": "0.5s"
                 },                              //列表的样式控制
@@ -110,7 +110,7 @@
                     options.url = null;
                     $(self).trigger("onDataRequestSuccess", result);
                 }).fail(function (o, err) {
-                    throw new Error(URL + " : " + err);
+                    console.error(URL + " : " + err);
                 });
             }
 
@@ -122,7 +122,7 @@
                     $dropdownMenu = $input.parents(".input-group:eq(0)").find("ul.dropdown-menu");
                 //验证输入框对象是否符合条件
                 if(checkInput(this) === false){
-                    console.warn('not a dropdown-menu');
+                    console.warn('不是一个标准的 bootstrap 下拉式菜单:', this);
                     return;
                 }
 
@@ -136,9 +136,7 @@
                 //移除 disabled 类，并禁用自动完成
                 $input.removeClass("disabled").attr("disabled", false).attr("autocomplete", "off");
                 //dropdown-menu 增加修饰
-                $dropdownMenu.css(options.listStyle || {
-                    "max-height": "300px", "max-width": "800px", "overflow": "auto"
-                });
+                $dropdownMenu.css(options.listStyle);
 
                 //是否自动最小宽度
                 if(options.autoMinWidth === false) {
@@ -147,18 +145,6 @@
                     });
                 } else {
                     $dropdownMenu.css("width", "auto");
-                }
-                //列表对齐方式
-                if (options.listAlign === "left") {
-                    $dropdownMenu.css({
-                        "left": $input.siblings("div").width() - $input.parent().width(),
-                        "right": "auto"
-                    });
-                } else if (options.listAlign === "right") {
-                    $dropdownMenu.css({
-                        "left": "auto",
-                        "right": "0"
-                    });
                 }
 
                 //开始事件处理
@@ -251,11 +237,11 @@
                 }).on("focus", function () {
                     //console.log("input focus");
                     //$dropdownMenu.show();
-
+                    adjustDropMenuPos($input, $dropdownMenu, options);
                 }).on("blur", function () {
                     $dropdownMenu.css("display", "");
                     //console.log("blur");
-                    if ((opts.indexId === -1 && !opts.idField) || opts.multiWord) {
+                    if ((options.indexId === -1 && !options.idField) || options.multiWord) {
                         return;
                     }
 
@@ -266,7 +252,11 @@
                 }).on("click", function () {
                     var word = $(this).val(), words;
 
-                    if($.trim(word) !== '' && word === $(this).attr('alt') && $dropdownMenu.find("table tr").length) {
+                    if(
+                        $.trim(word) !== '' &&
+                        word === $(this).attr('alt') &&
+                        $dropdownMenu.find("table tr").length
+                    ) {
                         return $dropdownMenu.show();
                     }
 
@@ -312,6 +302,27 @@
                     $input.focus();
                 });
             });
+
+            /**
+             * 调整选择菜单位置
+             * @param {Object} $input
+             * @param {Object} $dropdownMenu
+             * @param {Object} options
+             */
+            function adjustDropMenuPos ($input, $dropdownMenu, options) {
+                //列表对齐方式
+                if (options.listAlign === "left") {
+                    $dropdownMenu.css({
+                        "left": $input.siblings("div").width() - $input.parent().width(),
+                        "right": "auto"
+                    });
+                } else if (options.listAlign === "right") {
+                    $dropdownMenu.css({
+                        "left": "auto",
+                        "right": "0"
+                    });
+                }
+            }
             /**
              * 设置输入框背景色
              * 当设置了 indexId，而输入框的 data-id 为空时，输入框加载警告色
@@ -371,7 +382,7 @@
             *   1. 必须为 bootstrap 下拉式菜单
             *   2. 必须未初始化过
             */
-            function checkInput(target){
+            function checkInput(target) {
                 var $input = $(target),
                     $dropdownMenu = $input.parent(".input-group").find("ul.dropdown-menu"),
                     data = $input.data('bsSuggest');
@@ -646,9 +657,9 @@
              * 错误处理
              */
             function handleError(e1, e2){
-                console.log(e1);
+                console.trace(e1);
                 if(e2) {
-                    console.log(e2);
+                    console.trace(e2);
                 }
             }
         },
