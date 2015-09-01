@@ -67,11 +67,12 @@ $("input#test").on("dataRequestSuccess", function (event, result) {
     getData: getData,               //获取数据的方法
     autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
     listAlign: "left",              //提示列表对齐位置，left/right/auto
+    inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
     inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
     listStyle: {
         "padding-top":0, "max-height": "375px", "max-width": "800px",
         "overflow": "auto", "width": "auto",
-        "transition": "0.5s", "-webkit-transition": "0.5s", "-moz-transition": "0.5s", "-o-transition": "0.5s"
+        "transition": "0.3s", "-webkit-transition": "0.3s", "-moz-transition": "0.3s", "-o-transition": "0.3s"
     },                              //列表的样式控制
     listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
     listHoverCSS: "jhover",         //提示框列表鼠标悬浮的样式名称

@@ -70,11 +70,12 @@
                 getData: getData,               //获取数据的方法
                 autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
                 listAlign: "left",              //提示列表对齐位置，left/right/auto
+                inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
                 inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
                 listStyle: {
                     "padding-top": 0, "max-height": "375px", "max-width": "800px",
                     "overflow": "auto", "width": "auto",
-                    "transition": "0.5s", "-webkit-transition": "0.5s", "-moz-transition": "0.5s", "-o-transition": "0.5s"
+                    "transition": "0.3s", "-webkit-transition": "0.3s", "-moz-transition": "0.3s", "-o-transition": "0.3s"
                 },                              //列表的样式控制
                 listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
                 listHoverCSS: "jhover",         //提示框列表鼠标悬浮的样式名称
@@ -126,6 +127,7 @@
                     return;
                 }
 
+
                 //是否显示 button 按钮
                 if (! options.showBtn) {
                     $input.css('border-radius', '4px')
@@ -137,6 +139,11 @@
                 $input.removeClass("disabled").attr("disabled", false).attr("autocomplete", "off");
                 //dropdown-menu 增加修饰
                 $dropdownMenu.css(options.listStyle);
+
+                //默认背景色
+                if (! options.inputBgColor) {
+                    options.inputBgColor = $input.css("background-color");
+                }
 
                 //是否自动最小宽度
                 if(options.autoMinWidth === false) {
@@ -338,7 +345,7 @@
 
                 inputbg = $input.css("background-color").replace(/ /g, "").split(",",3).join(",");
                 //console.log(inputbg);
-                bg = "rgba(255,255,255,0.1)";
+                bg = opts.inputBgColor || "rgba(255,255,255,0.1)";
                 warnbg = opts.inputWarnColor || "rgba(255,255,0,0.1)";
 
                 if (!$input.val() || $input.attr("data-id")) {
@@ -347,7 +354,7 @@
 
                 //自由输入的内容，设置背景色
                 if (-1 === warnbg.indexOf(inputbg)) {
-                    $input.trigger("onUnsetSelectValue"); //触发取消dat-id事件
+                    $input.trigger("onUnsetSelectValue"); //触发取消data-id事件
                     $input.css("background", warnbg);
                 }
                 return $input;
