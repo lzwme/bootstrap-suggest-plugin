@@ -287,6 +287,7 @@
                             $input.click().focus();
                         } else {
                             refreshDropMenu($input, options.data, options);
+                            adjustDropMenuPos ($input, $dropdownMenu, options);
                         }
                     } else {
                         display = "none";
