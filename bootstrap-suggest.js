@@ -73,7 +73,7 @@
                 inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
                 inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
                 listStyle: {
-                    "padding-top": 0, "max-height": "312px", "max-width": "800px",
+                    "padding-top": 0, "max-height": "375px", "max-width": "800px",
                     "overflow": "auto", "width": "auto",
                     "transition": "0.3s", "-webkit-transition": "0.3s", "-moz-transition": "0.3s", "-o-transition": "0.3s"
                 },                              //列表的样式控制
@@ -97,7 +97,7 @@
             if (!opts.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
                 options.showHeader = true;
             }
-            if (options.getDataMethod === "firstByUrl" && options.url) {
+            /*if (options.getDataMethod === "firstByUrl" && options.url) {
                 var hyphen = opts.url.indexOf('?') !== -1 ? '&' : "?", //简单判断，如果url已经存在？，则jsonp的连接符应该为&
                     URL = opts.jsonp ? [opts.url, hyphen, opts.jsonp, '=?'].join('') : opts.url; //开启jsonp，则修订url，不可以用param传递，？会被编码为%3F
 
@@ -113,7 +113,7 @@
                 }).fail(function (o, err) {
                     console.error(URL + " : " + err);
                 });
-            }
+            }*/
 
             //鼠标滑动到条目样式
             $("head:eq(0)").append('<style>.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
