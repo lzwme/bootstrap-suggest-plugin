@@ -73,7 +73,7 @@
                 inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
                 inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
                 listStyle: {
-                    "padding-top": 0, "max-height": "375px", "max-width": "800px",
+                    "padding-top": 0, "max-height": "312px", "max-width": "800px",
                     "overflow": "auto", "width": "auto",
                     "transition": "0.3s", "-webkit-transition": "0.3s", "-moz-transition": "0.3s", "-o-transition": "0.3s"
                 },                              //列表的样式控制
@@ -157,6 +157,7 @@
                 //开始事件处理
                 $input.on("keydown", function (event) {
                     var currentList, tipsKeyword = '';//提示列表上被选中的关键字
+                    //console.log("input keydown");
 
                     //$(this).attr("data-id", "");
 
@@ -211,6 +212,7 @@
                     }
                 }).on("keyup", function (event) {
                     var word, words;
+                    //console.log("input keyup");
 
                     //如果弹起的键是回车、向上或向下方向键则返回
                     if (event.keyCode === options.keyDown || event.keyCode === options.keyUp || event.keyCode === options.keyEnter) {
@@ -243,20 +245,18 @@
                     getData($.trim(word), $input, refreshDropMenu, options);
                 }).on("focus", function () {
                     //console.log("input focus");
-                    //$dropdownMenu.show();
+                    /*if ($dropdownMenu.find('tr').length) {
+                        $dropdownMenu.show();
+                    }*/
                     adjustDropMenuPos($input, $dropdownMenu, options);
                 }).on("blur", function () {
-                    $dropdownMenu.css("display", "");
                     //console.log("blur");
-                    if ((options.indexId === -1 && !options.idField) || options.multiWord) {
+                    $dropdownMenu.css("display", "");
+                    /*if ((options.indexId === -1 && !options.idField) || options.multiWord) {
                         return;
-                    }
-
-                    //必须从列表选择，否则失去焦点时清空输入框
-                    /*if ($input.val() && !$input.attr("data-id")) {
-                        return $input.val("").css("background", "rgba(255,255,255,0.1)");
                     }*/
                 }).on("click", function () {
+                    //console.log("input click");
                     var word = $(this).val(), words;
 
                     if(
@@ -304,9 +304,11 @@
 
                 //列表中滑动时，输入框失去焦点
                 $dropdownMenu.on("mouseenter", function(){
-                    $input.blur();
+                    //console.log('mouseenter')
+                    //$input.blur();
                     $(this).show();
                 }).on("mouseleave", function(){
+                    //console.log('mouseleave')
                     $input.focus();
                 });
             });
@@ -318,6 +320,9 @@
              * @param {Object} options
              */
             function adjustDropMenuPos ($input, $dropdownMenu, options) {
+                if ($dropdownMenu.is(':visible')) {
+                    return;
+                }
                 //列表对齐方式
                 if (options.listAlign === "left") {
                     $dropdownMenu.css({
