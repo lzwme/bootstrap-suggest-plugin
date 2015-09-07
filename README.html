@@ -1016,7 +1016,7 @@ body .markdown-body
 }
 </style><title>README</title></head><body><article class="markdown-body"><p><a href="http://lzw.me"><img alt="Code Climate" src="http://lzw.me/images/logo.png" /></a></p>
 <h1 id="bootstrap-search-suggest"><a name="user-content-bootstrap-search-suggest" href="#bootstrap-search-suggest" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Bootstrap Search Suggest</h1>
-<p><a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin">Demo|示例</a> </p>
+<p><a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin">Demo|示例</a></p>
 <p>这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。</p>
 <h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>功能说明</h2>
 <ul>
@@ -1044,12 +1044,19 @@ body .markdown-body
 </ol>
 <h4 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>事件监听</h4>
 <p>dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数<br />
-<pre><code class="js">$(&quot;input#test&quot;).on(&quot;dataRequestSuccess&quot;, function (event, result) {
-    console.log(result); 
-});
-</code></pre><br />
  onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数<br />
- onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）</p>
+ onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）<br />
+<pre><code class="js">$(&quot;input#test&quot;)
+    .on(&quot;dataRequestSuccess&quot;, function (event, result) {
+        console.log(result);
+    })
+    .on('onSetSelectValue', function (e, keyword) {
+        console.log('onSetSelectValue: ', keyword);
+    })
+    .on('onUnsetSelectValue', function (e) {
+        console.log(&quot;onUnsetSelectValue&quot;);
+    });
+</code></pre></p>
 <h2 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>配置参数</h2>
 <p>参数列表中的值均为插件默认值<br />
 <pre><code class="js">{
@@ -1073,12 +1080,12 @@ body .markdown-body
     getData: getData,               //获取数据的方法
     autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
     listAlign: &quot;left&quot;,              //提示列表对齐位置，left/right/auto
-    inputBgColor: '',               //输入框背景色，当与容器背景色不同时，需要该项的配置
+    inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
     inputWarnColor: &quot;rgba(255,0,0,.1)&quot;, //输入框内容不是下拉列表选择时的警告色
     listStyle: {
         &quot;padding-top&quot;:0, &quot;max-height&quot;: &quot;375px&quot;, &quot;max-width&quot;: &quot;800px&quot;,
         &quot;overflow&quot;: &quot;auto&quot;, &quot;width&quot;: &quot;auto&quot;,
-        &quot;transition&quot;: &quot;0.5s&quot;, &quot;-webkit-transition&quot;: &quot;0.5s&quot;, &quot;-moz-transition&quot;: &quot;0.5s&quot;, &quot;-o-transition&quot;: &quot;0.5s&quot;
+        &quot;transition&quot;: &quot;0.3s&quot;, &quot;-webkit-transition&quot;: &quot;0.3s&quot;, &quot;-moz-transition&quot;: &quot;0.3s&quot;, &quot;-o-transition&quot;: &quot;0.3s&quot;
     },                              //列表的样式控制
     listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
     listHoverCSS: &quot;jhover&quot;,         //提示框列表鼠标悬浮的样式名称

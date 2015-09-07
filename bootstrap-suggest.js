@@ -2,8 +2,9 @@
  * Bootstrap Search Suggest
  * Description: 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
  * Author: lizhiwen#meizu.com
+ * Github: https://github.com/lzwme/bootstrap-suggest-plugin
  * Date  : 2014-10-09
- * Update: 2015-08-24
+ * Update: 2015-09-06
  *===============================================================================
  * 一、功能说明：
  * 1. 搜索方式：从 data.value 的所有字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
@@ -61,7 +62,7 @@
                 effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
                 effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
                 searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
-                showHeader: false,              //是否显示选择列表的 header，默认有效字段大于一列时显示，否则不显示
+                showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
                 showBtn: true,                  //是否显示下拉按钮
                 allowNoKeyword: true,           //是否允许无关键字时请求数据
                 multiWord: false,               //以分隔符号分割的多关键字支持
@@ -704,6 +705,9 @@
         },
         destroy: function(){
             $(this).off().removeData("bsSuggest").parent().find(".input-group-btn>.btn").off();//.addClass("disabled");
+        },
+        version: function() {
+            return '0.0.1';
         }
     };
 })(window.jQuery);

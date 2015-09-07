@@ -48,6 +48,7 @@ module.exports = function(grunt) {
 					banner: "/*\r\n<%= pkg.name %> - v<%= pkg.version %>\r\n" +
 						"Description: <%= pkg.description %>\r\n" +
 						"Author: <%= pkg.author %>\r\n" +
+						"Github: https://github.com/lzwme/bootstrap-suggest-plugin\r\n" +
 						'Update: <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\r\n' +
 						"*/\r\n"
 				},

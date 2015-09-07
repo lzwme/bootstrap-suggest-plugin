@@ -3,7 +3,7 @@
 Bootstrap Search Suggest
 ====================
 
-[Demo|示例](http://lzw.me/pages/demo/bootstrap-suggest-plugin) 
+[Demo|示例](http://lzw.me/pages/demo/bootstrap-suggest-plugin)
 
 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
 
@@ -13,7 +13,7 @@ Bootstrap Search Suggest
 * 支持单关键字、多关键字的输入搜索建议，多关键字可自定义分隔符
 * 支持按 data 数组数据搜索、按  URL 请求搜索和按首次请求URL数据并缓存搜索三种方式【getDataMethod】
 * 单关键字会设置 data-id 和输入框内容两个值，以 indexId/idField 和 indexKey/idFiled 取值 data 的数据为准；多关键字只设置输入框值
- 
+
 ## 快速上手
 
 1. 引入 jQuery、bootstrap.min.css、bootstrap.min.js
@@ -31,16 +31,24 @@ Bootstrap Search Suggest
 1. 禁用提示： `$("input#test").bsSuggest("disable");`
 2. 启用提示： `$("input#test").bsSuggest("enable");`
 3. 销毁插件： `$("input#test").bsSuggest("destroy");`
+4. 查看版本：`$("input#test").bsSuggest("version");`
 
 ####事件监听
  dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
-```js
-$("input#test").on("dataRequestSuccess", function (event, result) {
-	console.log(result); 
-});
-```
  onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
  onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
+```js
+$("input#test")
+    .on("dataRequestSuccess", function (event, result) {
+        console.log(result);
+    })
+    .on('onSetSelectValue', function (e, keyword) {
+        console.log('onSetSelectValue: ', keyword);
+    })
+    .on('onUnsetSelectValue', function (e) {
+        console.log("onUnsetSelectValue");
+    });
+```
 
 ## 配置参数
 
