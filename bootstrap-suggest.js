@@ -55,6 +55,7 @@
                 jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
                 data: {},                       //提示所用的数据
                 getDataMethod: "firstByUrl",    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+                delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
                 indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
                 indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
                 idField: "",                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
@@ -98,7 +99,7 @@
             if (!opts.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
                 options.showHeader = true;
             }
-            /*if (options.getDataMethod === "firstByUrl" && options.url) {
+            if (options.getDataMethod === "firstByUrl" && options.url && ! options.delayUntilKeyup) {
                 var hyphen = opts.url.indexOf('?') !== -1 ? '&' : "?", //简单判断，如果url已经存在？，则jsonp的连接符应该为&
                     URL = opts.jsonp ? [opts.url, hyphen, opts.jsonp, '=?'].join('') : opts.url; //开启jsonp，则修订url，不可以用param传递，？会被编码为%3F
 
@@ -114,7 +115,7 @@
                 }).fail(function (o, err) {
                     console.error(URL + " : " + err);
                 });
-            }*/
+            }
 
             //鼠标滑动到条目样式
             $("head:eq(0)").append('<style>.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');

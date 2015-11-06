@@ -1,7 +1,7 @@
 [![Code Climate](http://lzw.me/images/logo.png)](http://lzw.me)
 
-Bootstrap Search Suggest
-====================
+Bootstrap Search Suggest [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+========
 
 [Demo|示例](http://lzw.me/pages/demo/bootstrap-suggest-plugin)
 
@@ -11,7 +11,7 @@ Bootstrap Search Suggest
 
 * 搜索方式：从 data.value 的有效字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
 * 支持单关键字、多关键字的输入搜索建议，多关键字可自定义分隔符
-* 支持按 data 数组数据搜索、按  URL 请求搜索和按首次请求URL数据并缓存搜索三种方式【getDataMethod】
+* 支持按 data 数组数据搜索、按  URL 请求搜索和按首次请求URL数据并缓存搜索三种方式
 * 单关键字会设置 data-id 和输入框内容两个值，以 indexId/idField 和 indexKey/idFiled 取值 data 的数据为准；多关键字只设置输入框值
 
 ## 快速上手
