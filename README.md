@@ -34,9 +34,9 @@ Bootstrap Search Suggest [![Built with Grunt](https://cdn.gruntjs.com/builtwith.
 4. 查看版本：`$("input#test").bsSuggest("version");`
 
 ####事件监听
- dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
- onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
- onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
+1. dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
+2. onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
+3. onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
 ```js
 $("input#test")
     .on("dataRequestSuccess", function (event, result) {
@@ -74,6 +74,7 @@ $("input#test")
     processData: processData,       //格式化数据的方法，返回数据格式参考 data 参数
     getData: getData,               //获取数据的方法
     autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+    autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
     listAlign: "left",              //提示列表对齐位置，left/right/auto
     inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
     inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色

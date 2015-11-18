@@ -71,6 +71,7 @@
                 processData: processData,       //格式化数据的方法，返回数据格式参考 data 参数
                 getData: getData,               //获取数据的方法
                 autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+                autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
                 listAlign: "left",              //提示列表对齐位置，left/right/auto
                 inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
                 inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
@@ -145,15 +146,6 @@
                 //默认背景色
                 if (! options.inputBgColor) {
                     options.inputBgColor = $input.css("background-color");
-                }
-
-                //是否自动最小宽度
-                if(options.autoMinWidth === false) {
-                    $dropdownMenu.css({
-                        "min-width": $input.parent().width()
-                    });
-                } else {
-                    $dropdownMenu.css("width", "auto");
                 }
 
                 //开始事件处理
@@ -247,16 +239,10 @@
                     getData($.trim(word), $input, refreshDropMenu, options);
                 }).on("focus", function () {
                     //console.log("input focus");
-                    /*if ($dropdownMenu.find('tr').length) {
-                        $dropdownMenu.show();
-                    }*/
                     adjustDropMenuPos($input, $dropdownMenu, options);
                 }).on("blur", function () {
                     //console.log("blur");
                     $dropdownMenu.css("display", "");
-                    /*if ((options.indexId === -1 && !options.idField) || options.multiWord) {
-                        return;
-                    }*/
                 }).on("click", function () {
                     //console.log("input click");
                     var word = $(this).val(), words;
@@ -323,8 +309,20 @@
              */
             function adjustDropMenuPos ($input, $dropdownMenu, options) {
                 if ($dropdownMenu.is(':visible')) {
+                    setTimeout(function(){
+                        if ( //自动判断菜单向上展开
+                            options.autoDropup &&
+                            $(window).height() - $input.offset().top < $dropdownMenu.height() &&
+                            $input.offset().top > $dropdownMenu.height() + $(window).scrollTop()
+                        ) {
+                            $dropdownMenu.parents('.input-group').addClass('dropup');
+                        } else {
+                            $dropdownMenu.parents('.input-group.dropup').removeClass('dropup');
+                        }
+                    }, 100);
                     return;
                 }
+
                 //列表对齐方式
                 if (options.listAlign === "left") {
                     $dropdownMenu.css({
@@ -337,6 +335,17 @@
                         "right": "0"
                     });
                 }
+
+                //是否自动最小宽度
+                if(options.autoMinWidth === false) {
+                    $dropdownMenu.css({
+                        "min-width": $input.parent().width()
+                    });
+                } else {
+                    $dropdownMenu.css("width", "auto");
+                }
+
+                return $input;
             }
             /**
              * 设置输入框背景色
@@ -364,6 +373,7 @@
                     $input.trigger("onUnsetSelectValue"); //触发取消data-id事件
                     $input.css("background", warnbg);
                 }
+
                 return $input;
             }
             /**
@@ -616,6 +626,9 @@
                 } else {
                     $dropdownMenu.css("padding-right", 0).find("table:eq(0)").css("margin-bottom", 0);
                 }
+
+                adjustDropMenuPos ($input, $dropdownMenu, opts);
+
                 return $input;
             }
             /**

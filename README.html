@@ -913,9 +913,11 @@ body .markdown-body
 <h4>
 <a id="user-content-事件监听" class="anchor" href="#%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>事件监听</h4>
 
-<p>dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
- onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
- onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）</p>
+<ol>
+<li>dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数</li>
+<li>onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数</li>
+<li>onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）</li>
+</ol>
 
 <div class="highlight highlight-source-js"><pre>$(<span class="pl-s"><span class="pl-pds">"</span>input#test<span class="pl-pds">"</span></span>)
     .on(<span class="pl-s"><span class="pl-pds">"</span>dataRequestSuccess<span class="pl-pds">"</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">event</span>, <span class="pl-smi">result</span>) {
@@ -953,6 +955,7 @@ body .markdown-body
     processData<span class="pl-k">:</span> processData,       <span class="pl-c">//格式化数据的方法，返回数据格式参考 data 参数</span>
     getData<span class="pl-k">:</span> getData,               <span class="pl-c">//获取数据的方法</span>
     autoMinWidth<span class="pl-k">:</span> <span class="pl-c1">false</span>,            <span class="pl-c">//是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度</span>
+    autoDropup<span class="pl-k">:</span> <span class="pl-c1">false</span>,              <span class="pl-c">//选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出</span>
     listAlign<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>left<span class="pl-pds">"</span></span>,              <span class="pl-c">//提示列表对齐位置，left/right/auto</span>
     inputBgColor<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,               <span class="pl-c">//输入框背景色，当与容器背景色不同时，可能需要该项的配置</span>
     inputWarnColor<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>rgba(255,0,0,.1)<span class="pl-pds">"</span></span>, <span class="pl-c">//输入框内容不是下拉列表选择时的警告色</span>

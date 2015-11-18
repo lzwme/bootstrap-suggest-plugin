@@ -207,6 +207,7 @@
         separator: ",",         //多关键字支持时的分隔符，默认为空格
         getDataMethod: "url",   //获取数据的方式，总是从 URL 获取
         showHeader: true,       //显示多个字段的表头
+        autoDropup: true,       //自动判断菜单向上展开
         effectiveFieldsAlias:{Id: "序号", Keyword: "关键字", Count: "数量"},
         url: 'http://suggest.taobao.com/sug?code=utf-8&extras=1&q=', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
         jsonp: 'callback',               //如果从 url 获取数据，并且需要跨域，则该参数必须设置
