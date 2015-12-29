@@ -4,7 +4,7 @@
  * Author: lizhiwen#meizu.com
  * Github: https://github.com/lzwme/bootstrap-suggest-plugin
  * Date  : 2014-10-09
- * Update: 2015-09-06
+ * Update: 2015-12-29
  *===============================================================================
  * 一、功能说明：
  * 1. 搜索方式：从 data.value 的所有字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
@@ -130,7 +130,6 @@
                     return;
                 }
 
-
                 //是否显示 button 按钮
                 if (! options.showBtn) {
                     $input.css('border-radius', '4px')
@@ -240,7 +239,7 @@
                 }).on("focus", function () {
                     //console.log("input focus");
                     adjustDropMenuPos($input, $dropdownMenu, options);
-                }).on("blur", function () {
+                }).on("blur", function (e) {
                     //console.log("blur");
                     $dropdownMenu.css("display", "");
                 }).on("click", function () {
@@ -294,7 +293,8 @@
                 $dropdownMenu.on("mouseenter", function(){
                     //console.log('mouseenter')
                     //$input.blur();
-                    $(this).show();
+                    //$(this).show();
+                    //$input.parents(".input-group:eq(0)").find('.input-group-btn>.btn').click();
                 }).on("mouseleave", function(){
                     //console.log('mouseleave')
                     $input.focus();
@@ -320,30 +320,31 @@
                             $dropdownMenu.parents('.input-group.dropup').removeClass('dropup');
                         }
                     }, 100);
-                    return;
+                    //return;
                 }
 
                 //列表对齐方式
+                var dmcss = {};
                 if (options.listAlign === "left") {
-                    $dropdownMenu.css({
+                    dmcss = {
                         "left": $input.siblings("div").width() - $input.parent().width(),
                         "right": "auto"
-                    });
+                    };
                 } else if (options.listAlign === "right") {
-                    $dropdownMenu.css({
+                    dmcss= {
                         "left": "auto",
                         "right": "0"
-                    });
+                    };
                 }
 
                 //是否自动最小宽度
                 if(options.autoMinWidth === false) {
-                    $dropdownMenu.css({
-                        "min-width": $input.parent().width()
-                    });
-                } else {
-                    $dropdownMenu.css("width", "auto");
-                }
+                    dmcss['min-width'] = $input.parent().width();
+                }/* else {
+                    dmcss['width'] = 'auto';
+                }*/
+
+               $dropdownMenu.css(dmcss);
 
                 return $input;
             }
@@ -452,6 +453,8 @@
                         if (options.getDataMethod === "firstByUrl") {
                             options.data = result;
                             options.url = null;
+                        } else {
+                            options.result = processData(result);
                         }
                     }).fail(handleError);
                 } else {
@@ -472,6 +475,7 @@
                                         (data.value[i][obj].toString().indexOf(keyword) !== -1 || keyword.indexOf(data.value[i][obj]) !== -1)
                                     ){
                                         filterData.value.push(data.value[i]);
+                                        filterData.value[filterData.value.length -1].__index = i;
                                         break;
                                     }
                                 }
@@ -604,7 +608,7 @@
                         tr +='<td data-name="' + j + '">' + data.value[i][j] + '</td>';
                     }
 
-                    tr = '<tr data-index="' + i + '" data-id="' + idValue +
+                    tr = '<tr data-index="' + (data.value[i].__index || i) + '" data-id="' + idValue +
                         '" data-key="' + keyValue +'">' + tr + '</tr>';
 
                     html.push(tr);
@@ -613,6 +617,7 @@
 
                 $dropdownMenu.html(html.join("")).show();
                 listEventBind($input, $dropdownMenu, opts);
+
                 //scrollbar 存在时，调整 padding
                 if (
                     $dropdownMenu.css("max-height") &&
@@ -620,7 +625,6 @@
                     Number($dropdownMenu.find("table:eq(0)").css("height").replace("px", "")) &&
                     Number($dropdownMenu.css("min-width").replace("px", "")) <
                     Number($dropdownMenu.css("width").replace("px", ""))
-
                 ) {
                     $dropdownMenu.css("padding-right", "20px").find("table:eq(0)").css("margin-bottom", "20px");
                 } else {
@@ -655,6 +659,8 @@
                 var data = {};
                 data.id = list.attr('data-id');
                 data.key = list.attr('data-key');
+                data.index = list.attr('data-index');
+
                 return data;
             }
             /**
@@ -679,7 +685,7 @@
                     $input.attr("data-id", id).focus().val(key);
                 }
 
-                $input.trigger("onSetSelectValue", _keywords);
+                $input.trigger("onSetSelectValue", [_keywords, (opts.data.value || opts.result.value)[_keywords.index]]);
             }
             /**
              * 错误处理
