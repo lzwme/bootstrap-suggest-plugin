@@ -75,6 +75,7 @@ $("input#test")
     getData: getData,               //获取数据的方法
     autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
     autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
+    autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
     listAlign: "left",              //提示列表对齐位置，left/right/auto
     inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
     inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
