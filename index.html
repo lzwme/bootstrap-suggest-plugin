@@ -9,6 +9,12 @@
     <meta name="Keywords" content="Bootstrap Search Suggest,bootstrap,搜索建议插件">
     <meta name="author" content="lizhiwen@meizu.com">
     <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    h3{
+        margin-top: 1.2rem;
+        border-bottom: 1px #eee solid;
+    }
+    </style>
 </head>
 
 <body>
@@ -21,6 +27,10 @@
 				</div>
 				<div class="modal-body">
 					<div class="input-group">
+                        <ul>
+                            <li>不显示按钮；<code>showBtn: false</code></li>
+                            <li>向上/下方向键，不自动选中值。<code>autoSelect: false</code></li>
+                        </ul>
                         <input type="text" class="form-control" id="modalTest_input" autocomplete="off">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="">
@@ -46,10 +56,10 @@
         <p>这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件。</p>
         <p>使用说明：<a href="README.html" target="_blank">README.html</a> <a href="https://github.com/lzwme/bootstrap-suggest-plugin" target="_blank">Github</a></p>
         <form action="index_submit" method="get" accept-charset="utf-8" role="form">
-            <h3>测试(URL 获取)</h3>
+            <h3>测试(首次从 URL 获取数据)</h3>
             <p>配置了 data-id，非下拉菜单选择输入则背景色警告。</p>
             <div class="row">
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                     <div class="input-group">
                         <input type="text" class="form-control" id="test">
                         <div class="input-group-btn">
@@ -64,8 +74,8 @@
                 </div>
             </div>
 
-            <h3>测试(URL 获取)</h3>
-            <p>不展示下拉菜单按钮。 <a class="btn btn-info" data-toggle="modal" data-target="#modalTest">modal</a></p>
+            <h3>测试(首次从 URL 获取数据，不显示按钮)</h3>
+            <p>不展示下拉菜单按钮<code>showBtn: false</code>。 <a class="btn btn-info" data-toggle="modal" data-target="#modalTest">modal</a></p>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="input-group">
@@ -162,12 +172,27 @@
     /**
      * 不显示下拉按钮
      */
-    var testBsSuggest = $("#testNoBtn, #modalTest_input").bsSuggest({
+    var testBsSuggest = $("#testNoBtn").bsSuggest({
         //url: "/rest/sys/getuserlist?keyword=",
         url: "data.json",
         /*effectiveFields: ["userName", "shortAccount"],
         searchFields: [ "shortAccount"],
         effectiveFieldsAlias:{userName: "姓名"},*/
+        showBtn: false,
+        idField: "userId",
+        keyField: "userName"
+    }).on('onDataRequestSuccess', function (e, result) {
+        console.log('onDataRequestSuccess: ', result);
+    }).on('onSetSelectValue', function (e, keyword, data) {
+        console.log('onSetSelectValue: ', keyword, data);
+    }).on('onUnsetSelectValue', function (e) {
+        console.log("onUnsetSelectValue");
+    });
+
+    //modal 中显示；不自动选中值；不显示按钮。
+    $("#modalTest_input").bsSuggest({
+        url: "data.json",
+        autoSelect: false,
         showBtn: false,
         idField: "userId",
         keyField: "userName"
