@@ -8,7 +8,7 @@
     <meta name="description" content="这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件">
     <meta name="Keywords" content="Bootstrap Search Suggest,bootstrap,搜索建议插件">
     <meta name="author" content="lizhiwen@meizu.com">
-    <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <style>
     h3{
         margin-top: 1.2rem;
@@ -26,11 +26,11 @@
 					<h4 class="modal-title">Modal title</h4>
 				</div>
 				<div class="modal-body">
+                    <ul>
+                        <li>不显示按钮；<code>showBtn: false</code></li>
+                        <li>向上/下方向键，不自动选中值。<code>autoSelect: false</code></li>
+                    </ul>
 					<div class="input-group">
-                        <ul>
-                            <li>不显示按钮；<code>showBtn: false</code></li>
-                            <li>向上/下方向键，不自动选中值。<code>autoSelect: false</code></li>
-                        </ul>
                         <input type="text" class="form-control" id="modalTest_input" autocomplete="off">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="">
@@ -42,7 +42,7 @@
                     </div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default btn-primary-outline" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -53,13 +53,16 @@
 
     <div class="container">
         <h2>bootstrap combox 搜索建议插件</h2>
-        <p>这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件。</p>
+        <p>这是一个基于 bootstrap 按钮式下拉菜单组件 (
+        <a target="_blank" href="http://getbootstrap.com/components/#input-groups-buttons-dropdowns">V3</a> /
+        <a target="_blank" href="http://v4-alpha.getbootstrap.com/components/input-group/#buttons-with-dropdowns">V4</a>
+         ) 的搜索建议插件。</p>
         <p>使用说明：<a href="README.html" target="_blank">README.html</a> <a href="https://github.com/lzwme/bootstrap-suggest-plugin" target="_blank">Github</a></p>
         <form action="index_submit" method="get" accept-charset="utf-8" role="form">
             <h3>测试(首次从 URL 获取数据)</h3>
             <p>配置了 data-id，非下拉菜单选择输入则背景色警告。</p>
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="input-group">
                         <input type="text" class="form-control" id="test">
                         <div class="input-group-btn">
@@ -75,7 +78,7 @@
             </div>
 
             <h3>测试(首次从 URL 获取数据，不显示按钮)</h3>
-            <p>不展示下拉菜单按钮<code>showBtn: false</code>。 <a class="btn btn-info" data-toggle="modal" data-target="#modalTest">modal</a></p>
+            <a class="btn btn-primary" data-toggle="modal" data-target="#modalTest">modal test</a></p>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="input-group">
@@ -91,7 +94,10 @@
                     </div>
                 </div>
             </div>
-
+            <p>
+<br><code>showBtn: false,</code> //不显示下拉按钮
+<br><code>delayUntilKeyup: true</code> //获取数据方式为 firstByUrl 时，延迟到有输入/获取到焦点时请求
+            </p>
             <h3>测试(json 数据中获取)</h3>
             <p>默认启用空关键字检索。</p>
             <div class="row">
@@ -100,6 +106,7 @@
                         <input type="text" class="form-control" id="test_data">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                测试
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -127,7 +134,12 @@
                     </div>
                 </div>
             </div>
-
+            <p>
+<br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+<br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
+<br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
+<br><code>getDataMethod: "url"</code>   //获取数据的方式，总是从 URL 获取
+            </p>
             <h3>淘宝搜索</h3>
             <p>支持逗号分隔多关键字，并展示列表表头。</p>
             <div class="row">
@@ -146,11 +158,19 @@
                 </div>
             </div>
 
+            <p>
+<br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+<br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
+<br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
+<br><code>getDataMethod: "url",</code>   //获取数据的方式，总是从 URL 获取
+<br><code>autoDropup: true,</code>       //自动判断向上/下
+<br><code>showHeader: true,</code>       //显示多个字段的表头
+<br><code>effectiveFieldsAlias: {Id: "序号", Keyword: "关键字", Count: "数量"}</code> //showHeader 时，header 别名
+            </p>
         </form>
     </div>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-    <script src="//cdn.bootcss.com/tether/1.2.0/js/tether.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="bootstrap-suggest.js"></script>
     <script type="text/javascript">
     var testBsSuggest = $("#test").bsSuggest({
@@ -178,7 +198,8 @@
         /*effectiveFields: ["userName", "shortAccount"],
         searchFields: [ "shortAccount"],
         effectiveFieldsAlias:{userName: "姓名"},*/
-        showBtn: false,
+        showBtn: false,     //不显示下拉按钮
+        delayUntilKeyup: true, //获取数据的方式为 firstByUrl 时，延迟到有输入/获取到焦点时才请求数据
         idField: "userId",
         keyField: "userName"
     }).on('onDataRequestSuccess', function (e, result) {
@@ -220,7 +241,7 @@
             'defaults':'http://lzw.me'
         }
     }).on('onDataRequestSuccess', function (e, result) {
-        console.log('onDataRequestSuccess: ', result);
+        console.log('从 json.data 参数中获取，不会触发 onDataRequestSuccess 事件');
     }).on('onSetSelectValue', function (e, keyword, data) {
         console.log('onSetSelectValue: ', keyword, data);
     }).on('onUnsetSelectValue', function (e) {
@@ -274,7 +295,7 @@
         getDataMethod: "url",   //获取数据的方式，总是从 URL 获取
         showHeader: true,       //显示多个字段的表头
         autoDropup: true,       //自动判断菜单向上展开
-        effectiveFieldsAlias:{Id: "序号", Keyword: "关键字", Count: "数量"},
+        effectiveFieldsAlias:{Id: "序号", Keyword: "关键字"},
         url: 'http://suggest.taobao.com/sug?code=utf-8&extras=1&q=', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
         jsonp: 'callback',               //如果从 url 获取数据，并且需要跨域，则该参数必须设置
         processData: function(json){     // url 获取数据时，对数据的处理，作为 getData 的回调函数

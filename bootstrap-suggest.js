@@ -34,10 +34,58 @@
  * (c) Copyright 2015 lzw.me. All Rights Reserved.
  ********************************************************************************/
 (function ($) {
+    //用于对 IE 的兼容判断
+    var isIe = !!window.ActiveXObject || "ActiveXObject" in window;
+    /**
+     * 默认的配置选项
+     * @type {Object}
+     */
+    var defaultOptions = {
+        url: null,                      //请求数据的 URL 地址
+        jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
+        data: {},                       //提示所用的数据
+        getDataMethod: "firstByUrl",    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+        delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+        indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
+        indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
+        idField: "",                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+        keyField: "",                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+        effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
+        effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
+        searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
+        showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
+        showBtn: true,                  //是否显示下拉按钮
+        allowNoKeyword: true,           //是否允许无关键字时请求数据
+        multiWord: false,               //以分隔符号分割的多关键字支持
+        separator: ",",                 //多关键字支持时的分隔符，默认为半角逗号
+        processData: processData,       //格式化数据的方法，返回数据格式参考 data 参数
+        getData: getData,               //获取数据的方法
+        autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+        autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
+        autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
+        listAlign: "left",              //提示列表对齐位置，left/right/auto
+        inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
+        inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
+        listStyle: {
+            "padding-top": 0, "max-height": "375px", "max-width": "800px",
+            "overflow": "auto", "width": "auto",
+            "transition": "0.3s", "-webkit-transition": "0.3s", "-moz-transition": "0.3s", "-o-transition": "0.3s"
+        },                              //列表的样式控制
+        listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
+        listHoverCSS: "jhover",         //提示框列表鼠标悬浮的样式名称
+        keyLeft: 37,                    //向左方向键
+        keyUp: 38,                      //向上方向键
+        keyRight: 39,                   //向右方向键
+        keyDown: 40,                    //向下方向键
+        keyEnter: 13                    //回车键
+    };
     /**
      * 错误处理
      */
     function handleError(e1, e2){
+        if (! window.console || !window.console.tarce) {
+            return;
+        }
         console.trace(e1);
         if(e2) {
             console.trace(e2);
@@ -85,23 +133,26 @@
      * @param {Object} options
      */
     function adjustDropMenuPos ($input, $dropdownMenu, options) {
-        if ($dropdownMenu.is(':visible')) {
-            setTimeout(function(){
+        if (! $dropdownMenu.is(':visible')) {
+            return;
+        }
+
+        if (options.autoDropup) {
+            setTimeout(function() {
                 if ( //自动判断菜单向上展开
-                    options.autoDropup &&
-                    $(window).height() - $input.offset().top < $dropdownMenu.height() &&
-                    $input.offset().top > $dropdownMenu.height() + $(window).scrollTop()
+                    //options.autoDropup &&
+                    ($(window).height() + $(window).scrollTop() - $input.offset().top) < $dropdownMenu.height() && //假如向下会撑长页面
+                    $input.offset().top > ($dropdownMenu.height() + $(window).scrollTop()) //而且向上不会撑到顶部
                 ) {
                     $dropdownMenu.parents('.input-group').addClass('dropup');
                 } else {
                     $dropdownMenu.parents('.input-group.dropup').removeClass('dropup');
                 }
-            }, 100);
-            //return;
+            }, 10);
         }
 
         //列表对齐方式
-        var dmcss = {};
+        var dmcss;
         if (options.listAlign === "left") {
             dmcss = {
                 "left": $input.siblings("div").width() - $input.parent().width(),
@@ -112,6 +163,17 @@
                 "left": "auto",
                 "right": "0"
             };
+        }
+
+        //ie 下，不显示按钮时的 top/bottom
+        if (isIe && ! options.showBtn) {
+            if (! $dropdownMenu.parents('.input-group').hasClass('dropup')) {
+                dmcss.top = $input.parent().height();
+                dmcss.bottom = 'auto';
+            } else {
+                dmcss.top = 'auto';
+                dmcss.bottom = $input.parent().height();
+            }
         }
 
         //是否自动最小宽度
@@ -261,6 +323,7 @@
             }).off('mousedown').on("mousedown", function () {
                 setValue($input, getPointKeyword($(this)), opts);
                 setBackground ($input, opts);
+                $dropdownMenu.hide();
             });
         });
     }
@@ -342,6 +405,7 @@
 
         //scrollbar 存在时，调整 padding
         if (
+            ! isIe &&
             $dropdownMenu.css("max-height") &&
             Number($dropdownMenu.css("max-height").replace("px", "")) <
             Number($dropdownMenu.find("table:eq(0)").css("height").replace("px", "")) &&
@@ -428,45 +492,7 @@
         init: function(opts) {
             //参数设置
             var self = this,
-            options = $.extend({
-                url: null,                      //请求数据的 URL 地址
-                jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-                data: {},                       //提示所用的数据
-                getDataMethod: "firstByUrl",    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-                delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-                indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
-                indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
-                idField: "",                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-                keyField: "",                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
-                effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
-                effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-                searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
-                showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
-                showBtn: true,                  //是否显示下拉按钮
-                allowNoKeyword: true,           //是否允许无关键字时请求数据
-                multiWord: false,               //以分隔符号分割的多关键字支持
-                separator: ",",                 //多关键字支持时的分隔符，默认为半角逗号
-                processData: processData,       //格式化数据的方法，返回数据格式参考 data 参数
-                getData: getData,               //获取数据的方法
-                autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
-                autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
-                autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-                listAlign: "left",              //提示列表对齐位置，left/right/auto
-                inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
-                inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
-                listStyle: {
-                    "padding-top": 0, "max-height": "375px", "max-width": "800px",
-                    "overflow": "auto", "width": "auto",
-                    "transition": "0.3s", "-webkit-transition": "0.3s", "-moz-transition": "0.3s", "-o-transition": "0.3s"
-                },                              //列表的样式控制
-                listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
-                listHoverCSS: "jhover",         //提示框列表鼠标悬浮的样式名称
-                keyLeft: 37,                    //向左方向键
-                keyUp: 38,                      //向上方向键
-                keyRight: 39,                   //向右方向键
-                keyDown: 40,                    //向下方向键
-                keyEnter: 13                    //回车键
-            }, opts);
+            options = $.extend(true, {}, defaultOptions, opts);
 
             //默认配置，配置有效显示字段多于一个，则显示列表表头，否则不显示
             if (!opts.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
@@ -495,10 +521,12 @@
 
             return self.each(function(){
                 var $input = $(this),
+                    mouseenterDropdownMenu,
                     $dropdownMenu = $input.parents(".input-group:eq(0)").find("ul.dropdown-menu");
+
                 //验证输入框对象是否符合条件
                 if(checkInput(this, options) === false){
-                    console.warn('不是一个标准的 bootstrap 下拉式菜单:', this);
+                    console.warn('不是一个标准的 bootstrap 下拉式菜单或已初始化:', this);
                     return;
                 }
 
@@ -628,7 +656,9 @@
                     adjustDropMenuPos($input, $dropdownMenu, options);
                 }).on("blur", function () {
                     //console.log("blur");
-                    $dropdownMenu.css("display", "");
+                    if (! mouseenterDropdownMenu) { //不是进入下拉列表状态，则隐藏列表
+                        $dropdownMenu.css("display", "");
+                    }
                 }).on("click", function () {
                     //console.log("input click");
                     var word = $(this).val(), words;
@@ -668,7 +698,7 @@
                             $input.click().focus();
                         } else {
                             refreshDropMenu($input, options.data, options);
-                            adjustDropMenuPos ($input, $dropdownMenu, options);
+                            //adjustDropMenuPos ($input, $dropdownMenu, options);
                         }
                     } else {
                         display = "none";
@@ -679,11 +709,13 @@
                 //列表中滑动时，输入框失去焦点
                 $dropdownMenu.on("mouseenter", function(){
                     //console.log('mouseenter')
-                    //$input.blur();
+                    mouseenterDropdownMenu = 1;
+                    $input.blur();
                     //$(this).show();
                     //$input.parents(".input-group:eq(0)").find('.input-group-btn>.btn').click();
-                }).on("mouseleave", function(){
+                }).on("mouseleave", function() {
                     //console.log('mouseleave')
+                    mouseenterDropdownMenu = 0;
                     $input.focus();
                 });
             });
