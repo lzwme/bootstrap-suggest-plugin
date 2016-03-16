@@ -4,7 +4,7 @@
  * Author: renxia <lzwy0820#qq.com>
  * Github: https://github.com/lzwme/bootstrap-suggest-plugin
  * Date  : 2014-10-09
- * Update: 2016-02-22
+ * Update: 2016-03-16
  *===============================================================================
  * 一、功能说明：
  * 1. 搜索方式：从 data.value 的所有字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
@@ -17,16 +17,16 @@
  * 1. 引入 jQuery、bootstrap.min.css、bootstrap.min.js
  * 2. 引入插件js:bootstrap-suggest.min.js
  * 3. 初始化插件
- *        var bsSuggest = $("input#test").bsSuggest({
- *            url: "/rest/sys/getuserlist?keyword="
+ *        var bsSuggest = $('input#test').bsSuggest({
+ *            url: '/rest/sys/getuserlist?keyword='
  *        });
  * 4. 方法参考：
- *  禁用提示：bsSuggest.bsSuggest("disable");
- *  启用提示：bsSuggest.bsSuggest("enable");
- *  销毁插件：bsSuggest.bsSuggest("destroy");
+ *  禁用提示：bsSuggest.bsSuggest('disable');
+ *  启用提示：bsSuggest.bsSuggest('enable');
+ *  销毁插件：bsSuggest.bsSuggest('destroy');
  * 5. 事件：
  *  onDataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数，示例：
- *      bsSuggest.on("onDataRequestSuccess", function (event, result) { console.log(result); });
+ *      bsSuggest.on('onDataRequestSuccess', function (event, result) { console.log(result); });
  *  onSetSelectValue：当从下拉菜单选取值时触发
  *  onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（显示背景警告色）
  *
@@ -35,55 +35,13 @@
  ********************************************************************************/
 (function ($) {
     //用于对 IE 的兼容判断
-    var isIe = !!window.ActiveXObject || "ActiveXObject" in window;
-    /**
-     * 默认的配置选项
-     * @type {Object}
-     */
-    var defaultOptions = {
-        url: null,                      //请求数据的 URL 地址
-        jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-        data: {},                       //提示所用的数据
-        getDataMethod: "firstByUrl",    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-        delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-        indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
-        indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
-        idField: "",                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-        keyField: "",                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
-        effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
-        effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-        searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
-        showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
-        showBtn: true,                  //是否显示下拉按钮
-        allowNoKeyword: true,           //是否允许无关键字时请求数据
-        multiWord: false,               //以分隔符号分割的多关键字支持
-        separator: ",",                 //多关键字支持时的分隔符，默认为半角逗号
-        processData: processData,       //格式化数据的方法，返回数据格式参考 data 参数
-        getData: getData,               //获取数据的方法
-        autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
-        autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
-        autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-        listAlign: "left",              //提示列表对齐位置，left/right/auto
-        inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
-        inputWarnColor: "rgba(255,0,0,.1)", //输入框内容不是下拉列表选择时的警告色
-        listStyle: {
-            "padding-top": 0, "max-height": "375px", "max-width": "800px",
-            "overflow": "auto", "width": "auto",
-            "transition": "0.3s", "-webkit-transition": "0.3s", "-moz-transition": "0.3s", "-o-transition": "0.3s"
-        },                              //列表的样式控制
-        listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
-        listHoverCSS: "jhover",         //提示框列表鼠标悬浮的样式名称
-        keyLeft: 37,                    //向左方向键
-        keyUp: 38,                      //向上方向键
-        keyRight: 39,                   //向右方向键
-        keyDown: 40,                    //向下方向键
-        keyEnter: 13                    //回车键
-    };
+    var isIe = !!window.ActiveXObject || 'ActiveXObject' in window;
+
     /**
      * 错误处理
      */
     function handleError(e1, e2){
-        if (! window.console || !window.console.tarce) {
+        if (! window.console || !window.console.trace) {
             return;
         }
         console.trace(e1);
@@ -105,26 +63,26 @@
     /**
      * 设置取得的值
      */
-    function setValue($input, keywords, opts){
+    function setValue($input, keywords, options){
         var _keywords = keywords || {},
-            id = _keywords.id || "",
-            key = _keywords.key || "",
+            id = _keywords.id || '',
+            key = _keywords.key || '',
             inputValList/*, inputIdList*/;
 
-        if (opts && opts.multiWord) {//多关键字支持，只设置 val
-            inputValList = $input.val().split(opts.separator || ' ');
+        if (options && options.multiWord) {//多关键字支持，只设置 val
+            inputValList = $input.val().split(options.separator || ' ');
             inputValList[inputValList.length - 1] = key;
-            /*inputIdList = $input.attr("data-id").split(opts.separator || ' ');
+            /*inputIdList = $input.attr('data-id').split(options.separator || ' ');
             inputIdList[inputIdList.length - 1] = id;*/
 
-            $input.val(inputValList.join(opts.separator || ' '))
-                //.attr("data-id", inputIdList.join(opts.separator || ' '))
+            $input.val(inputValList.join(options.separator || ' '))
+                //.attr('data-id', inputIdList.join(options.separator || ' '))
                 .focus();
         } else {
-            $input.attr("data-id", id).focus().val(key);
+            $input.attr('data-id', id).focus().val(key);
         }
 
-        $input.trigger("onSetSelectValue", [_keywords, (opts.data.value || opts.result.value)[_keywords.index]]);
+        $input.trigger('onSetSelectValue', [_keywords, (options.data.value || options.result.value)[_keywords.index]]);
     }
     /**
      * 调整选择菜单位置
@@ -153,15 +111,15 @@
 
         //列表对齐方式
         var dmcss;
-        if (options.listAlign === "left") {
+        if (options.listAlign === 'left') {
             dmcss = {
-                "left": $input.siblings("div").width() - $input.parent().width(),
-                "right": "auto"
+                'left': $input.siblings('div').width() - $input.parent().width(),
+                'right': 'auto'
             };
-        } else if (options.listAlign === "right") {
+        } else if (options.listAlign === 'right') {
             dmcss= {
-                "left": "auto",
-                "right": "0"
+                'left': 'auto',
+                'right': '0'
             };
         }
 
@@ -191,27 +149,27 @@
      * 设置输入框背景色
      * 当设置了 indexId，而输入框的 data-id 为空时，输入框加载警告色
      */
-    function setBackground ($input, opts) {
-        //console.log("setBackground", opts);
+    function setBackground ($input, options) {
+        //console.log('setBackground', options);
         var inputbg, bg, warnbg;
 
-        if ((opts.indexId === -1 && !opts.idField) || opts.multiWord) {
+        if ((options.indexId === -1 && !options.idField) || options.multiWord) {
             return $input;
         }
 
-        inputbg = $input.css("background-color").replace(/ /g, "").split(",",3).join(",");
+        inputbg = $input.css('background-color').replace(/ /g, '').split(',',3).join(',');
         //console.log(inputbg);
-        bg = opts.inputBgColor || "rgba(255,255,255,0.1)";
-        warnbg = opts.inputWarnColor || "rgba(255,255,0,0.1)";
+        bg = options.inputBgColor || 'rgba(255,255,255,0.1)';
+        warnbg = options.inputWarnColor || 'rgba(255,255,0,0.1)';
 
-        if (!$input.val() || $input.attr("data-id")) {
-            return $input.css("background", bg);
+        if (!$input.val() || $input.attr('data-id')) {
+            return $input.css('background', bg);
         }
 
         //自由输入的内容，设置背景色
         if (-1 === warnbg.indexOf(inputbg)) {
-            $input.trigger("onUnsetSelectValue"); //触发取消data-id事件
-            $input.css("background", warnbg);
+            $input.trigger('onUnsetSelectValue'); //触发取消data-id事件
+            $input.css('background', warnbg);
         }
 
         return $input;
@@ -221,10 +179,10 @@
      */
     function adjustScroll($input, $dropdownMenu, options) {
         //控制滑动条
-        var $hover = $input.parent().find("tbody tr." + options.listHoverCSS), pos, maxHeight;
+        var $hover = $input.parent().find('tbody tr.' + options.listHoverCSS), pos, maxHeight;
         if ($hover.length > 0) {
             pos = ($hover.index() + 3) * $hover.height();
-            maxHeight = Number($dropdownMenu.css("max-height").replace("px", ""));
+            maxHeight = Number($dropdownMenu.css('max-height').replace('px', ''));
 
             if (pos > maxHeight || $dropdownMenu.scrollTop() > maxHeight) {
                 $dropdownMenu.scrollTop(pos - maxHeight);
@@ -236,8 +194,8 @@
     /**
      * 解除所有列表 hover 样式
      */
-    function unHoverAll($dropdownMenu, opts) {
-        $dropdownMenu.find('tr.' + opts.listHoverCSS).removeClass(opts.listHoverCSS);
+    function unHoverAll($dropdownMenu, options) {
+        $dropdownMenu.find('tr.' + options.listHoverCSS).removeClass(options.listHoverCSS);
     }
     /**
     * 验证对象是否符合条件
@@ -246,7 +204,7 @@
     */
     function checkInput(target, options) {
         var $input = $(target),
-            $dropdownMenu = $input.parent(".input-group").find("ul.dropdown-menu"),
+            $dropdownMenu = $input.parent('.input-group').find('ul.dropdown-menu'),
             data = $input.data('bsSuggest');
 
         //过滤非 bootstrap 下拉式菜单对象
@@ -276,11 +234,11 @@
             }
         }
         if (isEmpty) {
-            handleError("返回数据格式错误!");
+            handleError('返回数据格式错误!');
             return false;
         }
         if (data.value.length === 0) {
-            //handleError("返回数据为空!");
+            //handleError('返回数据为空!');
             return false;
         }
 
@@ -291,12 +249,12 @@
      * 判断字段名是否在 effectiveFields 配置项中
      * effectiveFields 为空时始终返回 TRUE
      */
-    function inEffectiveFields(filed, opts) {
+    function inEffectiveFields(filed, options) {
         if(
             filed === '__index' ||
-            $.isArray(opts.effectiveFields) &&
-            opts.effectiveFields.length > 0 &&
-            $.inArray(filed, opts.effectiveFields) === -1
+            $.isArray(options.effectiveFields) &&
+            options.effectiveFields.length > 0 &&
+            $.inArray(filed, options.effectiveFields) === -1
         ) {
             return false;
         }
@@ -306,118 +264,109 @@
     /**
      * 判断字段名是否在 searchFields 搜索字段配置中
      */
-    function inSearchFields(filed, opts) {
-        if ($.inArray(filed, opts.searchFields) !== -1) {
+    function inSearchFields(filed, options) {
+        if ($.inArray(filed, options.searchFields) !== -1) {
             return true;
         }
         return false;
     }
     /**
-     * 绑定列表的 mouseover 事件监听
-     */
-    function listEventBind($input, $dropdownMenu, opts) {
-        $dropdownMenu.find('tbody tr').each(function () {
-            $(this).off('mouseenter').on("mouseenter", function () {
-                unHoverAll($dropdownMenu, opts);
-                $(this).addClass(opts.listHoverCSS);
-            }).off('mousedown').on("mousedown", function () {
-                setValue($input, getPointKeyword($(this)), opts);
-                setBackground ($input, opts);
-                $dropdownMenu.hide();
-            });
-        });
-    }
-    /**
      * 下拉列表刷新
      * 作为 getData 的 callback 函数调用
      */
-    function refreshDropMenu($input, data, opts) {
-        var $dropdownMenu = $input.parent().find("ul.dropdown-menu"),
-        len, i, j, index = 0,
+    function refreshDropMenu($input, data, options) {
+        var $dropdownMenu = $input.parent().find('ul.dropdown-menu'),
+        len, i, j, index = 0, tds,
         html = ['<table class="table table-condensed table-sm">'],
-        thead, tr,
         idValue, keyValue; //作为输入框 data-id 和内容的字段值
 
-        data = opts.processData(data);
+        data = options.processData(data);
         if (data === false || (len = data.value.length) === 0) {
             $dropdownMenu.empty().hide();
             return $input;
         }
 
+        //相同数据，不用继续渲染了
+        if (
+            options._lastData &&
+            JSON.stringify(options._lastData.value) === JSON.stringify(data.value) &&
+            $dropdownMenu.find('tr').length === data.value.length
+        ) {
+            $dropdownMenu.show();
+            return $input;
+        }
+        options._lastData = data;
+
         //生成表头
-        if (opts.showHeader) {
-            thead = "<thead><tr>";
+        if (options.showHeader) {
+            html.push('<thead><tr>');
             for (j in data.value[0]) {
-                if (inEffectiveFields(j, opts) === false) {
+                if (inEffectiveFields(j, options) === false) {
                     continue;
                 }
 
                 if ( index === 0 ) {
                     //表头第一列记录总数
-                    thead += '<th>' + (opts.effectiveFieldsAlias[j] || j) + "(" + len + ")" + '</th>';
+                    html.push('<th>' + (options.effectiveFieldsAlias[j] || j) + '(' + len + ')' + '</th>');
                 } else {
-                    thead += '<th>' + (opts.effectiveFieldsAlias[j] || j) + '</th>';
+                    html.push('<th>' + (options.effectiveFieldsAlias[j] || j) + '</th>');
                 }
 
                 index++;
             }
-            thead += "</tr></thead>";
-            html.push(thead);
+            html.push('</tr></thead>');
         }
-        html.push("<tbody>");
+        html.push('<tbody>');
 
         //console.log(data, len);
         //按列加数据
         for (i = 0; i < len; i++) {
             index = 0;
-            tr = "";
-            idValue = data.value[i][opts.idField] || "";
-            keyValue = data.value[i][opts.keyField] || "";
+            tds = [];
+            idValue = data.value[i][options.idField] || '';
+            keyValue = data.value[i][options.keyField] || '';
 
             for (j in data.value[i]) {
                 //标记作为 value 和 作为 id 的值
-                if (!keyValue && opts.indexKey === index) {
+                if (!keyValue && options.indexKey === index) {
                     keyValue = data.value[i][j];
                 }
-                if (!idValue && opts.indexId === index) {
+                if (!idValue && options.indexId === index) {
                     idValue = data.value[i][j];
                 }
 
                 index++;
 
                 //过滤无效字段
-                if (inEffectiveFields(j, opts) === false) {
+                if (inEffectiveFields(j, options) === false) {
                     continue;
                 }
 
-                tr +='<td data-name="' + j + '">' + data.value[i][j] + '</td>';
+                tds.push('<td data-name="', j, '">', data.value[i][j], '</td>');
             }
 
-            tr = '<tr data-index="' + (data.value[i].__index || i) + '" data-id="' + idValue +
-                '" data-key="' + keyValue +'">' + tr + '</tr>';
-
-            html.push(tr);
+            html.push('<tr data-index="', (data.value[i].__index || i), '" data-id="', idValue,
+                '" data-key="', keyValue, '">', tds.join(''), '</tr>');
         }
         html.push('</tbody></table>');
 
-        $dropdownMenu.html(html.join("")).show();
-        listEventBind($input, $dropdownMenu, opts);
+        $dropdownMenu.html(html.join('')).show();
 
-        //scrollbar 存在时，调整 padding
-        if (
-            ! isIe &&
-            $dropdownMenu.css("max-height") &&
-            Number($dropdownMenu.css("max-height").replace("px", "")) <
-            Number($dropdownMenu.find("table:eq(0)").css("height").replace("px", "")) &&
-            Number($dropdownMenu.css("min-width").replace("px", "")) <
-            Number($dropdownMenu.css("width").replace("px", ""))
-        ) {
-            $dropdownMenu.css("padding-right", "20px").find("table:eq(0)").css("margin-bottom", "20px");
-        } else {
-            $dropdownMenu.css("padding-right", 0).find("table:eq(0)").css("margin-bottom", 0);
-        }
+        //scrollbar 存在时，调整 padding，延时到动画结束时开始
+        setTimeout(function() {
+            if (
+                ! isIe &&
+                //$dropdownMenu.css('max-height') &&
+                $dropdownMenu.height() < $dropdownMenu.find('table:eq(0)').height() &&
+                Number($dropdownMenu.css('min-width').replace('px', '')) < $dropdownMenu.width()
+            ) {
+                $dropdownMenu.css('padding-right', '20px').find('table:eq(0)').css('margin-bottom', '20px');
+            } else {
+                $dropdownMenu.css('padding-right', 0).find('table:eq(0)').css('margin-bottom', 0);
+            }
+        }, 301);
 
-        adjustDropMenuPos ($input, $dropdownMenu, opts);
+        adjustDropMenuPos ($input, $dropdownMenu, options);
 
         return $input;
     }
@@ -428,23 +377,23 @@
     function getData(keyword, $input, callback, options) {
         var data, validData, filterData = {value:[]}, i, obj, hyphen, URL, len;
 
-        keyword = keyword || "";
+        keyword = keyword || '';
 
         /**给了url参数，则从服务器 ajax 请求帮助的 json **/
         //console.log(options.url + keyword);
         if (options.url) {
-            hyphen = options.url.indexOf('?') !== -1 ? '&' : "?"; //简单判断，如果url已经存在？，则jsonp的连接符应该为&
+            hyphen = options.url.indexOf('?') !== -1 ? '&' : '?'; //简单判断，如果url已经存在？，则jsonp的连接符应该为&
             URL = options.jsonp ? [options.url + keyword, hyphen, options.jsonp, '=?'].join('') : options.url + keyword; //开启jsonp，则修订url，不可以用param传递，？会被编码为%3F
             $.ajax({
                 type: 'GET',
-                /*data: "word=" + word,*/
+                /*data: 'word=' + word,*/
                 url: URL,
                 dataType: 'json',
                 timeout: 3000
             }).done(function(result) {
                 callback($input, result, options); //为 refreshDropMenu
-                $input.trigger("onDataRequestSuccess", result);
-                if (options.getDataMethod === "firstByUrl") {
+                $input.trigger('onDataRequestSuccess', result);
+                if (options.getDataMethod === 'firstByUrl') {
                     options.data = result;
                     options.url = null;
                 } else {
@@ -489,18 +438,17 @@
     }
 
     var methods = {
-        init: function(opts) {
+        init: function(options) {
             //参数设置
-            var self = this,
-            options = $.extend(true, {}, defaultOptions, opts);
+            var self = this;
 
             //默认配置，配置有效显示字段多于一个，则显示列表表头，否则不显示
-            if (!opts.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
+            if (!options.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
                 options.showHeader = true;
             }
-            if (options.getDataMethod === "firstByUrl" && options.url && ! options.delayUntilKeyup) {
-                var hyphen = opts.url.indexOf('?') !== -1 ? '&' : "?", //简单判断，如果url已经存在？，则jsonp的连接符应该为&
-                    URL = opts.jsonp ? [opts.url, hyphen, opts.jsonp, '=?'].join('') : opts.url; //开启jsonp，则修订url，不可以用param传递，？会被编码为%3F
+            if (options.getDataMethod === 'firstByUrl' && options.url && ! options.delayUntilKeyup) {
+                var hyphen = options.url.indexOf('?') !== -1 ? '&' : '?', //简单判断，如果url已经存在？，则jsonp的连接符应该为&
+                    URL = options.jsonp ? [options.url, hyphen, options.jsonp, '=?'].join('') : options.url; //开启jsonp，则修订url，不可以用param传递，？会被编码为%3F
 
                 $.ajax({
                     type: 'GET',
@@ -510,19 +458,19 @@
                 }).done(function(result) {
                     options.data = result;
                     options.url = null;
-                    $(self).trigger("onDataRequestSuccess", result);
+                    $(self).trigger('onDataRequestSuccess', result);
                 }).fail(function (o, err) {
-                    console.error(URL + " : " + err);
+                    console.error(URL + ' : ' + err);
                 });
             }
 
             //鼠标滑动到条目样式
-            $("head:eq(0)").append('<style>.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
+            $('head:eq(0)').append('<style>.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
 
             return self.each(function(){
                 var $input = $(this),
                     mouseenterDropdownMenu,
-                    $dropdownMenu = $input.parents(".input-group:eq(0)").find("ul.dropdown-menu");
+                    $dropdownMenu = $input.parents('.input-group:eq(0)').find('ul.dropdown-menu');
 
                 //验证输入框对象是否符合条件
                 if(checkInput(this, options) === false){
@@ -533,26 +481,26 @@
                 //是否显示 button 按钮
                 if (! options.showBtn) {
                     $input.css('border-radius', '4px')
-                        .parents(".input-group:eq(0)").css('width', '100%')
+                        .parents('.input-group:eq(0)').css('width', '100%')
                         .find('.input-group-btn>.btn').hide();
                 }
 
                 //移除 disabled 类，并禁用自动完成
-                $input.removeClass("disabled").attr("disabled", false).attr("autocomplete", "off");
+                $input.removeClass('disabled').attr('disabled', false).attr('autocomplete', 'off');
                 //dropdown-menu 增加修饰
                 $dropdownMenu.css(options.listStyle);
 
                 //默认背景色
                 if (! options.inputBgColor) {
-                    options.inputBgColor = $input.css("background-color");
+                    options.inputBgColor = $input.css('background-color');
                 }
 
                 //开始事件处理
-                $input.on("keydown", function (event) {
+                $input.on('keydown', function (event) {
                     var currentList, tipsKeyword = '';//提示列表上被选中的关键字
-                    //console.log("input keydown");
+                    //console.log('input keydown');
 
-                    //$(this).attr("data-id", "");
+                    //$(this).attr('data-id', '');
 
                     if ($dropdownMenu.css('display') !== 'none') { //当提示层显示时才对键盘事件处理
                         currentList = $dropdownMenu.find('.' + options.listHoverCSS);
@@ -567,7 +515,7 @@
                                 unHoverAll($dropdownMenu, options);
 
                                 if (options.autoSelect) {
-                                    $(this).val($(this).attr('alt')).attr("data-id", "");
+                                    $(this).val($(this).attr('alt')).attr('data-id', '');
                                 }
                             } else {
                                 unHoverAll($dropdownMenu, options);
@@ -589,7 +537,7 @@
                                 unHoverAll($dropdownMenu, options);
 
                                 if (options.autoSelect) {
-                                    $(this).val($(this).attr('alt')).attr("data-id", "");
+                                    $(this).val($(this).attr('alt')).attr('data-id', '');
                                 }
                             } else {
                                 unHoverAll($dropdownMenu, options);
@@ -608,7 +556,7 @@
                             tipsKeyword = getPointKeyword(currentList);
                             $dropdownMenu.hide().empty();
                         } else {
-                            $(this).attr("data-id", "");
+                            $(this).attr('data-id', '');
                         }
 
                         //设置值 tipsKeyword
@@ -617,9 +565,9 @@
                             setValue($(this), tipsKeyword, options);
                         }
                     }
-                }).on("keyup", function (event) {
+                }).on('keyup', function (event) {
                     var word, words;
-                    //console.log("input keyup");
+                    //console.log('input keyup');
 
                     //如果弹起的键是回车、向上或向下方向键则返回
                     if (event.keyCode === options.keyDown || event.keyCode === options.keyUp || event.keyCode === options.keyEnter) {
@@ -627,7 +575,7 @@
                         setBackground ($input, options);
                         return;
                     } else {
-                        $(this).attr("data-id", "");
+                        $(this).attr('data-id', '');
                         setBackground ($input, options);
                     }
 
@@ -641,7 +589,7 @@
                     //当按下键之前记录输入框值,以方便查看键弹起时值有没有变
                     $(this).attr('alt', $(this).val());
 
-                    if (opts.multiWord) {
+                    if (options.multiWord) {
                         words = word.split( options.separator || ' ');
                         word = words[words.length-1];
                     }
@@ -651,22 +599,22 @@
                     }
 
                     options.getData($.trim(word), $input, refreshDropMenu, options);
-                }).on("focus", function () {
-                    //console.log("input focus");
+                }).on('focus', function () {
+                    //console.log('input focus');
                     adjustDropMenuPos($input, $dropdownMenu, options);
-                }).on("blur", function () {
-                    //console.log("blur");
+                }).on('blur', function () {
+                    //console.log('blur');
                     if (! mouseenterDropdownMenu) { //不是进入下拉列表状态，则隐藏列表
-                        $dropdownMenu.css("display", "");
+                        $dropdownMenu.css('display', '');
                     }
-                }).on("click", function () {
-                    //console.log("input click");
+                }).on('click', function () {
+                    //console.log('input click');
                     var word = $(this).val(), words;
 
                     if(
                         $.trim(word) !== '' &&
                         word === $(this).attr('alt') &&
-                        $dropdownMenu.find("table tr").length
+                        $dropdownMenu.find('table tr').length
                     ) {
                         return $dropdownMenu.show();
                     }
@@ -685,82 +633,134 @@
                         return;
                     }
 
-                    //console.log("word", word);
+                    //console.log('word', word);
                     options.getData($.trim(word), $input, refreshDropMenu, options);
                 });
 
                 //下拉按钮点击时
-                $input.parent().find("button:eq(0)").attr("data-toggle", "").on("click", function(){
+                $input.parent().find('button:eq(0)').attr('data-toggle', '').on('click', function(){
                     var display;
-                    if ($dropdownMenu.css("display") === "none") {
-                        display = "block";
+                    if ($dropdownMenu.css('display') === 'none') {
+                        display = 'block';
                         if (options.url) {
                             $input.click().focus();
                         } else {
                             refreshDropMenu($input, options.data, options);
-                            //adjustDropMenuPos ($input, $dropdownMenu, options);
                         }
                     } else {
-                        display = "none";
+                        display = 'none';
                     }
-                    $dropdownMenu.css("display", display);
+                    $dropdownMenu.css('display', display);
                 });
 
                 //列表中滑动时，输入框失去焦点
-                $dropdownMenu.on("mouseenter", function(){
+                $dropdownMenu.on('mouseenter', function(){
                     //console.log('mouseenter')
                     mouseenterDropdownMenu = 1;
                     $input.blur();
                     //$(this).show();
-                    //$input.parents(".input-group:eq(0)").find('.input-group-btn>.btn').click();
-                }).on("mouseleave", function() {
+                }).on('mouseleave', function() {
                     //console.log('mouseleave')
                     mouseenterDropdownMenu = 0;
                     $input.focus();
+                }).on('mouseenter', 'tbody tr', function () {
+                    //行上的移动事件
+                    unHoverAll($dropdownMenu, options);
+                    $(this).addClass(options.listHoverCSS);
+
+                    return false; //阻止冒泡
+                })
+                .on('mousedown', 'tbody tr', function () {
+                    setValue($input, getPointKeyword($(this)), options);
+                    setBackground ($input, options);
+                    $dropdownMenu.hide();
                 });
             });
         },
         show: function(){
-            var data = this.data("bsSuggest");
+            var data = this.data('bsSuggest');
             if (data && data.options) {
-                this.parent().find("ul.dropdown-menu").show();
+                this.parent().find('ul.dropdown-menu').show();
             }
             return this;
         },
         hide: function(){
             var data = this.data('bsSuggest');
             if (data && data.options) {
-                this.parent().find("ul.dropdown-menu").css("display","");
+                this.parent().find('ul.dropdown-menu').css('display','');
             }
             return this;
         },
         disable: function () {
-            if(!$(this).data("bsSuggest")) {
+            if(! $(this).data('bsSuggest')) {
                 return false;
             }
-            $(this).attr("disabled", true).parent().find(".input-group-btn>.btn").addClass("disabled");
+            $(this).attr('disabled', true).parent().find('.input-group-btn>.btn').addClass('disabled');
         },
         enable: function () {
-            if(!$(this).data("bsSuggest")) {
+            if(! $(this).data('bsSuggest')) {
                 return false;
             }
-            $(this).attr("disabled", false).parent().find(".input-group-btn>.btn").removeClass("disabled");
+            $(this).attr('disabled', false).parent().find('.input-group-btn>.btn').removeClass('disabled');
         },
         destroy: function(){
-            $(this).off().removeData("bsSuggest").parent().find(".input-group-btn>.btn").off();//.addClass("disabled");
+            $(this).off().removeData('bsSuggest').parent().find('.input-group-btn>.btn').off();//.addClass('disabled');
         },
         version: function() {
             return '0.0.1';
         }
     };
-
+    /**
+     * 默认的配置选项
+     * @type {Object}
+     */
+    var defaultOptions = {
+        url: null,                      //请求数据的 URL 地址
+        jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
+        data: {},                       //提示所用的数据
+        getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+        delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+        indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
+        indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
+        idField: '',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+        keyField: '',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+        effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
+        effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
+        searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
+        showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
+        showBtn: true,                  //是否显示下拉按钮
+        allowNoKeyword: true,           //是否允许无关键字时请求数据
+        multiWord: false,               //以分隔符号分割的多关键字支持
+        separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
+        processData: processData,       //格式化数据的方法，返回数据格式参考 data 参数
+        getData: getData,               //获取数据的方法
+        autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+        autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
+        autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
+        listAlign: 'left',              //提示列表对齐位置，left/right/auto
+        inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
+        inputWarnColor: 'rgba(255,0,0,.1)', //输入框内容不是下拉列表选择时的警告色
+        listStyle: {
+            'padding-top': 0, 'max-height': '375px', 'max-width': '800px',
+            'overflow': 'auto', 'width': 'auto',
+            'transition': '0.3s', '-webkit-transition': '0.3s', '-moz-transition': '0.3s', '-o-transition': '0.3s'
+        },                              //列表的样式控制
+        listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
+        listHoverCSS: 'jhover',         //提示框列表鼠标悬浮的样式名称
+        keyLeft: 37,                    //向左方向键，不同的操作系统可能会有差别，则自行定义
+        keyUp: 38,                      //向上方向键
+        keyRight: 39,                   //向右方向键
+        keyDown: 40,                    //向下方向键
+        keyEnter: 13                    //回车键
+    };
     /* 搜索建议插件 */
-    $.fn.bsSuggest = function(opts) {
+    $.fn.bsSuggest = function(options) {
         //方法判断
-        if (typeof opts === 'string' && methods[opts] ) {
+        if (typeof options === 'string' && methods[options] ) {
             //如果是方法，则参数第一个为函数名，从第二个开始为函数参数
-            return methods[opts].apply( this, Array.prototype.slice.call( arguments, 1 ));
-        }else if(typeof opts === 'object' || !opts){
+            return methods[options].apply( this, [].prototype.slice.call( arguments, 1 ));
+        }else if(typeof options === 'object' || !options) {
+            options = $.extend(true, {}, defaultOptions, options);
             //调用初始化方法
             return methods.init.apply(this, arguments);
         }
