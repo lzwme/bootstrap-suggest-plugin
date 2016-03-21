@@ -4,7 +4,7 @@
  * Author: renxia <lzwy0820#qq.com>
  * Github: https://github.com/lzwme/bootstrap-suggest-plugin
  * Date  : 2014-10-09
- * Update: 2016-03-16
+ * Update: 2016-03-21
  *===============================================================================
  * 一、功能说明：
  * 1. 搜索方式：从 data.value 的所有字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
@@ -90,7 +90,7 @@
      * @param {Object} $dropdownMenu
      * @param {Object} options
      */
-    function adjustDropMenuPos ($input, $dropdownMenu, options) {
+    function adjustDropMenuPos($input, $dropdownMenu, options) {
         if (! $dropdownMenu.is(':visible')) {
             return;
         }
@@ -293,6 +293,7 @@
             $dropdownMenu.find('tr').length === data.value.length
         ) {
             $dropdownMenu.show();
+            adjustDropMenuPos($input, $dropdownMenu, options);
             return $input;
         }
         options._lastData = data;
@@ -366,40 +367,75 @@
             }
         }, 301);
 
-        adjustDropMenuPos ($input, $dropdownMenu, options);
+        adjustDropMenuPos($input, $dropdownMenu, options);
 
         return $input;
     }
+    /**
+     * ajax 获取数据
+     * @param  {[type]} options [description]
+     * @return {[type]}         [description]
+     */
+    function ajax(options, keyword) {
+        keyword = keyword || '';
 
+        var ajaxParam = {
+            type: 'GET',
+            url: function() {
+                var type = '?';
+
+                if (/=$/.test(options.url)) {
+                    type = '';
+                } else if (/\?/.test(options.url)) {
+                    type = '&';
+                }
+
+                return options.url + type + keyword;
+            }(),
+            dataType: 'json',
+            timeout: 5000
+        };
+
+        //jsonp
+        if (options.jsonp) {
+            ajaxParam.jsonp = options.jsonp;
+            ajaxParam.dataType = 'jsonp';
+        }
+
+        //自定义 ajax 请求参数生成方法
+        if ($.isFunction(options.fnAdjustAjaxParam)) {
+            ajaxParam = $.extend(ajaxParam, options.fnAdjustAjaxParam(keyword, options));
+        }
+
+        return $.ajax(ajaxParam).done(function(result) {
+            options.data = result;
+        }).fail(handleError);
+    }
     /**
      * 通过 ajax 或 json 参数获取数据
      */
     function getData(keyword, $input, callback, options) {
-        var data, validData, filterData = {value:[]}, i, obj, hyphen, URL, len;
+        var data, validData, filterData = {value:[]}, i, obj, len;
 
         keyword = keyword || '';
+        //获取数据前对关键字预处理方法
+        if ($.isFunction(options.fnPreprocessKeyword)) {
+            keyword = options.fnPreprocessKeyword(keyword, options);
+        }
 
         /**给了url参数，则从服务器 ajax 请求帮助的 json **/
         //console.log(options.url + keyword);
         if (options.url) {
-            hyphen = options.url.indexOf('?') !== -1 ? '&' : '?'; //简单判断，如果url已经存在？，则jsonp的连接符应该为&
-            URL = options.jsonp ? [options.url + keyword, hyphen, options.jsonp, '=?'].join('') : options.url + keyword; //开启jsonp，则修订url，不可以用param传递，？会被编码为%3F
-            $.ajax({
-                type: 'GET',
-                /*data: 'word=' + word,*/
-                url: URL,
-                dataType: 'json',
-                timeout: 3000
-            }).done(function(result) {
+            ajax(options, keyword).done(function(result) {
                 callback($input, result, options); //为 refreshDropMenu
                 $input.trigger('onDataRequestSuccess', result);
                 if (options.getDataMethod === 'firstByUrl') {
-                    options.data = result;
+                    //options.data = result;
                     options.url = null;
                 } else {
                     options.result = options.processData(result);
                 }
-            }).fail(handleError);
+            });
         } else {
             /**没有给出url 参数，则从 data 参数获取或自行构造data帮助内容 **/
             data = options.data;
@@ -447,20 +483,10 @@
                 options.showHeader = true;
             }
             if (options.getDataMethod === 'firstByUrl' && options.url && ! options.delayUntilKeyup) {
-                var hyphen = options.url.indexOf('?') !== -1 ? '&' : '?', //简单判断，如果url已经存在？，则jsonp的连接符应该为&
-                    URL = options.jsonp ? [options.url, hyphen, options.jsonp, '=?'].join('') : options.url; //开启jsonp，则修订url，不可以用param传递，？会被编码为%3F
-
-                $.ajax({
-                    type: 'GET',
-                    url: URL,
-                    dataType: 'json',
-                    timeout: 5000
-                }).done(function(result) {
-                    options.data = result;
+                ajax(options, '').done(function(result) {
+                    //options.data = result;
                     options.url = null;
                     $(self).trigger('onDataRequestSuccess', result);
-                }).fail(function (o, err) {
-                    console.error(URL + ' : ' + err);
                 });
             }
 
@@ -638,12 +664,15 @@
                 });
 
                 //下拉按钮点击时
-                $input.parent().find('button:eq(0)').attr('data-toggle', '').on('click', function(){
+                $input.parent().find('button:eq(0)').attr('data-toggle', '').on('click', function() {
                     var display;
                     if ($dropdownMenu.css('display') === 'none') {
                         display = 'block';
                         if (options.url) {
                             $input.click().focus();
+                            if (! $dropdownMenu.find('tr').length) {
+                                display = 'none';
+                            }
                         } else {
                             refreshDropMenu($input, options.data, options);
                         }
@@ -651,6 +680,7 @@
                         display = 'none';
                     }
                     $dropdownMenu.css('display', display);
+                    return false;
                 });
 
                 //列表中滑动时，输入框失去焦点
@@ -733,7 +763,9 @@
         multiWord: false,               //以分隔符号分割的多关键字支持
         separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
         processData: processData,       //格式化数据的方法，返回数据格式参考 data 参数
-        getData: getData,               //获取数据的方法
+        getData: getData,               //获取数据的方法，无特殊需求一般不作设置
+        fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
+        fnPreprocessKeyword: null,      //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
         autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
         autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
         autoSelect: true,               //键盘向上/下方向键时，是否自动选择值

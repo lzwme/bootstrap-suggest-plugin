@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 		eslint: {
 			options: {
 			},
-			src: ['bootstrap-suggest.js']
+			src: ['src/bootstrap-suggest.js']
 		},
 		//concat 多文件合并任务
 		concat: {
@@ -32,15 +32,15 @@ module.exports = function(grunt) {
 						'Update: <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\r\n' +
 						"*/\r\n"
 				},
-				src: ['bootstrap-suggest.min.js'], //合并哪些文件
-				dest: 'bootstrap-suggest.min.js' //合并后输出
+				src: ['dist/bootstrap-suggest.min.js'], //合并哪些文件
+				dest: 'dist/bootstrap-suggest.min.js' //合并后输出
 			}
 		},
 		//uglify 压缩任务，压缩 js
 		uglify: {
 			js: {
 				files: {
-					'bootstrap-suggest.min.js': ['bootstrap-suggest.js'] //替换保存
+					'dist/bootstrap-suggest.min.js': ['src/bootstrap-suggest.js'] //替换保存
 				}
 			}
 		}
