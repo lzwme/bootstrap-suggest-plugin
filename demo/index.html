@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap 搜索建议插件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件">
+    <meta name="Keywords" content="Bootstrap Search Suggest,bootstrap,搜索建议插件">
+    <meta name="author" content="lizhiwen@meizu.com">
+    <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    h3{
+        margin-top: 1.2rem;
+        border-bottom: 1px #eee solid;
+    }
+    .row{
+        margin-bottom: 10px;
+    }
+    .pd5{
+        padding: 5px;
+    }
+    .pd10{
+        padding: 10px;
+    }
+    .mg5 {
+        margin: 5px;
+    }
+    .mg10 {
+        margin: 10px;
+    }
+    .mb10 {
+        margin-bottom: 10px;
+    }
+    </style>
+</head>
+
+<body>
+	<div class="modal fade" id="modalTest">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Modal title</h4>
+				</div>
+				<div class="modal-body">
+                    <ul>
+                        <li>不显示按钮；<code>showBtn: false</code></li>
+                        <li>向上/下方向键，不自动选中值。<code>autoSelect: false</code></li>
+                    </ul>
+					<div class="input-group">
+                        <input type="text" class="form-control" id="modalTest_input" autocomplete="off">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-primary-outline" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+    <div class="container">
+        <h2>bootstrap combox 搜索建议插件</h2>
+        <p>这是一个基于 bootstrap 按钮式下拉菜单组件 (
+        <a target="_blank" href="http://getbootstrap.com/components/#input-groups-buttons-dropdowns">V3</a> /
+        <a target="_blank" href="http://v4-alpha.getbootstrap.com/components/input-group/#buttons-with-dropdowns">V4</a>
+         ) 的搜索建议插件。</p>
+        <p>使用说明：<a href="../README.html" target="_blank">README.html</a> <a href="https://github.com/lzwme/bootstrap-suggest-plugin" target="_blank">Github</a></p>
+
+        <p>使用示例：<a href="demo.js" target="_blank">demo.js</a></p>
+
+        <form action="index_submit" method="get" accept-charset="utf-8" role="form">
+            <h3>测试(首次从 URL 获取数据)</h3>
+            <p>配置了 data-id，非下拉菜单选择输入则背景色警告。</p>
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="test">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                </div>
+            </div>
+
+            <h3>测试(首次从 URL 获取数据，不显示按钮)</h3>
+            <a class="btn btn-primary" data-toggle="modal" data-target="#modalTest">modal test</a></p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="testNoBtn">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                </div>
+            </div>
+            <p>
+                <br><code>showBtn: false,</code> //不显示下拉按钮
+                <br><code>delayUntilKeyup: true</code> //获取数据方式为 firstByUrl 时，延迟到有输入/获取到焦点时请求
+            </p>
+            <h3>测试(json 数据中获取)</h3>
+            <p>默认启用空关键字检索。</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="test_data">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                测试
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                </div>
+            </div>
+
+            <h3>百度搜索</h3>
+            <p>支持逗号分隔多关键字</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group" style="width: 300px;">
+                        <input type="text" class="form-control" id="baidu">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                </div>
+            </div>
+            <p>
+                <br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+                <br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
+                <br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
+                <br><code>getDataMethod: "url"</code>   //获取数据的方式，总是从 URL 获取
+            </p>
+
+            <h3>百度搜索(预处理关键字)</h3>
+            <p>支持逗号分隔多关键字</p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="sizing-addon2">设置前置关键字</span>
+                        <input type="text" class="form-control" id="preKeyword" value="魅族" placeholder="输入搜索前置关键字"  aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="baiduPreKeyword">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                </div>
+            </div>
+            <p>
+                <br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+                <br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
+                <br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
+                <br><code>getDataMethod: "url",</code>   //获取数据的方式，总是从 URL 获取
+            </p>
+<pre class="bg-info pd10">fnPreprocessKeyword: function(keyword) {
+//请求数据前，对输入关键字作预处理
+    return $.trim($('#preKeyword').val()) + keyword;
+}</pre>
+
+
+            <h3>百度搜索(ajax 请求前回调调整参数)</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="sizing-addon2">预定义关键字</span>
+                        <input type="text" class="form-control" id="customKeyword" value="flyme " placeholder="输入搜索前置关键字"  aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="baiduAdjustAjaxParam" value="5">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                </div>
+            </div>
+            <p>
+                <br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+                <br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
+                <br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
+                <br><code>getDataMethod: "url",</code>   //获取数据的方式，总是从 URL 获取
+            </p>
+<pre class="bg-info pd10">
+fnAdjustAjaxParam: function(keyword, opts) {
+//调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
+    console.log('ajax 请求参数调整：', keyword, opts);
+    return {
+        timeout: 10000,
+        data: {
+            t: (new Date()).getTime(),
+            wd: $('#customKeyword').val() +  keyword
+        }
+    };
+}
+</pre>
+
+            <h3>淘宝搜索</h3>
+            <p>支持逗号分隔多关键字，并展示列表表头。</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group" style="width: 400px;">
+                        <input type="text" class="form-control" id="taobao">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                <br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+                <br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
+                <br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
+                <br><code>getDataMethod: "url",</code>   //获取数据的方式，总是从 URL 获取
+                <br><code>autoDropup: true,</code>       //自动判断向上/下
+                <br><code>showHeader: true,</code>       //显示多个字段的表头
+                <br><code>effectiveFieldsAlias: {Id: "序号", Keyword: "关键字", Count: "数量"}</code> //showHeader 时，header 别名
+            </p>
+        </form>
+    </div>
+    <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/tether/1.2.0/js/tether.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script src="../src/bootstrap-suggest.js"></script>
+    <script src="demo.js"></script>
+</body>
+
+</html>

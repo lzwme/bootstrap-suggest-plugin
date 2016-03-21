@@ -781,7 +781,7 @@ pre {
 </ol>
 
 <div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>input#test<span class="pl-pds">"</span></span>)
-    .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">"</span>dataRequestSuccess<span class="pl-pds">"</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">event</span>, <span class="pl-smi">result</span>) {
+    .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">"</span>dataRequestSuccess<span class="pl-pds">"</span></span>, <span class="pl-k">function</span> (<span class="pl-c1">event</span>, <span class="pl-smi">result</span>) {
         <span class="pl-en">console</span>.<span class="pl-c1">log</span>(result);
     })
     .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>onSetSelectValue<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">e</span>, <span class="pl-smi">keyword</span>) {
@@ -800,35 +800,38 @@ pre {
     url<span class="pl-k">:</span> <span class="pl-c1">null</span>,                      <span class="pl-c">//请求数据的 URL 地址</span>
     jsonp<span class="pl-k">:</span> <span class="pl-c1">null</span>,                    <span class="pl-c">//设置此参数名，将开启jsonp功能，否则使用json数据结构</span>
     data<span class="pl-k">:</span> {},                       <span class="pl-c">//提示所用的数据</span>
-    getDataMethod<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>firstByUrl<span class="pl-pds">"</span></span>,    <span class="pl-c">//获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取</span>
+    getDataMethod<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>firstByUrl<span class="pl-pds">'</span></span>,    <span class="pl-c">//获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取</span>
+    delayUntilKeyup<span class="pl-k">:</span> <span class="pl-c1">false</span>,         <span class="pl-c">//获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据</span>
     indexId<span class="pl-k">:</span> <span class="pl-c1">0</span>,                     <span class="pl-c">//每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值</span>
     indexKey<span class="pl-k">:</span> <span class="pl-c1">0</span>,                    <span class="pl-c">//每组数据的第几个数据，作为input输入框的内容</span>
-    idField<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,                    <span class="pl-c">//每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）</span>
-    keyField<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,                   <span class="pl-c">//每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）</span>
+    idField<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,                    <span class="pl-c">//每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）</span>
+    keyField<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,                   <span class="pl-c">//每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）</span>
     effectiveFields<span class="pl-k">:</span> [],            <span class="pl-c">//有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效</span>
     effectiveFieldsAlias<span class="pl-k">:</span> {},       <span class="pl-c">//有效字段的别名对象，用于 header 的显示</span>
     searchFields<span class="pl-k">:</span> [],               <span class="pl-c">//有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤</span>
-    showHeader<span class="pl-k">:</span> <span class="pl-c1">false</span>,              <span class="pl-c">//是否显示选择列表的 header，默认有效字段大于一列时显示，否则不显示</span>
+    showHeader<span class="pl-k">:</span> <span class="pl-c1">false</span>,              <span class="pl-c">//是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头</span>
     showBtn<span class="pl-k">:</span> <span class="pl-c1">true</span>,                  <span class="pl-c">//是否显示下拉按钮</span>
     allowNoKeyword<span class="pl-k">:</span> <span class="pl-c1">true</span>,           <span class="pl-c">//是否允许无关键字时请求数据</span>
     multiWord<span class="pl-k">:</span> <span class="pl-c1">false</span>,               <span class="pl-c">//以分隔符号分割的多关键字支持</span>
-    separator<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>,<span class="pl-pds">"</span></span>,                 <span class="pl-c">//多关键字支持时的分隔符，默认为半角逗号</span>
+    separator<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>,                 <span class="pl-c">//多关键字支持时的分隔符，默认为半角逗号</span>
     processData<span class="pl-k">:</span> processData,       <span class="pl-c">//格式化数据的方法，返回数据格式参考 data 参数</span>
-    getData<span class="pl-k">:</span> getData,               <span class="pl-c">//获取数据的方法</span>
+    getData<span class="pl-k">:</span> getData,               <span class="pl-c">//获取数据的方法，无特殊需求一般不作设置</span>
+    fnAdjustAjaxParam<span class="pl-k">:</span> <span class="pl-c1">null</span>,        <span class="pl-c">//调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等</span>
+    fnPreprocessKeyword<span class="pl-k">:</span> <span class="pl-c1">null</span>,      <span class="pl-c">//搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串</span>
     autoMinWidth<span class="pl-k">:</span> <span class="pl-c1">false</span>,            <span class="pl-c">//是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度</span>
     autoDropup<span class="pl-k">:</span> <span class="pl-c1">false</span>,              <span class="pl-c">//选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出</span>
     autoSelect<span class="pl-k">:</span> <span class="pl-c1">true</span>,               <span class="pl-c">//键盘向上/下方向键时，是否自动选择值</span>
-    listAlign<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>left<span class="pl-pds">"</span></span>,              <span class="pl-c">//提示列表对齐位置，left/right/auto</span>
+    listAlign<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>left<span class="pl-pds">'</span></span>,              <span class="pl-c">//提示列表对齐位置，left/right/auto</span>
     inputBgColor<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,               <span class="pl-c">//输入框背景色，当与容器背景色不同时，可能需要该项的配置</span>
-    inputWarnColor<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>rgba(255,0,0,.1)<span class="pl-pds">"</span></span>, <span class="pl-c">//输入框内容不是下拉列表选择时的警告色</span>
+    inputWarnColor<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>rgba(255,0,0,.1)<span class="pl-pds">'</span></span>, <span class="pl-c">//输入框内容不是下拉列表选择时的警告色</span>
     listStyle<span class="pl-k">:</span> {
-        <span class="pl-s"><span class="pl-pds">"</span>padding-top<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-c1">0</span>, <span class="pl-s"><span class="pl-pds">"</span>max-height<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>375px<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>max-width<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>800px<span class="pl-pds">"</span></span>,
-        <span class="pl-s"><span class="pl-pds">"</span>overflow<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>auto<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>width<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>auto<span class="pl-pds">"</span></span>,
-        <span class="pl-s"><span class="pl-pds">"</span>transition<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>0.3s<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>-webkit-transition<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>0.3s<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>-moz-transition<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>0.3s<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>-o-transition<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>0.3s<span class="pl-pds">"</span></span>
+        <span class="pl-s"><span class="pl-pds">'</span>padding-top<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">0</span>, <span class="pl-s"><span class="pl-pds">'</span>max-height<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>375px<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>max-width<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>800px<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>overflow<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>auto<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>width<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>auto<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>transition<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>0.3s<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>-webkit-transition<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>0.3s<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>-moz-transition<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>0.3s<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>-o-transition<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>0.3s<span class="pl-pds">'</span></span>
     },                              <span class="pl-c">//列表的样式控制</span>
     listHoverStyle<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>background: #07d; color:#fff<span class="pl-pds">'</span></span>, <span class="pl-c">//提示框列表鼠标悬浮的样式</span>
-    listHoverCSS<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>jhover<span class="pl-pds">"</span></span>,         <span class="pl-c">//提示框列表鼠标悬浮的样式名称</span>
-    keyLeft<span class="pl-k">:</span> <span class="pl-c1">37</span>,                    <span class="pl-c">//向左方向键</span>
+    listHoverCSS<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>jhover<span class="pl-pds">'</span></span>,         <span class="pl-c">//提示框列表鼠标悬浮的样式名称</span>
+    keyLeft<span class="pl-k">:</span> <span class="pl-c1">37</span>,                    <span class="pl-c">//向左方向键，不同的操作系统可能会有差别，则自行定义</span>
     keyUp<span class="pl-k">:</span> <span class="pl-c1">38</span>,                      <span class="pl-c">//向上方向键</span>
     keyRight<span class="pl-k">:</span> <span class="pl-c1">39</span>,                   <span class="pl-c">//向右方向键</span>
     keyDown<span class="pl-k">:</span> <span class="pl-c1">40</span>,                    <span class="pl-c">//向下方向键</span>
