@@ -25,7 +25,7 @@ Bootstrap Search Suggest [![Built with Grunt](https://cdn.gruntjs.com/builtwith.
       url: "/rest/sys/getuserlist?keyword="
     });
 ```
-具体使用请参考参数配置说明及demo 示例页面源码([Demo](http://lzw.me/pages/demo/bootstrap-suggest-plugin))
+具体使用请参考参数配置说明及demo 示例页面源码([Demo](http://lzw.me/pages/demo/bootstrap-suggest-plugin/demo))
 
 ####方法调用
 1. 禁用提示： `$("input#test").bsSuggest("disable");`
