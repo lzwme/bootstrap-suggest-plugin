@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-suggest-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。",
   "repository": {
     "type": "git",
@@ -26,13 +26,13 @@
     "build": "grunt production"
   },
   "devDependencies": {
-    "babel-eslint": "^5.0.0",
-    "grunt": "~0.4.1",
+    "babel-eslint": ">5.0.0",
+    "grunt": ">0.4.1",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-copy": "~0.7.0",
     "grunt-contrib-eslint": "0.0.5",
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-watch": "~0.5.3",
-    "gruntify-eslint": "^2.0.0"
+    "gruntify-eslint": ">2.0.0"
   }
 }

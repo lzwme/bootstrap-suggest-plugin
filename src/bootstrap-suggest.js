@@ -180,7 +180,7 @@
     function adjustScroll($input, $dropdownMenu, options) {
         //控制滑动条
         var $hover = $input.parent().find('tbody tr.' + options.listHoverCSS), pos, maxHeight;
-        if ($hover.length > 0) {
+        if ($hover.length) {
             pos = ($hover.index() + 3) * $hover.height();
             maxHeight = Number($dropdownMenu.css('max-height').replace('px', ''));
 
@@ -208,7 +208,7 @@
             data = $input.data('bsSuggest');
 
         //过滤非 bootstrap 下拉式菜单对象
-        if ($dropdownMenu.length === 0) {
+        if (! $dropdownMenu.length) {
             return false;
         }
 
@@ -237,7 +237,7 @@
             handleError('返回数据格式错误!');
             return false;
         }
-        if (data.value.length === 0) {
+        if (! data.value.length) {
             //handleError('返回数据为空!');
             return false;
         }
@@ -281,7 +281,7 @@
         idValue, keyValue; //作为输入框 data-id 和内容的字段值
 
         data = options.processData(data);
-        if (data === false || (len = data.value.length) === 0) {
+        if (data === false || ! (len = data.value.length)) {
             $dropdownMenu.empty().hide();
             return $input;
         }
@@ -491,7 +491,9 @@
             }
 
             //鼠标滑动到条目样式
-            $('head:eq(0)').append('<style>.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
+            if (! $('#bsSuggest').length) {
+                $('head:eq(0)').append('<style id="bsSuggest">.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
+            }
 
             return self.each(function(){
                 var $input = $(this),
@@ -533,10 +535,10 @@
                         tipsKeyword = '';//提示列表上被选中的关键字
 
                         if (event.keyCode === options.keyDown) { //如果按的是向下方向键
-                            if (currentList.length === 0) {
+                            if (! currentList.length) {
                                 //如果提示列表没有一个被选中,则将列表第一个选中
                                 tipsKeyword = getPointKeyword($dropdownMenu.find('table tbody tr:first').mouseover());
-                            } else if (currentList.next().length === 0) {
+                            } else if (! currentList.next().length) {
                                 //如果是最后一个被选中,则取消选中,即可认为是输入框被选中，并恢复输入的值
                                 unHoverAll($dropdownMenu, options);
 
@@ -545,10 +547,8 @@
                                 }
                             } else {
                                 unHoverAll($dropdownMenu, options);
-                                //将原先选中列的下一列选中
-                                if (currentList.next().length !== 0) {
-                                    tipsKeyword = getPointKeyword(currentList.next().mouseover());
-                                }
+                                //选中下一行
+                                tipsKeyword = getPointKeyword(currentList.next().mouseover());
                             }
                             //控制滑动条
                             adjustScroll($input, $dropdownMenu, options);
@@ -557,9 +557,9 @@
                                 return;
                             }
                         } else if (event.keyCode === options.keyUp) { //如果按的是向上方向键
-                            if (currentList.length === 0) {
+                            if (! currentList.length) {
                                 tipsKeyword = getPointKeyword($dropdownMenu.find('table tbody tr:last').mouseover());
-                            } else if (currentList.prev().length === 0) {
+                            } else if (! currentList.prev().length) {
                                 unHoverAll($dropdownMenu, options);
 
                                 if (options.autoSelect) {
@@ -567,9 +567,8 @@
                                 }
                             } else {
                                 unHoverAll($dropdownMenu, options);
-                                if (currentList.prev().length !== 0) {
-                                    tipsKeyword = getPointKeyword(currentList.prev().mouseover());
-                                }
+                                //选中前一行
+                                tipsKeyword = getPointKeyword(currentList.prev().mouseover());
                             }
 
                             //控制滑动条
@@ -620,7 +619,7 @@
                         word = words[words.length-1];
                     }
                     //是否允许空数据查询
-                    if (word.length === 0 && !options.allowNoKeyword) {
+                    if (! word.length && !options.allowNoKeyword) {
                         return;
                     }
 
@@ -655,7 +654,7 @@
                     }
 
                     //是否允许空数据查询
-                    if (word.length === 0 && !options.allowNoKeyword) {
+                    if (! word.length && !options.allowNoKeyword) {
                         return;
                     }
 
