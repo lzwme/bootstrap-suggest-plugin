@@ -24,6 +24,7 @@
         /*effectiveFields: ["userName", "shortAccount"],
         searchFields: [ "shortAccount"],
         effectiveFieldsAlias:{userName: "姓名"},*/
+        showHeader: true,
         showBtn: false,     //不显示下拉按钮
         delayUntilKeyup: true, //获取数据的方式为 firstByUrl 时，延迟到有输入/获取到焦点时才请求数据
         idField: "userId",

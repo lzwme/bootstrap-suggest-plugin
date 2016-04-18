@@ -4,7 +4,7 @@
  * Author: renxia <lzwy0820#qq.com>
  * Github: https://github.com/lzwme/bootstrap-suggest-plugin
  * Date  : 2014-10-09
- * Update: 2016-03-21
+ * Update: 2016-04-18
  *===============================================================================
  * 一、功能说明：
  * 1. 搜索方式：从 data.value 的所有字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
@@ -486,7 +486,7 @@
                 ajax(options, '').done(function(result) {
                     //options.data = result;
                     options.url = null;
-                    $(self).trigger('onDataRequestSuccess', result);
+                    self.trigger('onDataRequestSuccess', result);
                 });
             }
 
@@ -706,37 +706,38 @@
                 });
             });
         },
-        show: function(){
+        show: function() {
             var data = this.data('bsSuggest');
             if (data && data.options) {
-                this.parent().find('ul.dropdown-menu').show();
+                this.click();
+                //this.parent().find('ul.dropdown-menu').show();
             }
             return this;
         },
-        hide: function(){
+        hide: function() {
             var data = this.data('bsSuggest');
             if (data && data.options) {
                 this.parent().find('ul.dropdown-menu').css('display','');
             }
             return this;
         },
-        disable: function () {
-            if(! $(this).data('bsSuggest')) {
+        disable: function() {
+            if(! this.data('bsSuggest')) {
                 return false;
             }
-            $(this).attr('disabled', true).parent().find('.input-group-btn>.btn').addClass('disabled');
+            this.attr('disabled', true).parent().find('.input-group-btn>.btn').addClass('disabled');
         },
-        enable: function () {
-            if(! $(this).data('bsSuggest')) {
+        enable: function() {
+            if(! this.data('bsSuggest')) {
                 return false;
             }
-            $(this).attr('disabled', false).parent().find('.input-group-btn>.btn').removeClass('disabled');
+            this.attr('disabled', false).parent().find('.input-group-btn>.btn').removeClass('disabled');
         },
-        destroy: function(){
-            $(this).off().removeData('bsSuggest').parent().find('.input-group-btn>.btn').off();//.addClass('disabled');
+        destroy: function() {
+            this.off().removeData('bsSuggest').parent().find('.input-group-btn>.btn').off();//.addClass('disabled');
         },
         version: function() {
-            return '0.0.1';
+            return '0.1.2';
         }
     };
     /**
@@ -789,7 +790,7 @@
         //方法判断
         if (typeof options === 'string' && methods[options] ) {
             //如果是方法，则参数第一个为函数名，从第二个开始为函数参数
-            return methods[options].apply( this, [].prototype.slice.call( arguments, 1 ));
+            return methods[options].apply(this, [].slice.call(arguments, 1));
         }else if(typeof options === 'object' || !options) {
             options = $.extend(true, {}, defaultOptions, options);
             //调用初始化方法
