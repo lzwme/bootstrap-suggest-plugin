@@ -9,30 +9,30 @@
     <meta name="description" content="这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件">
     <meta name="Keywords" content="Bootstrap Search Suggest,bootstrap,搜索建议插件">
     <meta name="author" content="http://lzw.me">
-    <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
+    <link id="bscss" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <style>
-    h3{
-        margin-top: 1.2rem;
-        border-bottom: 1px #eee solid;
-    }
-    .row{
-        margin-bottom: 10px;
-    }
-    .pd5{
-        padding: 5px;
-    }
-    .pd10{
-        padding: 10px;
-    }
-    .mg5 {
-        margin: 5px;
-    }
-    .mg10 {
-        margin: 10px;
-    }
-    .mb10 {
-        margin-bottom: 10px;
-    }
+        h3{
+            margin-top: 1.2rem;
+            border-bottom: 1px #eee solid;
+        }
+        .row{
+            margin-bottom: 10px;
+        }
+        .pd5{
+            padding: 5px;
+        }
+        .pd10{
+            padding: 10px;
+        }
+        .mg5 {
+            margin: 5px;
+        }
+        .mg10 {
+            margin: 10px;
+        }
+        .mb10 {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -79,10 +79,26 @@
         <p>使用说明：<a href="../README.html" target="_blank">README.html</a> <a href="https://github.com/lzwme/bootstrap-suggest-plugin" target="_blank">Github</a></p>
 
         <p>使用示例：<a href="demo.js" target="_blank">demo.js</a></p>
+        <p id="bsVersion">
+            <button class="btn btn-success btn-success-outline" data-version="3.3.6">bootstrap 3.3.6</button>
+            <button class="btn btn-success btn-success-outline" data-version="4.0.0-alpha.2">bootstrap v4</button>
+        </p>
+
 
         <form action="index_submit" method="get" accept-charset="utf-8" role="form">
             <h3>测试(首次从 URL 获取数据)</h3>
             <p>配置了 data-id，非下拉菜单选择输入则背景色警告。</p>
+
+            <p id="methodTest">
+                <button class="btn btn-success btn-success-outline">disable</button>
+                <button class="btn btn-success btn-success-outline">enable</button>
+                <button class="btn btn-success btn-success-outline">show</button>
+                <button class="btn btn-success btn-success-outline">hide</button>
+                <button class="btn btn-success btn-success-outline">version</button>
+                <button class="btn btn-success btn-success-outline">destroy</button>
+                <button class="btn btn-success btn-success-outline">init</button>
+            </p>
+
             <div class="row">
                 <div class="col-lg-2">
                     <div class="input-group">
@@ -280,9 +296,9 @@ fnAdjustAjaxParam: function(keyword, opts) {
     </div>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/tether/1.2.0/js/tether.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script id="bsjs" src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="../src/bootstrap-suggest.js"></script>
-    <script src="demo.js"></script>
+    <script src="demo.js?ver=20160422"></script>
 </body>
 
 </html>

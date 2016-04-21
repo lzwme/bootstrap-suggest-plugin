@@ -4,7 +4,7 @@
  * Author: renxia <lzwy0820#qq.com>
  * Github: https://github.com/lzwme/bootstrap-suggest-plugin
  * Date  : 2014-10-09
- * Update: 2016-04-21
+ * Update: 2016-04-22
  *===============================================================================
  * 一、功能说明：
  * 1. 搜索方式：从 data.value 的所有字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中
@@ -36,7 +36,6 @@
 (function ($) {
     //用于对 IE 的兼容判断
     var isIe = !!window.ActiveXObject || 'ActiveXObject' in window;
-
     /**
      * 错误处理
      */
@@ -202,9 +201,8 @@
     *   1. 必须为 bootstrap 下拉式菜单
     *   2. 必须未初始化过
     */
-    function checkInput(target, options) {
-        var $input = $(target),
-            $dropdownMenu = $input.parent('.input-group').find('ul.dropdown-menu'),
+    function checkInput($input, options) {
+        var $dropdownMenu = $input.parent('.input-group').find('ul.dropdown-menu'),
             data = $input.data('bsSuggest');
 
         //过滤非 bootstrap 下拉式菜单对象
@@ -217,7 +215,7 @@
             return false;
         }
 
-        $input.data('bsSuggest',{target: target, options: options});
+        $input.data('bsSuggest',{options: options});
         return true;
     }
     /**
@@ -484,11 +482,67 @@
     function processData(data) {
         return checkData(data);
     }
+    /**
+     * 默认的配置选项
+     * @type {Object}
+     */
+    var defaultOptions = {
+        url: null,                      //请求数据的 URL 地址
+        jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
+        data: {value: []},              //提示所用的数据，注意格式
+        indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
+        indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
+        idField: '',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
+        keyField: '',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
+
+        /* 搜索相关 */
+        autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
+        allowNoKeyword: true,           //是否允许无关键字时请求数据
+        getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+        delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+        ignorecase: false,              //前端搜索匹配时，是否忽略大小写
+        effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
+        effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
+        searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
+
+        multiWord: false,               //以分隔符号分割的多关键字支持
+        separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
+
+        /* UI */
+        autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
+        autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+        showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
+        showBtn: true,                  //是否显示下拉按钮
+        inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
+        inputWarnColor: 'rgba(255,0,0,.1)', //输入框内容不是下拉列表选择时的警告色
+        listStyle: {
+            'padding-top': 0, 'max-height': '375px', 'max-width': '800px',
+            'overflow': 'auto', 'width': 'auto',
+            'transition': '0.3s', '-webkit-transition': '0.3s', '-moz-transition': '0.3s', '-o-transition': '0.3s'
+        },                              //列表的样式控制
+        listAlign: 'left',              //提示列表对齐位置，left/right/auto
+        listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
+        listHoverCSS: 'jhover',         //提示框列表鼠标悬浮的样式名称
+
+        /* key */
+        keyLeft: 37,                    //向左方向键，不同的操作系统可能会有差别，则自行定义
+        keyUp: 38,                      //向上方向键
+        keyRight: 39,                   //向右方向键
+        keyDown: 40,                    //向下方向键
+        keyEnter: 13,                   //回车键
+
+        /* methods */
+        fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
+        fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
+        fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
+        fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
+    };
 
     var methods = {
         init: function(options) {
             //参数设置
             var self = this;
+            options = $.extend(true, {}, defaultOptions, options);
 
             //旧的方法兼容
             if (options.processData) {
@@ -503,10 +557,10 @@
                 options.showHeader = true;
             }
             if (options.getDataMethod === 'firstByUrl' && options.url && ! options.delayUntilKeyup) {
-                ajax(options, '').done(function(result) {
+                ajax(options).done(function(result) {
                     //options.data = result;
                     options.url = null;
-                    self.trigger('onDataRequestSuccess', result);
+                    self.off('onDataRequestSuccess').trigger('onDataRequestSuccess', result);
                 });
             }
 
@@ -522,8 +576,8 @@
                     $dropdownMenu = $input.parents('.input-group:eq(0)').find('ul.dropdown-menu');
 
                 //验证输入框对象是否符合条件
-                if(checkInput(this, options) === false){
-                    console.warn('不是一个标准的 bootstrap 下拉式菜单或已初始化:', this);
+                if(checkInput($input, options) === false) {
+                    console.warn('不是一个标准的 bootstrap 下拉式菜单或已初始化:', $input);
                     return;
                 }
 
@@ -531,7 +585,7 @@
                 if (! options.showBtn) {
                     $input.css('border-radius', '4px')
                         .parents('.input-group:eq(0)').css('width', '100%')
-                        .find('.input-group-btn>.btn').hide();
+                        .find('.btn:eq(0)').hide();
                 }
 
                 //移除 disabled 类，并禁用自动完成
@@ -689,8 +743,16 @@
                 });
 
                 //下拉按钮点击时
-                $input.parent().find('button:eq(0)').attr('data-toggle', '').on('click', function() {
-                    var display;
+                $input.parent().find('.btn:eq(0)').attr('data-toggle', '').on('click', function() {
+                    var type = 'show';
+                    if ($dropdownMenu.is(':visible')) {
+                        type = 'hide';
+                    }
+                    $input.bsSuggest(type);
+
+                    return false;
+
+                    /*var display;
                     if ($dropdownMenu.css('display') === 'none') {
                         display = 'block';
                         if (options.url) {
@@ -705,7 +767,7 @@
                         display = 'none';
                     }
                     $dropdownMenu.css('display', display);
-                    return false;
+                    return false;*/
                 });
 
                 //列表中滑动时，输入框失去焦点
@@ -733,102 +795,56 @@
             });
         },
         show: function() {
-            var data = this.data('bsSuggest');
-            if (data && data.options) {
-                this.click();
-                //this.parent().find('ul.dropdown-menu').show();
-            }
-            return this;
+            return this.each(function() {
+                $(this).click();
+            });
         },
         hide: function() {
-            var data = this.data('bsSuggest');
-            if (data && data.options) {
-                this.parent().find('ul.dropdown-menu').css('display','');
-            }
-            return this;
+             return this.each(function() {
+                $(this).parent().find('ul.dropdown-menu').css('display','');
+            });
         },
         disable: function() {
-            if(! this.data('bsSuggest')) {
-                return false;
-            }
-            this.attr('disabled', true).parent().find('.input-group-btn>.btn').addClass('disabled');
+             return this.each(function() {
+                $(this).attr('disabled', true)
+                    .parent().find('.btn:eq(0)').addClass('disabled');
+            });
         },
         enable: function() {
-            if(! this.data('bsSuggest')) {
-                return false;
-            }
-            this.attr('disabled', false).parent().find('.input-group-btn>.btn').removeClass('disabled');
+            return this.each(function() {
+                $(this).attr('disabled', false)
+                    .parent().find('.btn:eq(0)').removeClass('disabled');
+            });
         },
         destroy: function() {
-            this.off().removeData('bsSuggest').parent().find('.input-group-btn>.btn').off();//.addClass('disabled');
+            return this.each(function() {
+                $(this).off().removeData('bsSuggest')
+                    .parent().find('.btn:eq(0)').off().attr('data-toggle', 'dropdown') //.addClass('disabled');
+                    .next().css('display', '').off();
+            });
         },
         version: function() {
-            return '0.1.4';
+            return '0.1.5';
         }
-    };
-    /**
-     * 默认的配置选项
-     * @type {Object}
-     */
-    var defaultOptions = {
-        url: null,                      //请求数据的 URL 地址
-        jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-        data: {},                       //提示所用的数据
-        indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
-        indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
-        idField: '',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-        keyField: '',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
-
-        /* 搜索相关 */
-        autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-        allowNoKeyword: true,           //是否允许无关键字时请求数据
-        getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-        delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-        ignorecase: false,              //前端搜索匹配时，是否忽略大小写
-        effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
-        effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-        searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
-
-        multiWord: false,               //以分隔符号分割的多关键字支持
-        separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
-
-        /* UI */
-        autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
-        autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
-        showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
-        showBtn: true,                  //是否显示下拉按钮
-        inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
-        inputWarnColor: 'rgba(255,0,0,.1)', //输入框内容不是下拉列表选择时的警告色
-        listStyle: {
-            'padding-top': 0, 'max-height': '375px', 'max-width': '800px',
-            'overflow': 'auto', 'width': 'auto',
-            'transition': '0.3s', '-webkit-transition': '0.3s', '-moz-transition': '0.3s', '-o-transition': '0.3s'
-        },                              //列表的样式控制
-        listAlign: 'left',              //提示列表对齐位置，left/right/auto
-        listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
-        listHoverCSS: 'jhover',         //提示框列表鼠标悬浮的样式名称
-
-        /* key */
-        keyLeft: 37,                    //向左方向键，不同的操作系统可能会有差别，则自行定义
-        keyUp: 38,                      //向上方向键
-        keyRight: 39,                   //向右方向键
-        keyDown: 40,                    //向下方向键
-        keyEnter: 13,                   //回车键
-
-        /* methods */
-        fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
-        fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
-        fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
-        fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
     };
     /* 搜索建议插件 */
     $.fn.bsSuggest = function(options) {
         //方法判断
         if (typeof options === 'string' && methods[options] ) {
+            var inited = true;
+            this.each(function() {
+                if (! $(this).data('bsSuggest')) {
+                    return inited = false;
+                }
+            });
+            //只要有一个未初始化，则全部都不执行方法，除非是 init 或 version
+            if(! inited && 'init' !== options && 'version' !== options) {
+                return false;
+            }
+
             //如果是方法，则参数第一个为函数名，从第二个开始为函数参数
             return methods[options].apply(this, [].slice.call(arguments, 1));
-        }else if(typeof options === 'object' || !options) {
-            options = $.extend(true, {}, defaultOptions, options);
+        } else if(typeof options === 'object' || !options) {
             //调用初始化方法
             return methods.init.apply(this, arguments);
         }

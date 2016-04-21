@@ -1,19 +1,45 @@
 (function() {
-    $("#test").bsSuggest({
-        //url: "/rest/sys/getuserlist?keyword=",
-        url: "data.json",
-        /*effectiveFields: ["userName", "shortAccount"],
-        searchFields: [ "shortAccount"],
-        effectiveFieldsAlias:{userName: "姓名"},*/
-        idField: "userId",
-        keyField: "userName"
-    }).on('onDataRequestSuccess', function (e, result) {
-        console.log('onDataRequestSuccess: ', result);
-    }).on('onSetSelectValue', function (e, keyword, data) {
-        console.log('onSetSelectValue: ', keyword, data);
-    }).on('onUnsetSelectValue', function () {
-        console.log("onUnsetSelectValue");
+    /**
+     * 测试(首次从 URL 获取数据)
+     * @return {[type]} [description]
+     */
+    function initTest() {
+        $("#test").bsSuggest('init', {
+            /*url: "/rest/sys/getuserlist?keyword=",
+            effectiveFields: ["userName", "email"],
+            searchFields: [ "shortAccount"],
+            effectiveFieldsAlias:{userName: "姓名"},*/
+            url: "data.json",
+            idField: "userId",
+            keyField: "userName"
+        }).on('onDataRequestSuccess', function (e, result) {
+            console.log('onDataRequestSuccess: ', result);
+        }).on('onSetSelectValue', function (e, keyword, data) {
+            console.log('onSetSelectValue: ', keyword, data);
+        }).on('onUnsetSelectValue', function () {
+            console.log('onUnsetSelectValue');
+        });
+    }
+    //按钮方法事件监听
+    $('#methodTest button').on('click', function() {
+        var method = $(this).text();
+        var $i;
+
+        if (method === 'init') {
+            initTest();
+        } else {
+            $i = $('#test').bsSuggest(method);
+            console.log($i);
+            if (!$i) {
+                alert('未初始化或已销毁');
+            }
+        }
+
+        if (method === 'version') {
+            alert($i);
+        }
     });
+    initTest();
 
     /**
      * 测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写)
@@ -242,7 +268,15 @@
         console.log("onUnsetSelectValue");
     });
 
+    //禁用表单提交
     $("form").submit(function() {
         return false;
     });
+
+    //版本切换
+    $('#bsVersion button').on('click', function() {
+        var ver = $(this).data('version');
+        $('#bscss').attr('href', '//cdn.bootcss.com/bootstrap/' + ver + '/css/bootstrap.min.css');
+        $('#bsjs').attr('src', '//cdn.bootcss.com/bootstrap/' + ver + '/js/bootstrap.min.js');
+    })
 }());
