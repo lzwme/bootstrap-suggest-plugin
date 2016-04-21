@@ -71,7 +71,7 @@ var defaultOptions = {
     ignorecase: false,              //前端搜索匹配时，是否忽略大小写
     effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
     effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-    searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
+    searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
 
     multiWord: false,               //以分隔符号分割的多关键字支持
     separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
@@ -103,7 +103,7 @@ var defaultOptions = {
     fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
     fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
     fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
-    fnPreprocessKeyword: null,      //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
+    fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
 }
 ```
 

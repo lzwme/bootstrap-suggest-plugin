@@ -249,26 +249,17 @@
      * 判断字段名是否在 effectiveFields 配置项中
      * effectiveFields 为空时始终返回 TRUE
      */
-    function inEffectiveFields(filed, options) {
-        if(
-            filed === '__index' ||
+    function inEffectiveFields(field, options) {
+        return ! (field === '__index' ||
             $.isArray(options.effectiveFields) &&
             options.effectiveFields.length > 0 &&
-            $.inArray(filed, options.effectiveFields) === -1
-        ) {
-            return false;
-        }
-
-        return true;
+            $.inArray(field, options.effectiveFields) === -1);
     }
     /**
      * 判断字段名是否在 searchFields 搜索字段配置中
      */
-    function inSearchFields(filed, options) {
-        if ($.inArray(filed, options.searchFields) !== -1) {
-            return true;
-        }
-        return false;
+    function inSearchFields(field, options) {
+        return ~ $.inArray(field, options.searchFields);
     }
     /**
      * 下拉列表刷新
@@ -428,14 +419,14 @@
         }
 
         return value &&
-            (inSearchFields(key, options) || inEffectiveFields(key, options)) &&
+            (inEffectiveFields(key, options) || inSearchFields(key, options)) &&
             (value.indexOf(keyword) !== -1 || keyword.indexOf(value) !== -1);
     }
     /**
      * 通过 ajax 或 json 参数获取数据
      */
     function getData(keyword, $input, callback, options) {
-        var data, validData, filterData = {value:[]}, i, obj, len;
+        var data, validData, filterData = {value:[]}, i, key, len;
 
         keyword = keyword || '';
         //获取数据前对关键字预处理方法
@@ -457,7 +448,7 @@
                 }
             });
         } else {
-            /**没有给出url 参数，则从 data 参数获取或自行构造data帮助内容 **/
+            /**没有给出url 参数，则从 data 参数获取 **/
             data = options.data;
             validData = checkData(data);
             //本地的 data 数据，则在本地过滤
@@ -468,9 +459,10 @@
                     //输入不为空时则进行匹配
                     len = data.value.length;
                     for (i = 0; i < len; i++) {
-                        for (obj in data.value[i]) {
+                        for (key in data.value[i]) {
                             if (
-                                isInWord(keyword, obj, data.value[i][obj], options)
+                                data.value[i][key] &&
+                                isInWord(keyword, key, data.value[i][key] + '', options)
                             ){
                                 filterData.value.push(data.value[i]);
                                 filterData.value[filterData.value.length -1].__index = i;
@@ -523,9 +515,10 @@
                 $('head:eq(0)').append('<style id="bsSuggest">.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
             }
 
-            return self.each(function(){
+            return self.each(function() {
                 var $input = $(this),
                     mouseenterDropdownMenu,
+                    keyupTimer, //keyup 与 input 事件延时定时器
                     $dropdownMenu = $input.parents('.input-group:eq(0)').find('ul.dropdown-menu');
 
                 //验证输入框对象是否符合条件
@@ -556,7 +549,7 @@
                     var currentList, tipsKeyword = '';//提示列表上被选中的关键字
                     //console.log('input keydown');
 
-                    //$(this).attr('data-id', '');
+                    //$input.attr('data-id', '');
 
                     if ($dropdownMenu.css('display') !== 'none') { //当提示层显示时才对键盘事件处理
                         currentList = $dropdownMenu.find('.' + options.listHoverCSS);
@@ -571,7 +564,7 @@
                                 unHoverAll($dropdownMenu, options);
 
                                 if (options.autoSelect) {
-                                    $(this).val($(this).attr('alt')).attr('data-id', '');
+                                    $input.val($input.attr('alt')).attr('data-id', '');
                                 }
                             } else {
                                 unHoverAll($dropdownMenu, options);
@@ -591,7 +584,7 @@
                                 unHoverAll($dropdownMenu, options);
 
                                 if (options.autoSelect) {
-                                    $(this).val($(this).attr('alt')).attr('data-id', '');
+                                    $input.val($input.attr('alt')).attr('data-id', '');
                                 }
                             } else {
                                 unHoverAll($dropdownMenu, options);
@@ -609,49 +602,54 @@
                             tipsKeyword = getPointKeyword(currentList);
                             $dropdownMenu.hide().empty();
                         } else {
-                            $(this).attr('data-id', '');
+                            $input.attr('data-id', '');
                         }
 
                         //设置值 tipsKeyword
                         //console.log(tipsKeyword);
                         if (tipsKeyword && tipsKeyword.key !== ''){
-                            setValue($(this), tipsKeyword, options);
+                            setValue($input, tipsKeyword, options);
                         }
                     }
-                }).on('keyup', function (event) {
+                }).on('keyup input', function (event) {
                     var word, words;
-                    //console.log('input keyup');
 
                     //如果弹起的键是回车、向上或向下方向键则返回
                     if (event.keyCode === options.keyDown || event.keyCode === options.keyUp || event.keyCode === options.keyEnter) {
-                        $(this).val($(this).val());//让鼠标输入跳到最后
+                        $input.val($input.val());//让鼠标输入跳到最后
                         setBackground($input, options);
                         return;
-                    } else {
-                        //$(this).attr('data-id', '');
+                    } else if (event.keyCode) {
+                        //$input.attr('data-id', '');
                         setBackground($input, options);
                     }
 
-                    word = $(this).val();
+                    clearTimeout(keyupTimer);
+                    keyupTimer = setTimeout(function() {
+                        //console.log('input keyup', event);
 
-                    //若输入框值没有改变或变为空则返回
-                    if ($.trim(word) !== '' && word === $(this).attr('alt')) {
-                        return;
-                    }
+                        word = $input.val();
 
-                    //当按下键之前记录输入框值,以方便查看键弹起时值有没有变
-                    $(this).attr('alt', $(this).val());
+                        //若输入框值没有改变或变为空则返回
+                        if ($.trim(word) !== '' && word === $input.attr('alt')) {
+                            return;
+                        }
 
-                    if (options.multiWord) {
-                        words = word.split( options.separator || ' ');
-                        word = words[words.length-1];
-                    }
-                    //是否允许空数据查询
-                    if (! word.length && !options.allowNoKeyword) {
-                        return;
-                    }
+                        //当按下键之前记录输入框值,以方便查看键弹起时值有没有变
+                        $input.attr('alt', $input.val());
 
-                    options.fnGetData($.trim(word), $input, refreshDropMenu, options);
+                        if (options.multiWord) {
+                            words = word.split( options.separator || ' ');
+                            word = words[words.length-1];
+                        }
+                        //是否允许空数据查询
+                        if (! word.length && !options.allowNoKeyword) {
+                            return;
+                        }
+
+                        options.fnGetData($.trim(word), $input, refreshDropMenu, options);
+
+                    }, 300);
                 }).on('focus', function () {
                     //console.log('input focus');
                     adjustDropMenuPos($input, $dropdownMenu, options);
@@ -662,11 +660,11 @@
                     }
                 }).on('click', function () {
                     //console.log('input click');
-                    var word = $(this).val(), words;
+                    var word = $input.val(), words;
 
                     if(
                         $.trim(word) !== '' &&
-                        word === $(this).attr('alt') &&
+                        word === $input.attr('alt') &&
                         $dropdownMenu.find('table tr').length
                     ) {
                         return $dropdownMenu.show();
@@ -765,7 +763,7 @@
             this.off().removeData('bsSuggest').parent().find('.input-group-btn>.btn').off();//.addClass('disabled');
         },
         version: function() {
-            return '0.1.3';
+            return '0.1.4';
         }
     };
     /**
@@ -789,7 +787,7 @@
         ignorecase: false,              //前端搜索匹配时，是否忽略大小写
         effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
         effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-        searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
+        searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
 
         multiWord: false,               //以分隔符号分割的多关键字支持
         separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
@@ -821,7 +819,7 @@
         fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
         fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
         fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
-        fnPreprocessKeyword: null,      //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
+        fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
     };
     /* 搜索建议插件 */
     $.fn.bsSuggest = function(options) {
