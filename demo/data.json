@@ -10,8 +10,16 @@
 			"shortAccount": "orion-01",
 			"userId": 20000
 		}, {
+			"userName": "唐宏禹14",
+			"shortAccount": "TANGHONGYU",
+			"userId": 20011
+		}, {
+			"userName": "唐宏禹13",
+			"shortAccount": "tanghongyu",
+			"userId": 20011
+		}, {
 			"userName": "穆晓晨",
-			"shortAccount": "muxiaochen",
+			"shortAccount": "mUXIAOCHEN",
 			"userId": 20002
 		}, {
 			"userName": "张欢引",
@@ -39,7 +47,7 @@
 			"userId": 20008
 		}, {
 			"userName": "陈媛媛",
-			"shortAccount": "chenyuanyuan",
+			"shortAccount": "CHENYUANYUAN",
 			"userId": 20009
 		}, {
 			"userName": "李大鹏",
@@ -55,15 +63,7 @@
 			"userId": 20010
 		}, {
 			"userName": "唐宏禹15",
-			"shortAccount": "tanghongyu",
-			"userId": 20011
-		}, {
-			"userName": "唐宏禹14",
-			"shortAccount": "tanghongyu",
-			"userId": 20011
-		}, {
-			"userName": "唐宏禹13",
-			"shortAccount": "tanghongyu",
+			"shortAccount": "TANGhongyu",
 			"userId": 20011
 		}, {
 			"userName": "唐宏禹12",
@@ -71,7 +71,7 @@
 			"userId": 20011
 		}, {
 			"userName": "唐宏禹11",
-			"shortAccount": "tanghongyu",
+			"shortAccount": "TangHongYu",
 			"userId": 20011
 		}, {
 			"userName": "旷东林",

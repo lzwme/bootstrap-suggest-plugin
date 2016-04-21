@@ -16,7 +16,7 @@
     });
 
     /**
-     * 不显示下拉按钮
+     * 测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写)
      */
     $("#testNoBtn").bsSuggest({
         //url: "/rest/sys/getuserlist?keyword=",
@@ -24,6 +24,7 @@
         /*effectiveFields: ["userName", "shortAccount"],
         searchFields: [ "shortAccount"],
         effectiveFieldsAlias:{userName: "姓名"},*/
+        ignorecase: true,
         showHeader: true,
         showBtn: false,     //不显示下拉按钮
         delayUntilKeyup: true, //获取数据的方式为 firstByUrl 时，延迟到有输入/获取到焦点时才请求数据
@@ -84,8 +85,8 @@
         separator: ",",          //多关键字支持时的分隔符，默认为空格
         getDataMethod: "url",    //获取数据的方式，总是从 URL 获取
         url: 'http://unionsug.baidu.com/su?p=3&t='+ (new Date()).getTime() +'&wd=', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
-        jsonp: 'cb',                      //如果从 url 获取数据，并且需要跨域，则该参数必须设置
-        processData: function (json) {    // url 获取数据时，对数据的处理，作为 getData 的回调函数
+        jsonp: 'cb',                        //如果从 url 获取数据，并且需要跨域，则该参数必须设置
+        fnProcessData: function (json) {    // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
             var index, len, data = {value: []};
             if (!json || !json.s || json.s.length === 0) {
                 return false;
@@ -124,7 +125,7 @@
         fnPreprocessKeyword: function(keyword) { //请求数据前，对输入关键字作进一步处理方法。注意，应返回字符串
             return $('#preKeyword').val() + keyword;
         },
-        processData: function (json) {    // url 获取数据时，对数据的处理，作为 getData 的回调函数
+        fnProcessData: function (json) {    // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
             var index, len, data = {value: []};
             if (!json || !json.s || json.s.length === 0) {
                 return false;
@@ -161,9 +162,11 @@
         url: 'http://unionsug.baidu.com/su?p=3', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
         jsonp: 'cb',
         fnAdjustAjaxParam: function(keyword, opts) {
-        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
+            //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
             console.log('ajax 请求参数调整：', keyword, opts);
             return {
+                jsonp: 'cb',
+                dataType: 'jsonp',
                 timeout: 10000,
                 data: {
                     t: (new Date()).getTime(),
@@ -171,7 +174,7 @@
                 }
             };
         },
-        processData: function (json) {    // url 获取数据时，对数据的处理，作为 getData 的回调函数
+        fnProcessData: function (json) {    // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
             var index, len, data = {value: []};
             if (!json || !json.s || json.s.length === 0) {
                 return false;
@@ -212,7 +215,7 @@
         effectiveFieldsAlias:{Id: "序号", Keyword: "关键字"},
         url: 'http://suggest.taobao.com/sug?code=utf-8&extras=1&q=', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
         jsonp: 'callback',               //如果从 url 获取数据，并且需要跨域，则该参数必须设置
-        processData: function(json){     // url 获取数据时，对数据的处理，作为 getData 的回调函数
+        fnProcessData: function(json){     // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
             var index, len, data = {value: []};
 
             if(! json || ! json.result || ! json.result.length) {
