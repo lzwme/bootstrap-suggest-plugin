@@ -807,24 +807,24 @@
         disable: function() {
              return this.each(function() {
                 $(this).attr('disabled', true)
-                    .parent().find('.btn:eq(0)').addClass('disabled');
+                    .parent().find('.btn:eq(0)').prop('disabled', true);
             });
         },
         enable: function() {
             return this.each(function() {
                 $(this).attr('disabled', false)
-                    .parent().find('.btn:eq(0)').removeClass('disabled');
+                    .parent().find('.btn:eq(0)').prop('disabled', false);
             });
         },
         destroy: function() {
             return this.each(function() {
                 $(this).off().removeData('bsSuggest')
-                    .parent().find('.btn:eq(0)').off().attr('data-toggle', 'dropdown') //.addClass('disabled');
+                    .parent().find('.btn:eq(0)').off().attr('data-toggle', 'dropdown').prop('disabled', false) //.addClass('disabled');
                     .next().css('display', '').off();
             });
         },
         version: function() {
-            return '0.1.5';
+            return '0.1.6';
         }
     };
     /* 搜索建议插件 */
