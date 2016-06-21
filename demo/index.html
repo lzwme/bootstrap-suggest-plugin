@@ -175,10 +175,10 @@
                 </div>
             </div>
             <p>
-                <br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+                <br><code>allowNoKeyword: false,</code>  //无输入时不执行过滤请求
                 <br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
-                <br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
-                <br><code>getDataMethod: "url"</code>   //获取数据的方式，总是从 URL 获取
+                <br><code>separator: ",",</code>         //多关键字支持时的分隔符
+                <br><code>getDataMethod: "url"</code>    //总是从 URL 获取数据
             </p>
 
             <h3>百度搜索(预处理关键字)</h3>
@@ -209,9 +209,9 @@
                 </div>
             </div>
             <p>
-                <br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+                <br><code>allowNoKeyword: false,</code>  //无输入时不执行过滤请求
                 <br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
-                <br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
+                <br><code>separator: ",",</code>         //多关键字支持时的分隔符
                 <br><code>getDataMethod: "url",</code>   //获取数据的方式，总是从 URL 获取
             </p>
 <pre class="bg-info pd10">fnPreprocessKeyword: function(keyword) {
@@ -246,10 +246,10 @@
                 </div>
             </div>
             <p>
-                <br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+                <br><code>allowNoKeyword: false,</code>  //无输入时不执行过滤请求
                 <br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
-                <br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
-                <br><code>getDataMethod: "url",</code>   //获取数据的方式，总是从 URL 获取
+                <br><code>separator: ",",</code>         //多关键字支持时的分隔符
+                <br><code>getDataMethod: "url",</code>   //总是从 URL 获取数据
             </p>
 <pre class="bg-info pd10">
 fnAdjustAjaxParam: function(keyword, opts) {
@@ -284,10 +284,10 @@ fnAdjustAjaxParam: function(keyword, opts) {
             </div>
 
             <p>
-                <br><code>allowNoKeyword: false,</code>  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+                <br><code>allowNoKeyword: false,</code>  //无输入时不执行过滤请求
                 <br><code>multiWord: true,</code>        //以分隔符号分割的多关键字支持
-                <br><code>separator: ",",</code>         //多关键字支持时的分隔符，默认为空格
-                <br><code>getDataMethod: "url",</code>   //获取数据的方式，总是从 URL 获取
+                <br><code>separator: ",",</code>         //多关键字支持时的分隔符
+                <br><code>getDataMethod: "url",</code>   //总是从 URL 获取数据
                 <br><code>autoDropup: true,</code>       //自动判断向上/下
                 <br><code>showHeader: true,</code>       //显示多个字段的表头
                 <br><code>effectiveFieldsAlias: {Id: "序号", Keyword: "关键字", Count: "数量"}</code> //showHeader 时，header 别名

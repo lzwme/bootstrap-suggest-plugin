@@ -560,7 +560,7 @@
                 ajax(options).done(function(result) {
                     //options.data = result;
                     options.url = null;
-                    self.off('onDataRequestSuccess').trigger('onDataRequestSuccess', result);
+                    self.trigger('onDataRequestSuccess', result);
                 });
             }
 
