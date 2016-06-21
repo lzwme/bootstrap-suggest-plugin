@@ -744,15 +744,15 @@
 
                 //下拉按钮点击时
                 $input.parent().find('.btn:eq(0)').attr('data-toggle', '').on('click', function() {
-                    var type = 'show';
+                    /*var type = 'show';
                     if ($dropdownMenu.is(':visible')) {
                         type = 'hide';
                     }
                     $input.bsSuggest(type);
 
-                    return false;
+                    return false;*/
 
-                    /*var display;
+                    var display = 'none';
                     if ($dropdownMenu.css('display') === 'none') {
                         display = 'block';
                         if (options.url) {
@@ -761,13 +761,13 @@
                                 display = 'none';
                             }
                         } else {
+                            //不以 keyword 作为过滤，展示所有的数据
                             refreshDropMenu($input, options.data, options);
                         }
-                    } else {
-                        display = 'none';
                     }
+
                     $dropdownMenu.css('display', display);
-                    return false;*/
+                    return false;
                 });
 
                 //列表中滑动时，输入框失去焦点
@@ -824,7 +824,7 @@
             });
         },
         version: function() {
-            return '0.1.6';
+            return '0.1.7';
         }
     };
     /* 搜索建议插件 */
