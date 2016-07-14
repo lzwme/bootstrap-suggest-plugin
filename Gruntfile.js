@@ -25,12 +25,12 @@ module.exports = function(grunt) {
 				options: {
 					separator: "\n", //多文件分隔符,
 					stripBanners: true,
-					banner: "/*\r\n<%= pkg.name %> - v<%= pkg.version %>\r\n" +
-						"Description: <%= pkg.description %>\r\n" +
-						"Author: <%= pkg.author %>\r\n" +
-						"Github: https://github.com/lzwme/bootstrap-suggest-plugin\r\n" +
-						'Update: <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\r\n' +
-						"*/\r\n"
+					banner: "/**\r\n * <%= pkg.name %> - v<%= pkg.version %>\r\n" +
+						" * @description <%= pkg.description %>\r\n" +
+						" * @author <%= pkg.author %>\r\n" +
+						" * @GitHub <%= pkg.repository.url %>\r\n" +
+						' * @since <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\r\n' +
+						" */\r\n"
 				},
 				src: ['dist/bootstrap-suggest.min.js'], //合并哪些文件
 				dest: 'dist/bootstrap-suggest.min.js' //合并后输出
@@ -54,8 +54,8 @@ module.exports = function(grunt) {
 		//复制到发布目录
 		/*copy: {
 			main: {
-				src: 'bootstrap-suggest.min.js',
-				dest: '../../resources/orion/js/common/bootstrap-suggest.min.js',
+				src: 'dist/bootstrap-suggest.min.js',
+				dest: '../../resources/orion/lib/bootstrap-suggest-plugin/bootstrap-suggest.min.js',
 			},
 		}*/
 	});
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("gruntify-eslint");
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-copy');
+	//grunt.loadNpmTasks('grunt-contrib-copy');
 
 
 	//默认被执行的任务列表

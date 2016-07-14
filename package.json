@@ -1,38 +1,39 @@
 {
-  "name": "bootstrap-suggest-plugin",
-  "version": "0.1.7",
-  "description": "这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lzwme/bootstrap-suggest-plugin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/lzwme/bootstrap-suggest-plugin/issues"
-  },
-  "main": "bootstrap-suggest.js",
-  "keywords": [
-    "bootstrap",
-    "suggest",
-    "dorpdown"
-  ],
-  "author": "lzwme <lzwy0820@qq.com>",
-  "license": "MIT",
-  "homepage": "https://lzw.me/pages/demo/bootstrap-suggest-plugin",
-  "engines": {
-    "node": ">= 0.8.0"
-  },
-  "scripts": {
-    "test": "grunt qunit",
-    "build": "grunt production"
-  },
-  "devDependencies": {
-    "babel-eslint": ">5.0.0",
-    "grunt": ">0.4.1",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-copy": "~0.7.0",
-    "grunt-contrib-eslint": "0.0.5",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-watch": "~0.5.3",
-    "gruntify-eslint": ">2.0.0"
-  }
+    "name": "bootstrap-suggest-plugin",
+    "version": "0.1.8",
+    "description": "这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lzwme/bootstrap-suggest-plugin.git"
+    },
+    "bugs": {
+        "url": "https://github.com/lzwme/bootstrap-suggest-plugin/issues"
+    },
+    "browser": "dist/bootstrap-suggest.min.js",
+    "main": "src/bootstrap-suggest.js",
+    "keywords": [
+        "bootstrap",
+        "suggest",
+        "dorpdown"
+    ],
+    "author": "lzwme <lzwy0820@qq.com>",
+    "license": "MIT",
+    "homepage": "https://lzw.me/pages/demo/bootstrap-suggest-plugin",
+    "engines": {
+        "node": ">= 4.1.0"
+    },
+    "scripts": {
+        "test": "grunt qunit",
+        "build": "grunt production"
+    },
+    "devDependencies": {
+        "babel-eslint": ">5.0.0",
+        "grunt": ">0.4.1",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-copy": "~0.7.0",
+        "grunt-contrib-eslint": "0.0.5",
+        "grunt-contrib-uglify": "~0.2.2",
+        "grunt-contrib-watch": "~0.5.3",
+        "gruntify-eslint": ">2.0.0"
+    }
 }

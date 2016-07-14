@@ -57,7 +57,9 @@ $("input#test")
 var defaultOptions = {
     url: null,                      //请求数据的 URL 地址
     jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-    data: {},                       //提示所用的数据
+    data: {             
+        value: []               
+    },                              //提示所用的数据，注意格式
     indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
     indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
     idField: '',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
@@ -69,7 +71,7 @@ var defaultOptions = {
     getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
     delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
     ignorecase: false,              //前端搜索匹配时，是否忽略大小写
-    effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
+    effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
     effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
     searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
 
@@ -84,9 +86,15 @@ var defaultOptions = {
     inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
     inputWarnColor: 'rgba(255,0,0,.1)', //输入框内容不是下拉列表选择时的警告色
     listStyle: {
-        'padding-top': 0, 'max-height': '375px', 'max-width': '800px',
-        'overflow': 'auto', 'width': 'auto',
-        'transition': '0.3s', '-webkit-transition': '0.3s', '-moz-transition': '0.3s', '-o-transition': '0.3s'
+        'padding-top': 0,
+        'max-height': '375px',
+        'max-width': '800px',
+        'overflow': 'auto',
+        'width': 'auto',
+        'transition': '0.3s',
+        '-webkit-transition': '0.3s',
+        '-moz-transition': '0.3s',
+        '-o-transition': '0.3s'
     },                              //列表的样式控制
     listAlign: 'left',              //提示列表对齐位置，left/right/auto
     listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
@@ -99,12 +107,12 @@ var defaultOptions = {
     keyDown: 40,                    //向下方向键
     keyEnter: 13,                   //回车键
 
-    /* methods */
+    /* methods */   
     fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
     fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
     fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
     fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
-}
+};
 ```
 
 ## 使用示例

@@ -1,39 +1,41 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
-  width: 45em;
-  border: 1px solid #ddd;
-  outline: 1300px solid #fff;
-  margin: 16px auto;
-}
-
-body .markdown-body
-{
-  padding: 30px;
-}
-
-@font-face {
-  font-family: fontawesome-mini;
-  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
-}
-
-@font-face {
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>@font-face {
   font-family: octicons-anchor;
   src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
 }
 
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 980px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+body .markdown-body {
+    padding: 45px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    word-wrap: break-word;
+}
+
+pre {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
 .markdown-body {
-  font-family: sans-serif;
-  -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  color: #333333;
-  overflow: hidden;
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  text-size-adjust: 100%;
+  color: #333;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
 }
 
 .markdown-body a {
-  background: transparent;
+  background-color: transparent;
 }
 
 .markdown-body a:active,
@@ -41,30 +43,8 @@ body .markdown-body
   outline: 0;
 }
 
-.markdown-body b,
 .markdown-body strong {
   font-weight: bold;
-}
-
-.markdown-body mark {
-  background: #ff0;
-  color: #000;
-  font-style: italic;
-  font-weight: bold;
-}
-
-.markdown-body sub,
-.markdown-body sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-.markdown-body sup {
-  top: -0.5em;
-}
-.markdown-body sub {
-  bottom: -0.25em;
 }
 
 .markdown-body h1 {
@@ -77,7 +57,6 @@ body .markdown-body
 }
 
 .markdown-body hr {
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
   height: 0;
 }
@@ -88,8 +67,7 @@ body .markdown-body
 
 .markdown-body code,
 .markdown-body kbd,
-.markdown-body pre,
-.markdown-body samp {
+.markdown-body pre {
   font-family: monospace, monospace;
   font-size: 1em;
 }
@@ -123,81 +101,16 @@ body .markdown-body
   padding: 0;
 }
 
-.markdown-body .codehilitetable {
-  border: 0;
-  border-spacing: 0;
-}
-
-.markdown-body .codehilitetable tr {
-  border: 0;
-}
-
-.markdown-body .codehilitetable pre,
-.markdown-body .codehilitetable div.codehilite {
-  margin: 0;
-}
-
-.markdown-body .linenos,
-.markdown-body .code,
-.markdown-body .codehilitetable td {
-  border: 0;
-  padding: 0;
-}
-
-.markdown-body td:not(.linenos) .linenodiv {
-  padding: 0 !important;
-}
-
-.markdown-body .code {
-  width: 100%;
-}
-
-.markdown-body .linenos div pre,
-.markdown-body .linenodiv pre,
-.markdown-body .linenodiv {
-  border: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-  -webkit-border-top-left-radius: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  -moz-border-radius-topleft: 3px;
-  -moz-border-radius-bottomleft: 3px;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-
-.markdown-body .code div pre,
-.markdown-body .code div {
-  border: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-  -webkit-border-top-right-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  -moz-border-radius-topright: 3px;
-  -moz-border-radius-bottomright: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
-
-.markdown-body * {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 .markdown-body input {
-  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
-  line-height: 1.4;
+  font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .markdown-body a {
-  color: #4183c4;
+  color: #4078c0;
   text-decoration: none;
 }
 
 .markdown-body a:hover,
-.markdown-body a:focus,
 .markdown-body a:active {
   text-decoration: underline;
 }
@@ -211,14 +124,15 @@ body .markdown-body
   border-bottom: 1px solid #ddd;
 }
 
-.markdown-body hr:before,
-.markdown-body hr:after {
+.markdown-body hr:before {
   display: table;
-  content: " ";
+  content: "";
 }
 
 .markdown-body hr:after {
+  display: table;
   clear: both;
+  content: "";
 }
 
 .markdown-body h1,
@@ -283,9 +197,7 @@ body .markdown-body
   margin-left: 0;
 }
 
-.markdown-body code,
-.markdown-body pre,
-.markdown-body samp {
+.markdown-body code {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: 12px;
 }
@@ -293,21 +205,39 @@ body .markdown-body
 .markdown-body pre {
   margin-top: 0;
   margin-bottom: 0;
+  font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
-.markdown-body kbd {
-  background-color: #e7e7e7;
-  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
-  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
-  background-image: linear-gradient(#fefefe, #e7e7e7);
-  background-repeat: repeat-x;
-  border-radius: 2px;
-  border: 1px solid #cfcfcf;
-  color: #000;
-  padding: 3px 5px;
-  line-height: 10px;
-  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+.markdown-body .select::-ms-expand {
+  opacity: 0;
+}
+
+.markdown-body .octicon {
+  font: normal normal normal 16px/1 octicons-anchor;
   display: inline-block;
+  text-decoration: none;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.markdown-body .octicon-link:before {
+  content: '\f05c';
+}
+
+.markdown-body:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body:after {
+  display: table;
+  clear: both;
+  content: "";
 }
 
 .markdown-body>*:first-child {
@@ -318,18 +248,18 @@ body .markdown-body
   margin-bottom: 0 !important;
 }
 
-.markdown-body .headeranchor-link {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  display: block;
-  padding-right: 6px;
-  padding-left: 30px;
-  margin-left: -30px;
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
 }
 
-.markdown-body .headeranchor-link:focus {
+.markdown-body .anchor {
+  display: inline-block;
+  padding-right: 2px;
+  margin-left: -18px;
+}
+
+.markdown-body .anchor:focus {
   outline: none;
 }
 
@@ -339,44 +269,39 @@ body .markdown-body
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
-  position: relative;
   margin-top: 1em;
   margin-bottom: 16px;
   font-weight: bold;
   line-height: 1.4;
 }
 
-.markdown-body h1 .headeranchor,
-.markdown-body h2 .headeranchor,
-.markdown-body h3 .headeranchor,
-.markdown-body h4 .headeranchor,
-.markdown-body h5 .headeranchor,
-.markdown-body h6 .headeranchor {
-  display: none;
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
   color: #000;
   vertical-align: middle;
+  visibility: hidden;
 }
 
-.markdown-body h1:hover .headeranchor-link,
-.markdown-body h2:hover .headeranchor-link,
-.markdown-body h3:hover .headeranchor-link,
-.markdown-body h4:hover .headeranchor-link,
-.markdown-body h5:hover .headeranchor-link,
-.markdown-body h6:hover .headeranchor-link {
-  height: 1em;
-  padding-left: 8px;
-  margin-left: -30px;
-  line-height: 1;
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
   text-decoration: none;
 }
 
-.markdown-body h1:hover .headeranchor-link .headeranchor,
-.markdown-body h2:hover .headeranchor-link .headeranchor,
-.markdown-body h3:hover .headeranchor-link .headeranchor,
-.markdown-body h4:hover .headeranchor-link .headeranchor,
-.markdown-body h5:hover .headeranchor-link .headeranchor,
-.markdown-body h6:hover .headeranchor-link .headeranchor {
-  display: inline-block;
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
 }
 
 .markdown-body h1 {
@@ -386,6 +311,10 @@ body .markdown-body
   border-bottom: 1px solid #eee;
 }
 
+.markdown-body h1 .anchor {
+  line-height: 1;
+}
+
 .markdown-body h2 {
   padding-bottom: 0.3em;
   font-size: 1.75em;
@@ -393,22 +322,42 @@ body .markdown-body
   border-bottom: 1px solid #eee;
 }
 
+.markdown-body h2 .anchor {
+  line-height: 1;
+}
+
 .markdown-body h3 {
   font-size: 1.5em;
   line-height: 1.43;
+}
+
+.markdown-body h3 .anchor {
+  line-height: 1.2;
 }
 
 .markdown-body h4 {
   font-size: 1.25em;
 }
 
+.markdown-body h4 .anchor {
+  line-height: 1.2;
+}
+
 .markdown-body h5 {
   font-size: 1em;
+}
+
+.markdown-body h5 .anchor {
+  line-height: 1.1;
 }
 
 .markdown-body h6 {
   font-size: 1em;
   color: #777;
+}
+
+.markdown-body h6 .anchor {
+  line-height: 1.1;
 }
 
 .markdown-body p,
@@ -417,8 +366,7 @@ body .markdown-body
 .markdown-body ol,
 .markdown-body dl,
 .markdown-body table,
-.markdown-body pre,
-.markdown-body .admonition {
+.markdown-body pre {
   margin-top: 0;
   margin-bottom: 16px;
 }
@@ -508,12 +456,11 @@ body .markdown-body
 
 .markdown-body img {
   max-width: 100%;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  box-sizing: content-box;
+  background-color: #fff;
 }
 
-.markdown-body code,
-.markdown-body samp {
+.markdown-body code {
   padding: 0;
   padding-top: 0.2em;
   padding-bottom: 0.2em;
@@ -539,11 +486,11 @@ body .markdown-body
   border: 0;
 }
 
-.markdown-body .codehilite {
+.markdown-body .highlight {
   margin-bottom: 16px;
 }
 
-.markdown-body .codehilite pre,
+.markdown-body .highlight pre,
 .markdown-body pre {
   padding: 16px;
   overflow: auto;
@@ -553,7 +500,7 @@ body .markdown-body
   border-radius: 3px;
 }
 
-.markdown-body .codehilite pre {
+.markdown-body .highlight pre {
   margin-bottom: 0;
   word-break: normal;
 }
@@ -579,325 +526,136 @@ body .markdown-body
   content: normal;
 }
 
-/* Admonition */
-.markdown-body .admonition {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  position: relative;
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
   border-radius: 3px;
-  border: 1px solid #e0e0e0;
-  border-left: 6px solid #333;
-  padding: 10px 10px 10px 30px;
+  box-shadow: inset 0 -1px 0 #bbb;
 }
 
-.markdown-body .admonition table {
+.markdown-body .pl-c {
+  color: #969896;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: #0086b3;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: #795da3;
+}
+
+.markdown-body .pl-s .pl-s1,
+.markdown-body .pl-smi {
   color: #333;
 }
 
-.markdown-body .admonition p {
-  padding: 0;
+.markdown-body .pl-ent {
+  color: #63a35c;
 }
 
-.markdown-body .admonition-title {
+.markdown-body .pl-k {
+  color: #a71d5d;
+}
+
+.markdown-body .pl-pds,
+.markdown-body .pl-s,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sra,
+.markdown-body .pl-sr .pl-sre {
+  color: #183691;
+}
+
+.markdown-body .pl-v {
+  color: #ed6a43;
+}
+
+.markdown-body .pl-id {
+  color: #b52a1d;
+}
+
+.markdown-body .pl-ii {
+  background-color: #b52a1d;
+  color: #f8f8f8;
+}
+
+.markdown-body .pl-sr .pl-cce {
+  color: #63a35c;
   font-weight: bold;
-  margin: 0;
 }
 
-.markdown-body .admonition>.admonition-title {
-  color: #333;
+.markdown-body .pl-ml {
+  color: #693a17;
 }
 
-.markdown-body .attention>.admonition-title {
-  color: #a6d796;
-}
-
-.markdown-body .caution>.admonition-title {
-  color: #d7a796;
-}
-
-.markdown-body .hint>.admonition-title {
-  color: #96c6d7;
-}
-
-.markdown-body .danger>.admonition-title {
-  color: #c25f77;
-}
-
-.markdown-body .question>.admonition-title {
-  color: #96a6d7;
-}
-
-.markdown-body .note>.admonition-title {
-  color: #d7c896;
-}
-
-.markdown-body .admonition:before,
-.markdown-body .attention:before,
-.markdown-body .caution:before,
-.markdown-body .hint:before,
-.markdown-body .danger:before,
-.markdown-body .question:before,
-.markdown-body .note:before {
-  font: normal normal 16px fontawesome-mini;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  line-height: 1.5;
-  color: #333;
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding-top: 10px;
-  padding-left: 10px;
-}
-
-.markdown-body .admonition:before {
-  content: "\f056\00a0";
-  color: 333;
-}
-
-.markdown-body .attention:before {
-  content: "\f058\00a0";
-  color: #a6d796;
-}
-
-.markdown-body .caution:before {
-  content: "\f06a\00a0";
-  color: #d7a796;
-}
-
-.markdown-body .hint:before {
-  content: "\f05a\00a0";
-  color: #96c6d7;
-}
-
-.markdown-body .danger:before {
-  content: "\f057\00a0";
-  color: #c25f77;
-}
-
-.markdown-body .question:before {
-  content: "\f059\00a0";
-  color: #96a6d7;
-}
-
-.markdown-body .note:before {
-  content: "\f040\00a0";
-  color: #d7c896;
-}
-
-.markdown-body .admonition::after {
-  content: normal;
-}
-
-.markdown-body .attention {
-  border-left: 6px solid #a6d796;
-}
-
-.markdown-body .caution {
-  border-left: 6px solid #d7a796;
-}
-
-.markdown-body .hint {
-  border-left: 6px solid #96c6d7;
-}
-
-.markdown-body .danger {
-  border-left: 6px solid #c25f77;
-}
-
-.markdown-body .question {
-  border-left: 6px solid #96a6d7;
-}
-
-.markdown-body .note {
-  border-left: 6px solid #d7c896;
-}
-
-.markdown-body .admonition>*:first-child {
-  margin-top: 0 !important;
-}
-
-.markdown-body .admonition>*:last-child {
-  margin-bottom: 0 !important;
-}
-
-/* progress bar*/
-.markdown-body .progress {
-  display: block;
-  width: 300px;
-  margin: 10px 0;
-  height: 24px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background-color: #ededed;
-  position: relative;
-  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
-}
-
-.markdown-body .progress-label {
-  position: absolute;
-  text-align: center;
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  color: #1d3e81;
   font-weight: bold;
-  width: 100%; margin: 0;
-  line-height: 24px;
+}
+
+.markdown-body .pl-mq {
+  color: #008080;
+}
+
+.markdown-body .pl-mi {
   color: #333;
-  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
-  -webkit-font-smoothing: antialiased !important;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.markdown-body .progress-bar {
-  height: 24px;
-  float: left;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background-color: #96c6d7;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
-  background-size: 30px 30px;
-  background-image: -webkit-linear-gradient(
-    135deg, rgba(255, 255, 255, .4) 27%,
-    transparent 27%,
-    transparent 52%, rgba(255, 255, 255, .4) 52%,
-    rgba(255, 255, 255, .4) 77%,
-    transparent 77%, transparent
-  );
-  background-image: -moz-linear-gradient(
-    135deg,
-    rgba(255, 255, 255, .4) 27%, transparent 27%,
-    transparent 52%, rgba(255, 255, 255, .4) 52%,
-    rgba(255, 255, 255, .4) 77%, transparent 77%,
-    transparent
-  );
-  background-image: -ms-linear-gradient(
-    135deg,
-    rgba(255, 255, 255, .4) 27%, transparent 27%,
-    transparent 52%, rgba(255, 255, 255, .4) 52%,
-    rgba(255, 255, 255, .4) 77%, transparent 77%,
-    transparent
-  );
-  background-image: -o-linear-gradient(
-    135deg,
-    rgba(255, 255, 255, .4) 27%, transparent 27%,
-    transparent 52%, rgba(255, 255, 255, .4) 52%,
-    rgba(255, 255, 255, .4) 77%, transparent 77%,
-    transparent
-  );
-  background-image: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, .4) 27%, transparent 27%,
-    transparent 52%, rgba(255, 255, 255, .4) 52%,
-    rgba(255, 255, 255, .4) 77%, transparent 77%,
-    transparent
-  );
-}
-
-.markdown-body .progress-100plus .progress-bar {
-  background-color: #a6d796;
-}
-
-.markdown-body .progress-80plus .progress-bar {
-  background-color: #c6d796;
-}
-
-.markdown-body .progress-60plus .progress-bar {
-  background-color: #d7c896;
-}
-
-.markdown-body .progress-40plus .progress-bar {
-  background-color: #d7a796;
-}
-
-.markdown-body .progress-20plus .progress-bar {
-  background-color: #d796a6;
-}
-
-.markdown-body .progress-0plus .progress-bar {
-  background-color: #c25f77;
-}
-
-.markdown-body .candystripe-animate .progress-bar{
-  -webkit-animation: animate-stripes 3s linear infinite;
-  -moz-animation: animate-stripes 3s linear infinite;
-  animation: animate-stripes 3s linear infinite;
-}
-
-@-webkit-keyframes animate-stripes {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 60px 0;
-  }
-}
-
-@-moz-keyframes animate-stripes {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 60px 0;
-  }
-}
-
-@keyframes animate-stripes {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 60px 0;
-  }
-}
-
-.markdown-body .gloss .progress-bar {
-  box-shadow:
-    inset 0 4px 12px rgba(255, 255, 255, .7),
-    inset 0 -12px 0 rgba(0, 0, 0, .05);
-}
-
-/* Multimarkdown Critic Blocks */
-.markdown-body .critic_mark {
-  background: #ff0;
-}
-
-.markdown-body .critic_delete {
-  color: #c82829;
-  text-decoration: line-through;
-}
-
-.markdown-body .critic_insert {
-  color: #718c00 ;
-  text-decoration: underline;
-}
-
-.markdown-body .critic_comment {
-  color: #8e908c;
   font-style: italic;
 }
 
-.markdown-body .headeranchor {
-  font: normal normal 16px octicons-anchor;
-  line-height: 1;
-  display: inline-block;
-  text-decoration: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+.markdown-body .pl-mb {
+  color: #333;
+  font-weight: bold;
 }
 
-.headeranchor:before {
-  content: '\f05c';
+.markdown-body .pl-md {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.markdown-body .pl-mi1 {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.markdown-body .pl-mdr {
+  color: #795da3;
+  font-weight: bold;
+}
+
+.markdown-body .pl-mo {
+  color: #1d3e81;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb;
+}
+
+.markdown-body .plan-price-unit {
+  color: #767676;
+  font-weight: normal;
 }
 
 .markdown-body .task-list-item {
@@ -909,224 +667,220 @@ body .markdown-body
 }
 
 .markdown-body .task-list-item input {
-  margin: 0 4px 0.25em -20px;
+  margin: 0 0.35em 0.25em -1.6em;
   vertical-align: middle;
 }
 
-/* Media */
-@media only screen and (min-width: 480px) {
-  .markdown-body {
-    font-size:14px;
-  }
+.markdown-body .plan-choice {
+  padding: 15px;
+  padding-left: 40px;
+  display: block;
+  border: 1px solid #e0e0e0;
+  position: relative;
+  font-weight: normal;
+  background-color: #fafafa;
 }
 
-@media only screen and (min-width: 768px) {
-  .markdown-body {
-    font-size:16px;
-  }
+.markdown-body .plan-choice.open {
+  background-color: #fff;
 }
 
-@media print {
-  .markdown-body * {
-    background: transparent !important;
-    color: black !important;
-    filter:none !important;
-    -ms-filter: none !important;
-  }
-
-  .markdown-body {
-    font-size:12pt;
-    max-width:100%;
-    outline:none;
-    border: 0;
-  }
-
-  .markdown-body a,
-  .markdown-body a:visited {
-    text-decoration: underline;
-  }
-
-  .markdown-body .headeranchor-link {
-    display: none;
-  }
-
-  .markdown-body a[href]:after {
-    content: " (" attr(href) ")";
-  }
-
-  .markdown-body abbr[title]:after {
-    content: " (" attr(title) ")";
-  }
-
-  .markdown-body .ir a:after,
-  .markdown-body a[href^="javascript:"]:after,
-  .markdown-body a[href^="#"]:after {
-    content: "";
-  }
-
-  .markdown-body pre {
-    white-space: pre;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-
-  .markdown-body pre,
-  .markdown-body blockquote {
-    border: 1px solid #999;
-    padding-right: 1em;
-    page-break-inside: avoid;
-  }
-
-  .markdown-body .progress,
-  .markdown-body .progress-bar {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-
-  .markdown-body .progress {
-    border: 1px solid #ddd;
-  }
-
-  .markdown-body .progress-bar {
-    height: 22px;
-    border-right: 1px solid #ddd;
-  }
-
-  .markdown-body tr,
-  .markdown-body img {
-    page-break-inside: avoid;
-  }
-
-  .markdown-body img {
-    max-width: 100% !important;
-  }
-
-  .markdown-body p,
-  .markdown-body h2,
-  .markdown-body h3 {
-    orphans: 3;
-    widows: 3;
-  }
-
-  .markdown-body h2,
-  .markdown-body h3 {
-    page-break-after: avoid;
-  }
+.markdown-body .plan-choice.open .plan-choice-seat-breakdown {
+  display: block;
 }
-</style><title>README</title></head><body><article class="markdown-body"><p><a href="http://lzw.me"><img alt="Code Climate" src="http://lzw.me/images/logo.png" /></a></p>
-<h1 id="bootstrap-search-suggest"><a name="user-content-bootstrap-search-suggest" href="#bootstrap-search-suggest" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Bootstrap Search Suggest <a href="http://gruntjs.com/"><img alt="Built with Grunt" src="https://cdn.gruntjs.com/builtwith.png" /></a></h1>
+
+.markdown-body .plan-choice-free {
+  border-radius: 3px 3px 0 0;
+}
+
+.markdown-body .plan-choice-paid {
+  border-radius: 0 0 3px 3px;
+  border-top: 0;
+  margin-bottom: 20px;
+}
+
+.markdown-body .plan-choice-radio {
+  position: absolute;
+  left: 15px;
+  top: 18px;
+}
+
+.markdown-body .plan-choice-exp {
+  color: #999;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.markdown-body .plan-choice-seat-breakdown {
+  margin-top: 10px;
+  display: none;
+}
+
+.markdown-body :checked+.radio-label {
+  z-index: 1;
+  position: relative;
+  border-color: #4078c0;
+}
+</style><title>README</title></head><body><article class="markdown-body"><p><a href="http://lzw.me"><img src="https://camo.githubusercontent.com/67f3b8bd9a77a5294bf840f531a89a267a37ce3d/687474703a2f2f6c7a772e6d652f696d616765732f6c6f676f2e706e67" alt="Code Climate" data-canonical-src="http://lzw.me/images/logo.png" style="max-width:100%;"></a></p>
+
+<h1>
+<a id="user-content-bootstrap-search-suggest-" class="anchor" href="#bootstrap-search-suggest-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bootstrap Search Suggest <a href="http://gruntjs.com/"><img src="https://camo.githubusercontent.com/02d9825a669fb5b9f53bfe2e5a3fa4a1081cdb6a/68747470733a2f2f63646e2e6772756e746a732e636f6d2f6275696c74776974682e706e67" alt="Built with Grunt" data-canonical-src="https://cdn.gruntjs.com/builtwith.png" style="max-width:100%;"></a>
+</h1>
+
 <p><a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin">Demo|示例</a></p>
+
 <p>这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。</p>
-<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>功能说明</h2>
+
+<h2>
+<a id="user-content-功能说明" class="anchor" href="#%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>功能说明</h2>
+
 <ul>
 <li>搜索方式：从 data.value 的有效字段数据中查询 keyword 的出现，或字段数据包含于 keyword 中</li>
 <li>支持单关键字、多关键字的输入搜索建议，多关键字可自定义分隔符</li>
 <li>支持按 data 数组数据搜索、按  URL 请求搜索和按首次请求URL数据并缓存搜索三种方式</li>
 <li>单关键字会设置 data-id 和输入框内容两个值，以 indexId/idField 和 indexKey/idFiled 取值 data 的数据为准；多关键字只设置输入框值</li>
 </ul>
-<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>快速上手</h2>
+
+<h2>
+<a id="user-content-快速上手" class="anchor" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>快速上手</h2>
+
 <ol>
 <li>引入 jQuery、bootstrap.min.css、bootstrap.min.js</li>
-<li>引入插件js: <code>bootstrap-suggest.min.js</code></li>
+<li>引入插件js: <code>bootstrap-suggest.min.js</code>
+</li>
 <li>初始化插件</li>
 </ol>
-<p><pre><code class="js">    var bsSuggest = $(&quot;input#test&quot;).bsSuggest({
-      url: &quot;/rest/sys/getuserlist?keyword=&quot;
-    });
-</code></pre><br />
-具体使用请参考参数配置说明及demo 示例页面源码(<a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin/demo">Demo</a>)</p>
-<h4 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>方法调用</h4>
+
+<div class="highlight highlight-source-js"><pre>    <span class="pl-k">var</span> bsSuggest <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>input#test<span class="pl-pds">"</span></span>).<span class="pl-en">bsSuggest</span>({
+      url<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>/rest/sys/getuserlist?keyword=<span class="pl-pds">"</span></span>
+    });</pre></div>
+
+<p>具体使用请参考参数配置说明及demo 示例页面源码(<a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin/demo">Demo</a>)</p>
+
+<h4>
+<a id="user-content-方法调用" class="anchor" href="#%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>方法调用</h4>
+
 <ol>
-<li>禁用提示： <code>$("input#test").bsSuggest("disable");</code></li>
-<li>启用提示： <code>$("input#test").bsSuggest("enable");</code></li>
-<li>销毁插件： <code>$("input#test").bsSuggest("destroy");</code></li>
-<li>查看版本：<code>$("input#test").bsSuggest("version");</code></li>
+<li>禁用提示： <code>$("input#test").bsSuggest("disable");</code>
+</li>
+<li>启用提示： <code>$("input#test").bsSuggest("enable");</code>
+</li>
+<li>销毁插件： <code>$("input#test").bsSuggest("destroy");</code>
+</li>
+<li>查看版本：<code>$("input#test").bsSuggest("version");</code>
+</li>
 </ol>
-<h4 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>事件监听</h4>
+
+<h4>
+<a id="user-content-事件监听" class="anchor" href="#%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>事件监听</h4>
+
 <ol>
 <li>dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数</li>
 <li>onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数</li>
-<li>onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）<br />
-<pre><code class="js">$(&quot;input#test&quot;)
-    .on(&quot;dataRequestSuccess&quot;, function (event, result) {
-        console.log(result);
-    })
-    .on('onSetSelectValue', function (e, keyword) {
-        console.log('onSetSelectValue: ', keyword);
-    })
-    .on('onUnsetSelectValue', function (e) {
-        console.log(&quot;onUnsetSelectValue&quot;);
-    });
-</code></pre></li>
+<li>onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）</li>
 </ol>
-<h2 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>配置参数</h2>
-<p>参数列表中的值均为插件默认值<br />
-<pre><code class="js">var defaultOptions = {
-    url: null,                      //请求数据的 URL 地址
-    jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-    data: {},                       //提示所用的数据
-    indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
-    indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
-    idField: '',                    //每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）
-    keyField: '',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
 
-    /* 搜索相关 */
-    autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-    allowNoKeyword: true,           //是否允许无关键字时请求数据
-    getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-    delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-    ignorecase: false,              //前端搜索匹配时，是否忽略大小写
-    effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部，对自定义getData方法无效
-    effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-    searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用。effectiveFields 配置字段也会用于搜索过滤
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>input#test<span class="pl-pds">"</span></span>)
+    .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">"</span>dataRequestSuccess<span class="pl-pds">"</span></span>, <span class="pl-k">function</span> (<span class="pl-c1">event</span>, <span class="pl-smi">result</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(result);
+    })
+    .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>onSetSelectValue<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">e</span>, <span class="pl-smi">keyword</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>onSetSelectValue: <span class="pl-pds">'</span></span>, keyword);
+    })
+    .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>onUnsetSelectValue<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">e</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>onUnsetSelectValue<span class="pl-pds">"</span></span>);
+    });</pre></div>
 
-    multiWord: false,               //以分隔符号分割的多关键字支持
-    separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
+<h2>
+<a id="user-content-配置参数" class="anchor" href="#%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>配置参数</h2>
 
-    /* UI */
-    autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
-    autoMinWidth: false,            //是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
-    showHeader: false,              //是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
-    showBtn: true,                  //是否显示下拉按钮
-    inputBgColor: '',               //输入框背景色，当与容器背景色不同时，可能需要该项的配置
-    inputWarnColor: 'rgba(255,0,0,.1)', //输入框内容不是下拉列表选择时的警告色
-    listStyle: {
-        'padding-top': 0, 'max-height': '375px', 'max-width': '800px',
-        'overflow': 'auto', 'width': 'auto',
-        'transition': '0.3s', '-webkit-transition': '0.3s', '-moz-transition': '0.3s', '-o-transition': '0.3s'
-    },                              //列表的样式控制
-    listAlign: 'left',              //提示列表对齐位置，left/right/auto
-    listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
-    listHoverCSS: 'jhover',         //提示框列表鼠标悬浮的样式名称
+<p>参数列表中的值均为插件默认值</p>
 
-    /* key */
-    keyLeft: 37,                    //向左方向键，不同的操作系统可能会有差别，则自行定义
-    keyUp: 38,                      //向上方向键
-    keyRight: 39,                   //向右方向键
-    keyDown: 40,                    //向下方向键
-    keyEnter: 13,                   //回车键
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> defaultOptions <span class="pl-k">=</span> {
+    url<span class="pl-k">:</span> <span class="pl-c1">null</span>,                      <span class="pl-c">//请求数据的 URL 地址</span>
+    jsonp<span class="pl-k">:</span> <span class="pl-c1">null</span>,                    <span class="pl-c">//设置此参数名，将开启jsonp功能，否则使用json数据结构</span>
+    data<span class="pl-k">:</span> {             
+        value<span class="pl-k">:</span> []               
+    },                              <span class="pl-c">//提示所用的数据，注意格式</span>
+    indexId<span class="pl-k">:</span> <span class="pl-c1">0</span>,                     <span class="pl-c">//每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值</span>
+    indexKey<span class="pl-k">:</span> <span class="pl-c1">0</span>,                    <span class="pl-c">//每组数据的第几个数据，作为input输入框的内容</span>
+    idField<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,                    <span class="pl-c">//每组数据的哪个字段作为 data-id，优先级高于 indexId 设置（推荐）</span>
+    keyField<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,                   <span class="pl-c">//每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）</span>
 
-    /* methods */
-    fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
-    fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
-    fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
-    fnPreprocessKeyword: null,      //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
-}
-</code></pre></p>
-<h2 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>使用示例</h2>
+    <span class="pl-c">/* 搜索相关 */</span>
+    autoSelect<span class="pl-k">:</span> <span class="pl-c1">true</span>,               <span class="pl-c">//键盘向上/下方向键时，是否自动选择值</span>
+    allowNoKeyword<span class="pl-k">:</span> <span class="pl-c1">true</span>,           <span class="pl-c">//是否允许无关键字时请求数据</span>
+    getDataMethod<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>firstByUrl<span class="pl-pds">'</span></span>,    <span class="pl-c">//获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取</span>
+    delayUntilKeyup<span class="pl-k">:</span> <span class="pl-c1">false</span>,         <span class="pl-c">//获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据</span>
+    ignorecase<span class="pl-k">:</span> <span class="pl-c1">false</span>,              <span class="pl-c">//前端搜索匹配时，是否忽略大小写</span>
+    effectiveFields<span class="pl-k">:</span> [],            <span class="pl-c">//有效显示于列表中的字段，非有效字段都会过滤，默认全部。</span>
+    effectiveFieldsAlias<span class="pl-k">:</span> {},       <span class="pl-c">//有效字段的别名对象，用于 header 的显示</span>
+    searchFields<span class="pl-k">:</span> [],               <span class="pl-c">//有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤</span>
+
+    multiWord<span class="pl-k">:</span> <span class="pl-c1">false</span>,               <span class="pl-c">//以分隔符号分割的多关键字支持</span>
+    separator<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>,                 <span class="pl-c">//多关键字支持时的分隔符，默认为半角逗号</span>
+
+    <span class="pl-c">/* UI */</span>
+    autoDropup<span class="pl-k">:</span> <span class="pl-c1">false</span>,              <span class="pl-c">//选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出</span>
+    autoMinWidth<span class="pl-k">:</span> <span class="pl-c1">false</span>,            <span class="pl-c">//是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度</span>
+    showHeader<span class="pl-k">:</span> <span class="pl-c1">false</span>,              <span class="pl-c">//是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头</span>
+    showBtn<span class="pl-k">:</span> <span class="pl-c1">true</span>,                  <span class="pl-c">//是否显示下拉按钮</span>
+    inputBgColor<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,               <span class="pl-c">//输入框背景色，当与容器背景色不同时，可能需要该项的配置</span>
+    inputWarnColor<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>rgba(255,0,0,.1)<span class="pl-pds">'</span></span>, <span class="pl-c">//输入框内容不是下拉列表选择时的警告色</span>
+    listStyle<span class="pl-k">:</span> {
+        <span class="pl-s"><span class="pl-pds">'</span>padding-top<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">0</span>,
+        <span class="pl-s"><span class="pl-pds">'</span>max-height<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>375px<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>max-width<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>800px<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>overflow<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>auto<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>width<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>auto<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>transition<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>0.3s<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>-webkit-transition<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>0.3s<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>-moz-transition<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>0.3s<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>-o-transition<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>0.3s<span class="pl-pds">'</span></span>
+    },                              <span class="pl-c">//列表的样式控制</span>
+    listAlign<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>left<span class="pl-pds">'</span></span>,              <span class="pl-c">//提示列表对齐位置，left/right/auto</span>
+    listHoverStyle<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>background: #07d; color:#fff<span class="pl-pds">'</span></span>, <span class="pl-c">//提示框列表鼠标悬浮的样式</span>
+    listHoverCSS<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>jhover<span class="pl-pds">'</span></span>,         <span class="pl-c">//提示框列表鼠标悬浮的样式名称</span>
+
+    <span class="pl-c">/* key */</span>
+    keyLeft<span class="pl-k">:</span> <span class="pl-c1">37</span>,                    <span class="pl-c">//向左方向键，不同的操作系统可能会有差别，则自行定义</span>
+    keyUp<span class="pl-k">:</span> <span class="pl-c1">38</span>,                      <span class="pl-c">//向上方向键</span>
+    keyRight<span class="pl-k">:</span> <span class="pl-c1">39</span>,                   <span class="pl-c">//向右方向键</span>
+    keyDown<span class="pl-k">:</span> <span class="pl-c1">40</span>,                    <span class="pl-c">//向下方向键</span>
+    keyEnter<span class="pl-k">:</span> <span class="pl-c1">13</span>,                   <span class="pl-c">//回车键</span>
+
+    <span class="pl-c">/* methods */</span>   
+    fnProcessData<span class="pl-k">:</span> processData,     <span class="pl-c">//格式化数据的方法，返回数据格式参考 data 参数</span>
+    fnGetData<span class="pl-k">:</span> getData,             <span class="pl-c">//获取数据的方法，无特殊需求一般不作设置</span>
+    fnAdjustAjaxParam<span class="pl-k">:</span> <span class="pl-c1">null</span>,        <span class="pl-c">//调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等</span>
+    fnPreprocessKeyword<span class="pl-k">:</span> <span class="pl-c1">null</span>       <span class="pl-c">//搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串</span>
+};</pre></div>
+
+<h2>
+<a id="user-content-使用示例" class="anchor" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用示例</h2>
+
 <p>请参考 index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。</p>
-<h2 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>二次开发</h2>
+
+<h2>
+<a id="user-content-二次开发" class="anchor" href="#%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>二次开发</h2>
+
 <ol>
 <li><code>npm install grunt-cli -g</code></li>
 <li><code>npm install</code></li>
 <li><code>grunt watch</code></li>
 </ol>
-<h2 id="note-on-patches-pull-requests"><a name="user-content-note-on-patches-pull-requests" href="#note-on-patches-pull-requests" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Note on Patches / Pull Requests</h2>
+
+<h2>
+<a id="user-content-note-on-patches--pull-requests" class="anchor" href="#note-on-patches--pull-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Note on Patches / Pull Requests</h2>
+
 <ul>
 <li>Fork the project.</li>
 <li>Make your feature addition or bug fix.</li>
 <li>Send me a pull request. Bonus points for topic branches.</li>
 </ul>
-<h2 id="_8"><a name="user-content-_8" href="#_8" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>设计制作</h2>
-<p>该插件由<a href="http://lzw.me">志文工作室</a>开发和维护.</p></article></body></html>
+
+<h2>
+<a id="user-content-设计制作" class="anchor" href="#%E8%AE%BE%E8%AE%A1%E5%88%B6%E4%BD%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>设计制作</h2>
+
+<p>该插件由<a href="http://lzw.me">志文工作室</a>开发和维护.</p>
+</article></body></html>

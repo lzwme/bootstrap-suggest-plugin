@@ -1,18 +1,17 @@
 /**
  * Bootstrap Search Suggest
- * @desc    è¿™æ˜¯ä¸€ä¸ªåŸºäº bootstrap æŒ‰é’®å¼ä¸‹æ‹‰èœå•ç»„ä»¶çš„æœç´¢å»ºè®®æ’ä»¶ï¼Œå¿…é¡»ä½¿ç”¨äºæŒ‰é’®å¼ä¸‹æ‹‰èœå•ç»„ä»¶ä¸Šã€‚
+ * @desc    ÕâÊÇÒ»¸ö»ùÓÚ bootstrap °´Å¥Ê½ÏÂÀ­²Ëµ¥×é¼şµÄËÑË÷½¨Òé²å¼ş£¬±ØĞëÊ¹ÓÃÓÚ°´Å¥Ê½ÏÂÀ­²Ëµ¥×é¼şÉÏ¡£
  * @author  renxia <lzwy0820#qq.com>
  * @link    https://github.com/lzwme/bootstrap-suggest-plugin.git
- * @since   2014-10-09
- * Update:  2016-07-14
+ * @since   2014-10-09 - 2016-07-14
  *===============================================================================
  * (c) Copyright 2015-2016 lzw.me. All Rights Reserved.
  ********************************************************************************/
 (function($) {
-    //ç”¨äºå¯¹ IE çš„å…¼å®¹åˆ¤æ–­
+    //ÓÃÓÚ¶Ô IE µÄ¼æÈİÅĞ¶Ï
     var isIe = !!window.ActiveXObject || 'ActiveXObject' in window;
     /**
-     * é”™è¯¯å¤„ç†
+     * ´íÎó´¦Àí
      */
     function handleError(e1, e2) {
         if (!window.console || !window.console.trace) {
@@ -24,7 +23,7 @@
         }
     }
     /**
-     * è·å–å½“å‰tråˆ—çš„å…³é”®å­—æ•°æ®
+     * »ñÈ¡µ±Ç°trÁĞµÄ¹Ø¼ü×ÖÊı¾İ
      */
     function getPointKeyword($list) {
         var data = {};
@@ -35,7 +34,7 @@
         return data;
     }
     /**
-     * è®¾ç½®é€‰ä¸­çš„å€¼
+     * ÉèÖÃÑ¡ÖĞµÄÖµ
      */
     function setValue($input, keywords, options) {
         if (!keywords || !keywords.key) {
@@ -45,7 +44,7 @@
         var separator = options.separator || ',',
             inputValList /*, inputIdList*/ ;
 
-        if (options && options.multiWord) { //å¤šå…³é”®å­—æ”¯æŒï¼Œåªè®¾ç½® val
+        if (options && options.multiWord) { //¶à¹Ø¼ü×ÖÖ§³Ö£¬Ö»ÉèÖÃ val
             inputValList = $input.val().split(separator);
             inputValList[inputValList.length - 1] = keywords.key;
             /*inputIdList = $input.attr('data-id').split(separator);
@@ -61,7 +60,7 @@
         $input.trigger('onSetSelectValue', [keywords, (options.data.value || options._lastData.value)[keywords.index]]);
     }
     /**
-     * è°ƒæ•´é€‰æ‹©èœå•ä½ç½®
+     * µ÷ÕûÑ¡Ôñ²Ëµ¥Î»ÖÃ
      * @param {Object} $input
      * @param {Object} $dropdownMenu
      * @param {Object} options
@@ -73,9 +72,9 @@
 
         if (options.autoDropup) {
             setTimeout(function() {
-                if ( //è‡ªåŠ¨åˆ¤æ–­èœå•å‘ä¸Šå±•å¼€
-                    ($(window).height() + $(window).scrollTop() - $input.offset().top) < $dropdownMenu.height() && //å‡å¦‚å‘ä¸‹ä¼šæ’‘é•¿é¡µé¢
-                    $input.offset().top > ($dropdownMenu.height() + $(window).scrollTop()) //è€Œä¸”å‘ä¸Šä¸ä¼šæ’‘åˆ°é¡¶éƒ¨
+                if ( //×Ô¶¯ÅĞ¶Ï²Ëµ¥ÏòÉÏÕ¹¿ª
+                    ($(window).height() + $(window).scrollTop() - $input.offset().top) < $dropdownMenu.height() && //¼ÙÈçÏòÏÂ»á³Å³¤Ò³Ãæ
+                    $input.offset().top > ($dropdownMenu.height() + $(window).scrollTop()) //¶øÇÒÏòÉÏ²»»á³Åµ½¶¥²¿
                 ) {
                     $dropdownMenu.parents('.input-group').addClass('dropup');
                 } else {
@@ -84,7 +83,7 @@
             }, 10);
         }
 
-        //åˆ—è¡¨å¯¹é½æ–¹å¼
+        //ÁĞ±í¶ÔÆë·½Ê½
         var dmcss;
         if (options.listAlign === 'left') {
             dmcss = {
@@ -98,7 +97,7 @@
             };
         }
 
-        //ie ä¸‹ï¼Œä¸æ˜¾ç¤ºæŒ‰é’®æ—¶çš„ top/bottom
+        //ie ÏÂ£¬²»ÏÔÊ¾°´Å¥Ê±µÄ top/bottom
         if (isIe && !options.showBtn) {
             if (!$dropdownMenu.parents('.input-group').hasClass('dropup')) {
                 dmcss.top = $input.parent().height();
@@ -109,7 +108,7 @@
             }
         }
 
-        //æ˜¯å¦è‡ªåŠ¨æœ€å°å®½åº¦
+        //ÊÇ·ñ×Ô¶¯×îĞ¡¿í¶È
         if (options.autoMinWidth === false) {
             dmcss['min-width'] = $input.parent().width();
         }
@@ -122,8 +121,8 @@
         return $input;
     }
     /**
-     * è®¾ç½®è¾“å…¥æ¡†èƒŒæ™¯è‰²
-     * å½“è®¾ç½®äº† indexIdï¼Œè€Œè¾“å…¥æ¡†çš„ data-id ä¸ºç©ºæ—¶ï¼Œè¾“å…¥æ¡†åŠ è½½è­¦å‘Šè‰²
+     * ÉèÖÃÊäÈë¿ò±³¾°É«
+     * µ±ÉèÖÃÁË indexId£¬¶øÊäÈë¿òµÄ data-id Îª¿ÕÊ±£¬ÊäÈë¿ò¼ÓÔØ¾¯¸æÉ«
      */
     function setBackground($input, options) {
         //console.log('setBackground', options);
@@ -142,19 +141,19 @@
             return $input.css('background', bg);
         }
 
-        //è‡ªç”±è¾“å…¥çš„å†…å®¹ï¼Œè®¾ç½®èƒŒæ™¯è‰²
+        //×ÔÓÉÊäÈëµÄÄÚÈİ£¬ÉèÖÃ±³¾°É«
         if (!~warnbg.indexOf(inputbg)) {
-            $input.trigger('onUnsetSelectValue'); //è§¦å‘å–æ¶ˆdata-idäº‹ä»¶
+            $input.trigger('onUnsetSelectValue'); //´¥·¢È¡Ïûdata-idÊÂ¼ş
             $input.css('background', warnbg);
         }
 
         return $input;
     }
     /**
-     * è°ƒæ•´æ»‘åŠ¨æ¡
+     * µ÷Õû»¬¶¯Ìõ
      */
     function adjustScroll($input, $dropdownMenu, options) {
-        //æ§åˆ¶æ»‘åŠ¨æ¡
+        //¿ØÖÆ»¬¶¯Ìõ
         var $hover = $input.parent().find('tbody tr.' + options.listHoverCSS),
             pos, maxHeight;
         if ($hover.length) {
@@ -169,26 +168,26 @@
         }
     }
     /**
-     * è§£é™¤æ‰€æœ‰åˆ—è¡¨ hover æ ·å¼
+     * ½â³ıËùÓĞÁĞ±í hover ÑùÊ½
      */
     function unHoverAll($dropdownMenu, options) {
         $dropdownMenu.find('tr.' + options.listHoverCSS).removeClass(options.listHoverCSS);
     }
     /**
-     * éªŒè¯ $input å¯¹è±¡æ˜¯å¦ç¬¦åˆæ¡ä»¶
-     *   1. å¿…é¡»ä¸º bootstrap ä¸‹æ‹‰å¼èœå•
-     *   2. å¿…é¡»æœªåˆå§‹åŒ–è¿‡
+     * ÑéÖ¤ $input ¶ÔÏóÊÇ·ñ·ûºÏÌõ¼ş
+     *   1. ±ØĞëÎª bootstrap ÏÂÀ­Ê½²Ëµ¥
+     *   2. ±ØĞëÎ´³õÊ¼»¯¹ı
      */
     function checkInput($input, options) {
         var $dropdownMenu = $input.parent('.input-group').find('ul.dropdown-menu'),
             data = $input.data('bsSuggest');
 
-        //è¿‡æ»¤é bootstrap ä¸‹æ‹‰å¼èœå•å¯¹è±¡
+        //¹ıÂË·Ç bootstrap ÏÂÀ­Ê½²Ëµ¥¶ÔÏó
         if (!$dropdownMenu.length) {
             return false;
         }
 
-        //æ˜¯å¦å·²ç»åˆå§‹åŒ–çš„æ£€æµ‹
+        //ÊÇ·ñÒÑ¾­³õÊ¼»¯µÄ¼ì²â
         if (data) {
             return false;
         }
@@ -199,9 +198,9 @@
         return true;
     }
     /**
-     * æ•°æ®æ ¼å¼æ£€æµ‹
-     * æ£€æµ‹ ajax è¿”å›æˆåŠŸæ•°æ®æˆ– data å‚æ•°æ•°æ®æ˜¯å¦æœ‰æ•ˆ
-     * data æ ¼å¼ï¼š{"value": [{}, {}...]}
+     * Êı¾İ¸ñÊ½¼ì²â
+     * ¼ì²â ajax ·µ»Ø³É¹¦Êı¾İ»ò data ²ÎÊıÊı¾İÊÇ·ñÓĞĞ§
+     * data ¸ñÊ½£º{"value": [{}, {}...]}
      */
     function checkData(data) {
         var isEmpty = true;
@@ -212,11 +211,11 @@
             }
         }
         if (isEmpty) {
-            handleError('è¿”å›æ•°æ®æ ¼å¼é”™è¯¯!');
+            handleError('·µ»ØÊı¾İ¸ñÊ½´íÎó!');
             return false;
         }
         if (!data.value.length) {
-            //handleError('è¿”å›æ•°æ®ä¸ºç©º!');
+            //handleError('·µ»ØÊı¾İÎª¿Õ!');
             return false;
         }
 
@@ -224,10 +223,10 @@
     }
 
     /**
-     * åˆ¤æ–­å­—æ®µåæ˜¯å¦åœ¨ options.effectiveFields é…ç½®é¡¹ä¸­
-     * @param  {String} field   è¦åˆ¤æ–­çš„å­—æ®µå
+     * ÅĞ¶Ï×Ö¶ÎÃûÊÇ·ñÔÚ options.effectiveFields ÅäÖÃÏîÖĞ
+     * @param  {String} field   ÒªÅĞ¶ÏµÄ×Ö¶ÎÃû
      * @param  {Object} options
-     * @return {Boolean}        effectiveFields ä¸ºç©ºæ—¶å§‹ç»ˆè¿”å› true
+     * @return {Boolean}        effectiveFields Îª¿ÕÊ±Ê¼ÖÕ·µ»Ø true
      */
     function inEffectiveFields(field, options) {
         return !(field === '__index' ||
@@ -236,28 +235,28 @@
             !~$.inArray(field, options.effectiveFields));
     }
     /**
-     * åˆ¤æ–­å­—æ®µåæ˜¯å¦åœ¨ options.searchFields æœç´¢å­—æ®µé…ç½®ä¸­
+     * ÅĞ¶Ï×Ö¶ÎÃûÊÇ·ñÔÚ options.searchFields ËÑË÷×Ö¶ÎÅäÖÃÖĞ
      */
     function inSearchFields(field, options) {
         return ~$.inArray(field, options.searchFields);
     }
     /**
-     * ä¸‹æ‹‰åˆ—è¡¨åˆ·æ–°
-     * ä½œä¸º fnGetData çš„ callback å‡½æ•°è°ƒç”¨
+     * ÏÂÀ­ÁĞ±íË¢ĞÂ
+     * ×÷Îª fnGetData µÄ callback º¯Êıµ÷ÓÃ
      */
     function refreshDropMenu($input, data, options) {
         var $dropdownMenu = $input.parent().find('ul.dropdown-menu'),
             len, i, j, index = 0,
             tds,
             html = ['<table class="table table-condensed table-sm">'],
-            idValue, keyValue; //ä½œä¸ºè¾“å…¥æ¡† data-id å’Œå†…å®¹çš„å­—æ®µå€¼
+            idValue, keyValue; //×÷ÎªÊäÈë¿ò data-id ºÍÄÚÈİµÄ×Ö¶ÎÖµ
 
         if (!data || !(len = data.value.length)) {
             $dropdownMenu.empty().hide();
             return $input;
         }
 
-        //ç›¸åŒæ•°æ®ï¼Œä¸ç”¨ç»§ç»­æ¸²æŸ“äº†
+        //ÏàÍ¬Êı¾İ£¬²»ÓÃ¼ÌĞøäÖÈ¾ÁË
         if (
             options._lastData &&
             JSON.stringify(options._lastData.value) === JSON.stringify(data.value) &&
@@ -269,7 +268,7 @@
         }
         options._lastData = data;
 
-        //ç”Ÿæˆè¡¨å¤´
+        //Éú³É±íÍ·
         if (options.showHeader) {
             html.push('<thead><tr>');
             for (j in data.value[0]) {
@@ -278,7 +277,7 @@
                 }
 
                 if (index === 0) {
-                    //è¡¨å¤´ç¬¬ä¸€åˆ—è®°å½•æ€»æ•°
+                    //±íÍ·µÚÒ»ÁĞ¼ÇÂ¼×ÜÊı
                     html.push('<th>' + (options.effectiveFieldsAlias[j] || j) + '(' + len + ')' + '</th>');
                 } else {
                     html.push('<th>' + (options.effectiveFieldsAlias[j] || j) + '</th>');
@@ -291,7 +290,7 @@
         html.push('<tbody>');
 
         //console.log(data, len);
-        //æŒ‰åˆ—åŠ æ•°æ®
+        //°´ÁĞ¼ÓÊı¾İ
         for (i = 0; i < len; i++) {
             index = 0;
             tds = [];
@@ -299,7 +298,7 @@
             keyValue = data.value[i][options.keyField] || '';
 
             for (j in data.value[i]) {
-                //æ ‡è®°ä½œä¸º value å’Œ ä½œä¸º id çš„å€¼
+                //±ê¼Ç×÷Îª value ºÍ ×÷Îª id µÄÖµ
                 if (!keyValue && options.indexKey === index) {
                     keyValue = data.value[i][j];
                 }
@@ -309,7 +308,7 @@
 
                 index++;
 
-                //è¿‡æ»¤æ— æ•ˆå­—æ®µ
+                //¹ıÂËÎŞĞ§×Ö¶Î
                 if (inEffectiveFields(j, options) === false) {
                     continue;
                 }
@@ -324,7 +323,7 @@
 
         $dropdownMenu.html(html.join('')).show();
 
-        //scrollbar å­˜åœ¨æ—¶ï¼Œè°ƒæ•´ paddingï¼Œå»¶æ—¶åˆ°åŠ¨ç”»ç»“æŸæ—¶å¼€å§‹
+        //scrollbar ´æÔÚÊ±£¬µ÷Õû padding£¬ÑÓÊ±µ½¶¯»­½áÊøÊ±¿ªÊ¼
         setTimeout(function() {
             if (!isIe &&
                 //$dropdownMenu.css('max-height') &&
@@ -342,7 +341,7 @@
         return $input;
     }
     /**
-     * ajax è·å–æ•°æ®
+     * ajax »ñÈ¡Êı¾İ
      * @param  {Object} options
      * @return {Object}         $.Deferred
      */
@@ -371,7 +370,7 @@
             ajaxParam.jsonp = options.jsonp;
         }
 
-        //è‡ªå®šä¹‰ ajax è¯·æ±‚å‚æ•°ç”Ÿæˆæ–¹æ³•
+        //×Ô¶¨Òå ajax ÇëÇó²ÎÊıÉú³É·½·¨
         if ($.isFunction(options.fnAdjustAjaxParam)) {
             ajaxParam = $.extend(ajaxParam, options.fnAdjustAjaxParam(keyword, options));
         }
@@ -381,12 +380,12 @@
         }).fail(handleError);
     }
     /**
-     * æ£€æµ‹ keyword ä¸ value æ˜¯å¦å­˜åœ¨äº’ç›¸åŒ…å«
-     * @param  {String}  keyword ç”¨æˆ·è¾“å…¥çš„å…³é”®å­—
-     * @param  {String}  key     åŒ¹é…å­—æ®µçš„ key
-     * @param  {String}  value   key å­—æ®µå¯¹åº”çš„å€¼
+     * ¼ì²â keyword Óë value ÊÇ·ñ´æÔÚ»¥Ïà°üº¬
+     * @param  {String}  keyword ÓÃ»§ÊäÈëµÄ¹Ø¼ü×Ö
+     * @param  {String}  key     Æ¥Åä×Ö¶ÎµÄ key
+     * @param  {String}  value   key ×Ö¶Î¶ÔÓ¦µÄÖµ
      * @param  {Object}  options
-     * @return {Boolean}         åŒ…å«/ä¸åŒ…å«
+     * @return {Boolean}         °üº¬/²»°üº¬
      */
     function isInWord(keyword, key, value, options) {
         value = $.trim(value);
@@ -401,7 +400,7 @@
             (value.indexOf(keyword) !== -1 || keyword.indexOf(value) !== -1);
     }
     /**
-     * é€šè¿‡ ajax æˆ– json å‚æ•°è·å–æ•°æ®
+     * Í¨¹ı ajax »ò json ²ÎÊı»ñÈ¡Êı¾İ
      */
     function getData(keyword, $input, callback, options) {
         var data, validData, filterData = {
@@ -410,31 +409,31 @@
             i, key, len;
 
         keyword = keyword || '';
-        //è·å–æ•°æ®å‰å¯¹å…³é”®å­—é¢„å¤„ç†æ–¹æ³•
+        //»ñÈ¡Êı¾İÇ°¶Ô¹Ø¼ü×ÖÔ¤´¦Àí·½·¨
         if ($.isFunction(options.fnPreprocessKeyword)) {
             keyword = options.fnPreprocessKeyword(keyword, options);
         }
 
-        //ç»™äº†urlå‚æ•°ï¼Œåˆ™ä»æœåŠ¡å™¨ ajax è¯·æ±‚
+        //¸øÁËurl²ÎÊı£¬Ôò´Ó·şÎñÆ÷ ajax ÇëÇó
         //console.log(options.url + keyword);
         if (options.url) {
             ajax(options, keyword).done(function(result) {
-                callback($input, options.data, options); //ä¸º refreshDropMenu
+                callback($input, options.data, options); //Îª refreshDropMenu
                 $input.trigger('onDataRequestSuccess', result);
                 if (options.getDataMethod === 'firstByUrl') {
                     options.url = null;
                 }
             });
         } else {
-            //æ²¡æœ‰ç»™å‡º url å‚æ•°ï¼Œåˆ™ä» data å‚æ•°è·å–
+            //Ã»ÓĞ¸ø³ö url ²ÎÊı£¬Ôò´Ó data ²ÎÊı»ñÈ¡
             data = options.data;
             validData = checkData(data);
-            //æœ¬åœ°çš„ data æ•°æ®ï¼Œåˆ™åœ¨æœ¬åœ°è¿‡æ»¤
+            //±¾µØµÄ data Êı¾İ£¬ÔòÔÚ±¾µØ¹ıÂË
             if (validData) {
                 if (!keyword) {
                     filterData = data;
                 } else {
-                    //è¾“å…¥ä¸ä¸ºç©ºæ—¶åˆ™è¿›è¡ŒåŒ¹é…
+                    //ÊäÈë²»Îª¿ÕÊ±Ôò½øĞĞÆ¥Åä
                     len = data.value.length;
                     for (i = 0; i < len; i++) {
                         for (key in data.value[i]) {
@@ -456,47 +455,47 @@
     }
 
     /**
-     * æ•°æ®å¤„ç†
-     * url è·å–æ•°æ®æ—¶ï¼Œå¯¹æ•°æ®çš„å¤„ç†ï¼Œä½œä¸º fnGetData ä¹‹åçš„å›è°ƒå¤„ç†
+     * Êı¾İ´¦Àí
+     * url »ñÈ¡Êı¾İÊ±£¬¶ÔÊı¾İµÄ´¦Àí£¬×÷Îª fnGetData Ö®ºóµÄ»Øµ÷´¦Àí
      */
     function processData(data) {
         return checkData(data);
     }
     /**
-     * é»˜è®¤çš„é…ç½®é€‰é¡¹
+     * Ä¬ÈÏµÄÅäÖÃÑ¡Ïî
      * @type {Object}
      */
     var defaultOptions = {
-        url: null, //è¯·æ±‚æ•°æ®çš„ URL åœ°å€
-        jsonp: null, //è®¾ç½®æ­¤å‚æ•°åï¼Œå°†å¼€å¯jsonpåŠŸèƒ½ï¼Œå¦åˆ™ä½¿ç”¨jsonæ•°æ®ç»“æ„
+        url: null,                      //ÇëÇóÊı¾İµÄ URL µØÖ·
+        jsonp: null,                    //ÉèÖÃ´Ë²ÎÊıÃû£¬½«¿ªÆôjsonp¹¦ÄÜ£¬·ñÔòÊ¹ÓÃjsonÊı¾İ½á¹¹
         data: {
             value: []
-        }, //æç¤ºæ‰€ç”¨çš„æ•°æ®ï¼Œæ³¨æ„æ ¼å¼
-        indexId: 0, //æ¯ç»„æ•°æ®çš„ç¬¬å‡ ä¸ªæ•°æ®ï¼Œä½œä¸ºinputè¾“å…¥æ¡†çš„ data-idï¼Œè®¾ä¸º -1 ä¸” idField ä¸ºç©ºåˆ™ä¸è®¾ç½®æ­¤å€¼
-        indexKey: 0, //æ¯ç»„æ•°æ®çš„ç¬¬å‡ ä¸ªæ•°æ®ï¼Œä½œä¸ºinputè¾“å…¥æ¡†çš„å†…å®¹
-        idField: '', //æ¯ç»„æ•°æ®çš„å“ªä¸ªå­—æ®µä½œä¸º data-idï¼Œä¼˜å…ˆçº§é«˜äº indexId è®¾ç½®ï¼ˆæ¨èï¼‰
-        keyField: '', //æ¯ç»„æ•°æ®çš„å“ªä¸ªå­—æ®µä½œä¸ºè¾“å…¥æ¡†å†…å®¹ï¼Œä¼˜å…ˆçº§é«˜äº indexKey è®¾ç½®ï¼ˆæ¨èï¼‰
+        },                              //ÌáÊ¾ËùÓÃµÄÊı¾İ£¬×¢Òâ¸ñÊ½
+        indexId: 0,                     //Ã¿×éÊı¾İµÄµÚ¼¸¸öÊı¾İ£¬×÷ÎªinputÊäÈë¿òµÄ data-id£¬ÉèÎª -1 ÇÒ idField Îª¿ÕÔò²»ÉèÖÃ´ËÖµ
+        indexKey: 0,                    //Ã¿×éÊı¾İµÄµÚ¼¸¸öÊı¾İ£¬×÷ÎªinputÊäÈë¿òµÄÄÚÈİ
+        idField: '',                    //Ã¿×éÊı¾İµÄÄÄ¸ö×Ö¶Î×÷Îª data-id£¬ÓÅÏÈ¼¶¸ßÓÚ indexId ÉèÖÃ£¨ÍÆ¼ö£©
+        keyField: '',                   //Ã¿×éÊı¾İµÄÄÄ¸ö×Ö¶Î×÷ÎªÊäÈë¿òÄÚÈİ£¬ÓÅÏÈ¼¶¸ßÓÚ indexKey ÉèÖÃ£¨ÍÆ¼ö£©
 
-        /* æœç´¢ç›¸å…³ */
-        autoSelect: true, //é”®ç›˜å‘ä¸Š/ä¸‹æ–¹å‘é”®æ—¶ï¼Œæ˜¯å¦è‡ªåŠ¨é€‰æ‹©å€¼
-        allowNoKeyword: true, //æ˜¯å¦å…è®¸æ— å…³é”®å­—æ—¶è¯·æ±‚æ•°æ®
-        getDataMethod: 'firstByUrl', //è·å–æ•°æ®çš„æ–¹å¼ï¼Œurlï¼šä¸€ç›´ä»urlè¯·æ±‚ï¼›dataï¼šä» options.data è·å–ï¼›firstByUrlï¼šç¬¬ä¸€æ¬¡ä»Urlè·å–å…¨éƒ¨æ•°æ®ï¼Œä¹‹åä»options.dataè·å–
-        delayUntilKeyup: false, //è·å–æ•°æ®çš„æ–¹å¼ ä¸º firstByUrl æ—¶ï¼Œæ˜¯å¦å»¶è¿Ÿåˆ°æœ‰è¾“å…¥æ—¶æ‰è¯·æ±‚æ•°æ®
-        ignorecase: false, //å‰ç«¯æœç´¢åŒ¹é…æ—¶ï¼Œæ˜¯å¦å¿½ç•¥å¤§å°å†™
-        effectiveFields: [], //æœ‰æ•ˆæ˜¾ç¤ºäºåˆ—è¡¨ä¸­çš„å­—æ®µï¼Œéæœ‰æ•ˆå­—æ®µéƒ½ä¼šè¿‡æ»¤ï¼Œé»˜è®¤å…¨éƒ¨ã€‚
-        effectiveFieldsAlias: {}, //æœ‰æ•ˆå­—æ®µçš„åˆ«åå¯¹è±¡ï¼Œç”¨äº header çš„æ˜¾ç¤º
-        searchFields: [], //æœ‰æ•ˆæœç´¢å­—æ®µï¼Œä»å‰ç«¯æœç´¢è¿‡æ»¤æ•°æ®æ—¶ä½¿ç”¨ï¼Œä½†ä¸ä¸€å®šæ˜¾ç¤ºåœ¨åˆ—è¡¨ä¸­ã€‚effectiveFields é…ç½®å­—æ®µä¹Ÿä¼šç”¨äºæœç´¢è¿‡æ»¤
+        /* ËÑË÷Ïà¹Ø */
+        autoSelect: true,               //¼üÅÌÏòÉÏ/ÏÂ·½Ïò¼üÊ±£¬ÊÇ·ñ×Ô¶¯Ñ¡ÔñÖµ
+        allowNoKeyword: true,           //ÊÇ·ñÔÊĞíÎŞ¹Ø¼ü×ÖÊ±ÇëÇóÊı¾İ
+        getDataMethod: 'firstByUrl',    //»ñÈ¡Êı¾İµÄ·½Ê½£¬url£ºÒ»Ö±´ÓurlÇëÇó£»data£º´Ó options.data »ñÈ¡£»firstByUrl£ºµÚÒ»´Î´ÓUrl»ñÈ¡È«²¿Êı¾İ£¬Ö®ºó´Óoptions.data»ñÈ¡
+        delayUntilKeyup: false,         //»ñÈ¡Êı¾İµÄ·½Ê½ Îª firstByUrl Ê±£¬ÊÇ·ñÑÓ³Ùµ½ÓĞÊäÈëÊ±²ÅÇëÇóÊı¾İ
+        ignorecase: false,              //Ç°¶ËËÑË÷Æ¥ÅäÊ±£¬ÊÇ·ñºöÂÔ´óĞ¡Ğ´
+        effectiveFields: [],            //ÓĞĞ§ÏÔÊ¾ÓÚÁĞ±íÖĞµÄ×Ö¶Î£¬·ÇÓĞĞ§×Ö¶Î¶¼»á¹ıÂË£¬Ä¬ÈÏÈ«²¿¡£
+        effectiveFieldsAlias: {},       //ÓĞĞ§×Ö¶ÎµÄ±ğÃû¶ÔÏó£¬ÓÃÓÚ header µÄÏÔÊ¾
+        searchFields: [],               //ÓĞĞ§ËÑË÷×Ö¶Î£¬´ÓÇ°¶ËËÑË÷¹ıÂËÊı¾İÊ±Ê¹ÓÃ£¬µ«²»Ò»¶¨ÏÔÊ¾ÔÚÁĞ±íÖĞ¡£effectiveFields ÅäÖÃ×Ö¶ÎÒ²»áÓÃÓÚËÑË÷¹ıÂË
 
-        multiWord: false, //ä»¥åˆ†éš”ç¬¦å·åˆ†å‰²çš„å¤šå…³é”®å­—æ”¯æŒ
-        separator: ',', //å¤šå…³é”®å­—æ”¯æŒæ—¶çš„åˆ†éš”ç¬¦ï¼Œé»˜è®¤ä¸ºåŠè§’é€—å·
+        multiWord: false,               //ÒÔ·Ö¸ô·ûºÅ·Ö¸îµÄ¶à¹Ø¼ü×ÖÖ§³Ö
+        separator: ',',                 //¶à¹Ø¼ü×ÖÖ§³ÖÊ±µÄ·Ö¸ô·û£¬Ä¬ÈÏÎª°ë½Ç¶ººÅ
 
         /* UI */
-        autoDropup: false, //é€‰æ‹©èœå•æ˜¯å¦è‡ªåŠ¨åˆ¤æ–­å‘ä¸Šå±•å¼€ã€‚è®¾ä¸º trueï¼Œåˆ™å½“ä¸‹æ‹‰èœå•é«˜åº¦è¶…è¿‡çª—ä½“ï¼Œä¸”å‘ä¸Šæ–¹å‘ä¸ä¼šè¢«çª—ä½“è¦†ç›–ï¼Œåˆ™é€‰æ‹©èœå•å‘ä¸Šå¼¹å‡º
-        autoMinWidth: false, //æ˜¯å¦è‡ªåŠ¨æœ€å°å®½åº¦ï¼Œè®¾ä¸º false åˆ™æœ€å°å®½åº¦ä¸å°äºè¾“å…¥æ¡†å®½åº¦
-        showHeader: false, //æ˜¯å¦æ˜¾ç¤ºé€‰æ‹©åˆ—è¡¨çš„ headerã€‚ä¸º true æ—¶ï¼Œæœ‰æ•ˆå­—æ®µå¤§äºä¸€åˆ—åˆ™æ˜¾ç¤ºè¡¨å¤´
-        showBtn: true, //æ˜¯å¦æ˜¾ç¤ºä¸‹æ‹‰æŒ‰é’®
-        inputBgColor: '', //è¾“å…¥æ¡†èƒŒæ™¯è‰²ï¼Œå½“ä¸å®¹å™¨èƒŒæ™¯è‰²ä¸åŒæ—¶ï¼Œå¯èƒ½éœ€è¦è¯¥é¡¹çš„é…ç½®
-        inputWarnColor: 'rgba(255,0,0,.1)', //è¾“å…¥æ¡†å†…å®¹ä¸æ˜¯ä¸‹æ‹‰åˆ—è¡¨é€‰æ‹©æ—¶çš„è­¦å‘Šè‰²
+        autoDropup: false,              //Ñ¡Ôñ²Ëµ¥ÊÇ·ñ×Ô¶¯ÅĞ¶ÏÏòÉÏÕ¹¿ª¡£ÉèÎª true£¬Ôòµ±ÏÂÀ­²Ëµ¥¸ß¶È³¬¹ı´°Ìå£¬ÇÒÏòÉÏ·½Ïò²»»á±»´°Ìå¸²¸Ç£¬ÔòÑ¡Ôñ²Ëµ¥ÏòÉÏµ¯³ö
+        autoMinWidth: false,            //ÊÇ·ñ×Ô¶¯×îĞ¡¿í¶È£¬ÉèÎª false Ôò×îĞ¡¿í¶È²»Ğ¡ÓÚÊäÈë¿ò¿í¶È
+        showHeader: false,              //ÊÇ·ñÏÔÊ¾Ñ¡ÔñÁĞ±íµÄ header¡£Îª true Ê±£¬ÓĞĞ§×Ö¶Î´óÓÚÒ»ÁĞÔòÏÔÊ¾±íÍ·
+        showBtn: true,                  //ÊÇ·ñÏÔÊ¾ÏÂÀ­°´Å¥
+        inputBgColor: '',               //ÊäÈë¿ò±³¾°É«£¬µ±ÓëÈİÆ÷±³¾°É«²»Í¬Ê±£¬¿ÉÄÜĞèÒª¸ÃÏîµÄÅäÖÃ
+        inputWarnColor: 'rgba(255,0,0,.1)', //ÊäÈë¿òÄÚÈİ²»ÊÇÏÂÀ­ÁĞ±íÑ¡ÔñÊ±µÄ¾¯¸æÉ«
         listStyle: {
             'padding-top': 0,
             'max-height': '375px',
@@ -507,38 +506,38 @@
             '-webkit-transition': '0.3s',
             '-moz-transition': '0.3s',
             '-o-transition': '0.3s'
-        }, //åˆ—è¡¨çš„æ ·å¼æ§åˆ¶
-        listAlign: 'left', //æç¤ºåˆ—è¡¨å¯¹é½ä½ç½®ï¼Œleft/right/auto
-        listHoverStyle: 'background: #07d; color:#fff', //æç¤ºæ¡†åˆ—è¡¨é¼ æ ‡æ‚¬æµ®çš„æ ·å¼
-        listHoverCSS: 'jhover', //æç¤ºæ¡†åˆ—è¡¨é¼ æ ‡æ‚¬æµ®çš„æ ·å¼åç§°
+        },                              //ÁĞ±íµÄÑùÊ½¿ØÖÆ
+        listAlign: 'left',              //ÌáÊ¾ÁĞ±í¶ÔÆëÎ»ÖÃ£¬left/right/auto
+        listHoverStyle: 'background: #07d; color:#fff', //ÌáÊ¾¿òÁĞ±íÊó±êĞü¸¡µÄÑùÊ½
+        listHoverCSS: 'jhover',         //ÌáÊ¾¿òÁĞ±íÊó±êĞü¸¡µÄÑùÊ½Ãû³Æ
 
         /* key */
-        keyLeft: 37, //å‘å·¦æ–¹å‘é”®ï¼Œä¸åŒçš„æ“ä½œç³»ç»Ÿå¯èƒ½ä¼šæœ‰å·®åˆ«ï¼Œåˆ™è‡ªè¡Œå®šä¹‰
-        keyUp: 38, //å‘ä¸Šæ–¹å‘é”®
-        keyRight: 39, //å‘å³æ–¹å‘é”®
-        keyDown: 40, //å‘ä¸‹æ–¹å‘é”®
-        keyEnter: 13, //å›è½¦é”®
+        keyLeft: 37,                    //Ïò×ó·½Ïò¼ü£¬²»Í¬µÄ²Ù×÷ÏµÍ³¿ÉÄÜ»áÓĞ²î±ğ£¬Ôò×ÔĞĞ¶¨Òå
+        keyUp: 38,                      //ÏòÉÏ·½Ïò¼ü
+        keyRight: 39,                   //ÏòÓÒ·½Ïò¼ü
+        keyDown: 40,                    //ÏòÏÂ·½Ïò¼ü
+        keyEnter: 13,                   //»Ø³µ¼ü
 
         /* methods */
-        fnProcessData: processData, //æ ¼å¼åŒ–æ•°æ®çš„æ–¹æ³•ï¼Œè¿”å›æ•°æ®æ ¼å¼å‚è€ƒ data å‚æ•°
-        fnGetData: getData, //è·å–æ•°æ®çš„æ–¹æ³•ï¼Œæ— ç‰¹æ®Šéœ€æ±‚ä¸€èˆ¬ä¸ä½œè®¾ç½®
-        fnAdjustAjaxParam: null, //è°ƒæ•´ ajax è¯·æ±‚å‚æ•°æ–¹æ³•ï¼Œç”¨äºæ›´å¤šçš„è¯·æ±‚é…ç½®éœ€æ±‚ã€‚å¦‚å¯¹è¯·æ±‚å…³é”®å­—ä½œè¿›ä¸€æ­¥å¤„ç†ã€ä¿®æ”¹è¶…æ—¶æ—¶é—´ç­‰
-        fnPreprocessKeyword: null //æœç´¢è¿‡æ»¤æ•°æ®å‰ï¼Œå¯¹è¾“å…¥å…³é”®å­—ä½œè¿›ä¸€æ­¥å¤„ç†æ–¹æ³•ã€‚æ³¨æ„ï¼Œåº”è¿”å›å­—ç¬¦ä¸²
+        fnProcessData: processData,     //¸ñÊ½»¯Êı¾İµÄ·½·¨£¬·µ»ØÊı¾İ¸ñÊ½²Î¿¼ data ²ÎÊı
+        fnGetData: getData,             //»ñÈ¡Êı¾İµÄ·½·¨£¬ÎŞÌØÊâĞèÇóÒ»°ã²»×÷ÉèÖÃ
+        fnAdjustAjaxParam: null,        //µ÷Õû ajax ÇëÇó²ÎÊı·½·¨£¬ÓÃÓÚ¸ü¶àµÄÇëÇóÅäÖÃĞèÇó¡£Èç¶ÔÇëÇó¹Ø¼ü×Ö×÷½øÒ»²½´¦Àí¡¢ĞŞ¸Ä³¬Ê±Ê±¼äµÈ
+        fnPreprocessKeyword: null       //ËÑË÷¹ıÂËÊı¾İÇ°£¬¶ÔÊäÈë¹Ø¼ü×Ö×÷½øÒ»²½´¦Àí·½·¨¡£×¢Òâ£¬Ó¦·µ»Ø×Ö·û´®
     };
 
     var methods = {
         init: function(options) {
-            //å‚æ•°è®¾ç½®
+            //²ÎÊıÉèÖÃ
             var self = this;
 
-            //é»˜è®¤é…ç½®æœ‰æ•ˆæ˜¾ç¤ºå­—æ®µå¤šäºä¸€ä¸ªï¼Œåˆ™æ˜¾ç¤ºåˆ—è¡¨è¡¨å¤´ï¼Œå¦åˆ™ä¸æ˜¾ç¤º
+            //Ä¬ÈÏÅäÖÃÓĞĞ§ÏÔÊ¾×Ö¶Î¶àÓÚÒ»¸ö£¬ÔòÏÔÊ¾ÁĞ±í±íÍ·£¬·ñÔò²»ÏÔÊ¾
             if (undefined === options.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
                 options.showHeader = true;
             }
 
             options = $.extend(true, {}, defaultOptions, options);
 
-            //æ—§çš„æ–¹æ³•å…¼å®¹
+            //¾ÉµÄ·½·¨¼æÈİ
             if (options.processData) {
                 options.fnProcessData = options.processData;
             }
@@ -553,7 +552,7 @@
                 });
             }
 
-            //é¼ æ ‡æ»‘åŠ¨åˆ°æ¡ç›®æ ·å¼
+            //Êó±ê»¬¶¯µ½ÌõÄ¿ÑùÊ½
             if (!$('#bsSuggest').length) {
                 $('head:eq(0)').append('<style id="bsSuggest">.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
             }
@@ -561,51 +560,51 @@
             return self.each(function() {
                 var $input = $(this),
                     mouseenterDropdownMenu,
-                    keyupTimer, //keyup ä¸ input äº‹ä»¶å»¶æ—¶å®šæ—¶å™¨
+                    keyupTimer, //keyup Óë input ÊÂ¼şÑÓÊ±¶¨Ê±Æ÷
                     $dropdownMenu = $input.parents('.input-group:eq(0)').find('ul.dropdown-menu');
 
-                //éªŒè¯è¾“å…¥æ¡†å¯¹è±¡æ˜¯å¦ç¬¦åˆæ¡ä»¶
+                //ÑéÖ¤ÊäÈë¿ò¶ÔÏóÊÇ·ñ·ûºÏÌõ¼ş
                 if (checkInput($input, options) === false) {
-                    console.warn('ä¸æ˜¯ä¸€ä¸ªæ ‡å‡†çš„ bootstrap ä¸‹æ‹‰å¼èœå•æˆ–å·²åˆå§‹åŒ–:', $input);
+                    console.warn('²»ÊÇÒ»¸ö±ê×¼µÄ bootstrap ÏÂÀ­Ê½²Ëµ¥»òÒÑ³õÊ¼»¯:', $input);
                     return;
                 }
 
-                //æ˜¯å¦æ˜¾ç¤º button æŒ‰é’®
+                //ÊÇ·ñÏÔÊ¾ button °´Å¥
                 if (!options.showBtn) {
                     $input.css('border-radius', '4px')
                         .parents('.input-group:eq(0)').css('width', '100%')
                         .find('.btn:eq(0)').hide();
                 }
 
-                //ç§»é™¤ disabled ç±»ï¼Œå¹¶ç¦ç”¨è‡ªåŠ¨å®Œæˆ
+                //ÒÆ³ı disabled Àà£¬²¢½ûÓÃ×Ô¶¯Íê³É
                 $input.removeClass('disabled').attr('disabled', false).attr('autocomplete', 'off');
-                //dropdown-menu å¢åŠ ä¿®é¥°
+                //dropdown-menu Ôö¼ÓĞŞÊÎ
                 $dropdownMenu.css(options.listStyle);
 
-                //é»˜è®¤èƒŒæ™¯è‰²
+                //Ä¬ÈÏ±³¾°É«
                 if (!options.inputBgColor) {
                     options.inputBgColor = $input.css('background-color');
                 }
 
-                //å¼€å§‹äº‹ä»¶å¤„ç†
+                //¿ªÊ¼ÊÂ¼ş´¦Àí
                 $input.on('keydown', function(event) {
-                    var currentList, tipsKeyword; //æç¤ºåˆ—è¡¨ä¸Šè¢«é€‰ä¸­çš„å…³é”®å­—
+                    var currentList, tipsKeyword; //ÌáÊ¾ÁĞ±íÉÏ±»Ñ¡ÖĞµÄ¹Ø¼ü×Ö
                     //console.log('input keydown');
 
                     //$input.attr('data-id', '');
 
-                    //å½“æç¤ºå±‚æ˜¾ç¤ºæ—¶æ‰å¯¹é”®ç›˜äº‹ä»¶å¤„ç†
+                    //µ±ÌáÊ¾²ãÏÔÊ¾Ê±²Å¶Ô¼üÅÌÊÂ¼ş´¦Àí
                     if ($dropdownMenu.css('display') !== 'none') {
                         currentList = $dropdownMenu.find('.' + options.listHoverCSS);
-                        tipsKeyword = ''; //æç¤ºåˆ—è¡¨ä¸Šè¢«é€‰ä¸­çš„å…³é”®å­—
+                        tipsKeyword = ''; //ÌáÊ¾ÁĞ±íÉÏ±»Ñ¡ÖĞµÄ¹Ø¼ü×Ö
 
                         if (event.keyCode === options.keyDown) {
-                            //å¦‚æœæŒ‰çš„æ˜¯å‘ä¸‹æ–¹å‘é”®
+                            //Èç¹û°´µÄÊÇÏòÏÂ·½Ïò¼ü
                             if (!currentList.length) {
-                                //å¦‚æœæç¤ºåˆ—è¡¨æ²¡æœ‰ä¸€ä¸ªè¢«é€‰ä¸­,åˆ™å°†åˆ—è¡¨ç¬¬ä¸€ä¸ªé€‰ä¸­
+                                //Èç¹ûÌáÊ¾ÁĞ±íÃ»ÓĞÒ»¸ö±»Ñ¡ÖĞ,Ôò½«ÁĞ±íµÚÒ»¸öÑ¡ÖĞ
                                 tipsKeyword = getPointKeyword($dropdownMenu.find('table tbody tr:first').mouseover());
                             } else if (!currentList.next().length) {
-                                //å¦‚æœæ˜¯æœ€åä¸€ä¸ªè¢«é€‰ä¸­,åˆ™å–æ¶ˆé€‰ä¸­,å³å¯è®¤ä¸ºæ˜¯è¾“å…¥æ¡†è¢«é€‰ä¸­ï¼Œå¹¶æ¢å¤è¾“å…¥çš„å€¼
+                                //Èç¹ûÊÇ×îºóÒ»¸ö±»Ñ¡ÖĞ,ÔòÈ¡ÏûÑ¡ÖĞ,¼´¿ÉÈÏÎªÊÇÊäÈë¿ò±»Ñ¡ÖĞ£¬²¢»Ö¸´ÊäÈëµÄÖµ
                                 unHoverAll($dropdownMenu, options);
 
                                 if (options.autoSelect) {
@@ -613,16 +612,16 @@
                                 }
                             } else {
                                 unHoverAll($dropdownMenu, options);
-                                //é€‰ä¸­ä¸‹ä¸€è¡Œ
+                                //Ñ¡ÖĞÏÂÒ»ĞĞ
                                 tipsKeyword = getPointKeyword(currentList.next().mouseover());
                             }
-                            //æ§åˆ¶æ»‘åŠ¨æ¡
+                            //¿ØÖÆ»¬¶¯Ìõ
                             adjustScroll($input, $dropdownMenu, options);
 
                             if (!options.autoSelect) {
                                 return;
                             }
-                        } else if (event.keyCode === options.keyUp) { //å¦‚æœæŒ‰çš„æ˜¯å‘ä¸Šæ–¹å‘é”®
+                        } else if (event.keyCode === options.keyUp) { //Èç¹û°´µÄÊÇÏòÉÏ·½Ïò¼ü
                             if (!currentList.length) {
                                 tipsKeyword = getPointKeyword($dropdownMenu.find('table tbody tr:last').mouseover());
                             } else if (!currentList.prev().length) {
@@ -633,11 +632,11 @@
                                 }
                             } else {
                                 unHoverAll($dropdownMenu, options);
-                                //é€‰ä¸­å‰ä¸€è¡Œ
+                                //Ñ¡ÖĞÇ°Ò»ĞĞ
                                 tipsKeyword = getPointKeyword(currentList.prev().mouseover());
                             }
 
-                            //æ§åˆ¶æ»‘åŠ¨æ¡
+                            //¿ØÖÆ»¬¶¯Ìõ
                             adjustScroll($input, $dropdownMenu, options);
 
                             if (!options.autoSelect) {
@@ -650,16 +649,16 @@
                             $input.attr('data-id', '');
                         }
 
-                        //è®¾ç½®å€¼ tipsKeyword
+                        //ÉèÖÃÖµ tipsKeyword
                         //console.log(tipsKeyword);
                         setValue($input, tipsKeyword, options);
                     }
                 }).on('keyup input', function(event) {
                     var word, words;
 
-                    //å¦‚æœå¼¹èµ·çš„é”®æ˜¯å›è½¦ã€å‘ä¸Šæˆ–å‘ä¸‹æ–¹å‘é”®åˆ™è¿”å›
+                    //Èç¹ûµ¯ÆğµÄ¼üÊÇ»Ø³µ¡¢ÏòÉÏ»òÏòÏÂ·½Ïò¼üÔò·µ»Ø
                     if (event.keyCode === options.keyDown || event.keyCode === options.keyUp || event.keyCode === options.keyEnter) {
-                        $input.val($input.val()); //è®©é¼ æ ‡è¾“å…¥è·³åˆ°æœ€å
+                        $input.val($input.val()); //ÈÃÊó±êÊäÈëÌøµ½×îºó
                         setBackground($input, options);
                         return;
                     } else if (event.keyCode) {
@@ -673,19 +672,19 @@
 
                         word = $input.val();
 
-                        //è‹¥è¾“å…¥æ¡†å€¼æ²¡æœ‰æ”¹å˜æˆ–å˜ä¸ºç©ºåˆ™è¿”å›
+                        //ÈôÊäÈë¿òÖµÃ»ÓĞ¸Ä±ä»ò±äÎª¿ÕÔò·µ»Ø
                         if ($.trim(word) !== '' && word === $input.attr('alt')) {
                             return;
                         }
 
-                        //å½“æŒ‰ä¸‹é”®ä¹‹å‰è®°å½•è¾“å…¥æ¡†å€¼,ä»¥æ–¹ä¾¿æŸ¥çœ‹é”®å¼¹èµ·æ—¶å€¼æœ‰æ²¡æœ‰å˜
+                        //µ±°´ÏÂ¼üÖ®Ç°¼ÇÂ¼ÊäÈë¿òÖµ,ÒÔ·½±ã²é¿´¼üµ¯ÆğÊ±ÖµÓĞÃ»ÓĞ±ä
                         $input.attr('alt', $input.val());
 
                         if (options.multiWord) {
                             words = word.split(options.separator);
                             word = words[words.length - 1];
                         }
-                        //æ˜¯å¦å…è®¸ç©ºæ•°æ®æŸ¥è¯¢
+                        //ÊÇ·ñÔÊĞí¿ÕÊı¾İ²éÑ¯
                         if (!word.length && !options.allowNoKeyword) {
                             return;
                         }
@@ -698,7 +697,7 @@
                     adjustDropMenuPos($input, $dropdownMenu, options);
                 }).on('blur', function() {
                     //console.log('blur');
-                    if (!mouseenterDropdownMenu) { //ä¸æ˜¯è¿›å…¥ä¸‹æ‹‰åˆ—è¡¨çŠ¶æ€ï¼Œåˆ™éšè—åˆ—è¡¨
+                    if (!mouseenterDropdownMenu) { //²»ÊÇ½øÈëÏÂÀ­ÁĞ±í×´Ì¬£¬ÔòÒş²ØÁĞ±í
                         $dropdownMenu.css('display', '');
                     }
                 }).on('click', function() {
@@ -723,7 +722,7 @@
                         word = words[words.length - 1];
                     }
 
-                    //æ˜¯å¦å…è®¸ç©ºæ•°æ®æŸ¥è¯¢
+                    //ÊÇ·ñÔÊĞí¿ÕÊı¾İ²éÑ¯
                     if (!word.length && !options.allowNoKeyword) {
                         return;
                     }
@@ -732,7 +731,7 @@
                     options.fnGetData($.trim(word), $input, refreshDropMenu, options);
                 });
 
-                //ä¸‹æ‹‰æŒ‰é’®ç‚¹å‡»æ—¶
+                //ÏÂÀ­°´Å¥µã»÷Ê±
                 $input.parent().find('.btn:eq(0)').attr('data-toggle', '').on('click', function() {
                     /*var type = 'show';
                     if ($dropdownMenu.is(':visible')) {
@@ -751,7 +750,7 @@
                                 display = 'none';
                             }
                         } else {
-                            //ä¸ä»¥ keyword ä½œä¸ºè¿‡æ»¤ï¼Œå±•ç¤ºæ‰€æœ‰çš„æ•°æ®
+                            //²»ÒÔ keyword ×÷Îª¹ıÂË£¬Õ¹Ê¾ËùÓĞµÄÊı¾İ
                             refreshDropMenu($input, options.data, options);
                         }
                     }
@@ -760,7 +759,7 @@
                     return false;
                 });
 
-                //åˆ—è¡¨ä¸­æ»‘åŠ¨æ—¶ï¼Œè¾“å…¥æ¡†å¤±å»ç„¦ç‚¹
+                //ÁĞ±íÖĞ»¬¶¯Ê±£¬ÊäÈë¿òÊ§È¥½¹µã
                 $dropdownMenu.on('mouseenter', function() {
                         //console.log('mouseenter')
                         mouseenterDropdownMenu = 1;
@@ -771,11 +770,11 @@
                         mouseenterDropdownMenu = 0;
                         $input.focus();
                     }).on('mouseenter', 'tbody tr', function() {
-                        //è¡Œä¸Šçš„ç§»åŠ¨äº‹ä»¶
+                        //ĞĞÉÏµÄÒÆ¶¯ÊÂ¼ş
                         unHoverAll($dropdownMenu, options);
                         $(this).addClass(options.listHoverCSS);
 
-                        return false; //é˜»æ­¢å†’æ³¡
+                        return false; //×èÖ¹Ã°Åİ
                     })
                     .on('mousedown', 'tbody tr', function() {
                         setValue($input, getPointKeyword($(this)), options);
@@ -814,12 +813,12 @@
             });
         },
         version: function() {
-            return '0.1.7';
+            return '0.1.8';
         }
     };
 
     $.fn.bsSuggest = function(options) {
-        //æ–¹æ³•åˆ¤æ–­
+        //·½·¨ÅĞ¶Ï
         if (typeof options === 'string' && methods[options]) {
             var inited = true;
             this.each(function() {
@@ -827,15 +826,15 @@
                     return inited = false;
                 }
             });
-            //åªè¦æœ‰ä¸€ä¸ªæœªåˆå§‹åŒ–ï¼Œåˆ™å…¨éƒ¨éƒ½ä¸æ‰§è¡Œæ–¹æ³•ï¼Œé™¤éæ˜¯ init æˆ– version
+            //Ö»ÒªÓĞÒ»¸öÎ´³õÊ¼»¯£¬ÔòÈ«²¿¶¼²»Ö´ĞĞ·½·¨£¬³ı·ÇÊÇ init »ò version
             if (!inited && 'init' !== options && 'version' !== options) {
                 return false;
             }
 
-            //å¦‚æœæ˜¯æ–¹æ³•ï¼Œåˆ™å‚æ•°ç¬¬ä¸€ä¸ªä¸ºå‡½æ•°åï¼Œä»ç¬¬äºŒä¸ªå¼€å§‹ä¸ºå‡½æ•°å‚æ•°
+            //Èç¹ûÊÇ·½·¨£¬Ôò²ÎÊıµÚÒ»¸öÎªº¯ÊıÃû£¬´ÓµÚ¶ş¸ö¿ªÊ¼Îªº¯Êı²ÎÊı
             return methods[options].apply(this, [].slice.call(arguments, 1));
         } else if (typeof options === 'object' || !options) {
-            //è°ƒç”¨åˆå§‹åŒ–æ–¹æ³•
+            //µ÷ÓÃ³õÊ¼»¯·½·¨
             return methods.init.apply(this, arguments);
         }
     }
