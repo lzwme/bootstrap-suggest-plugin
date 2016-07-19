@@ -724,12 +724,24 @@ pre {
 </style><title>README</title></head><body><article class="markdown-body"><p><a href="http://lzw.me"><img src="https://camo.githubusercontent.com/67f3b8bd9a77a5294bf840f531a89a267a37ce3d/687474703a2f2f6c7a772e6d652f696d616765732f6c6f676f2e706e67" alt="Code Climate" data-canonical-src="http://lzw.me/images/logo.png" style="max-width:100%;"></a></p>
 
 <h1>
-<a id="user-content-bootstrap-search-suggest-" class="anchor" href="#bootstrap-search-suggest-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bootstrap Search Suggest <a href="http://gruntjs.com/"><img src="https://camo.githubusercontent.com/02d9825a669fb5b9f53bfe2e5a3fa4a1081cdb6a/68747470733a2f2f63646e2e6772756e746a732e636f6d2f6275696c74776974682e706e67" alt="Built with Grunt" data-canonical-src="https://cdn.gruntjs.com/builtwith.png" style="max-width:100%;"></a>
-</h1>
+<a id="user-content-bootstrap-search-suggest" class="anchor" href="#bootstrap-search-suggest" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bootstrap Search Suggest</h1>
 
 <p><a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin">Demo|示例</a></p>
 
 <p>这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。</p>
+
+<p><a href="http://gruntjs.com/"><img src="https://camo.githubusercontent.com/02d9825a669fb5b9f53bfe2e5a3fa4a1081cdb6a/68747470733a2f2f63646e2e6772756e746a732e636f6d2f6275696c74776974682e706e67" alt="Built with Grunt" data-canonical-src="https://cdn.gruntjs.com/builtwith.png" style="max-width:100%;"></a>
+<a href="http://npmjs.org/package/bootstrap-suggest-plugin"><img src="https://camo.githubusercontent.com/c05ab2aa2e3a1eb1a8413653e187465e5184fbf1/687474703a2f2f696d672e736869656c64732e696f2f6e706d2f762f626f6f7473747261702d737567676573742d706c7567696e2e7376673f7374796c653d666c61742d737175617265" alt="NPM version" data-canonical-src="http://img.shields.io/npm/v/bootstrap-suggest-plugin.svg?style=flat-square" style="max-width:100%;"></a>
+<a href="https://gemnasium.com/lzwme/bootstrap-suggest-plugin"><img src="https://camo.githubusercontent.com/eb200dc2da2b463b4f7153504b9d209ca157bc07/687474703a2f2f696d672e736869656c64732e696f2f67656d6e617369756d2f6c7a776d652f626f6f7473747261702d737567676573742d706c7567696e2e7376673f7374796c653d666c61742d737175617265" alt="gemnasium deps" data-canonical-src="http://img.shields.io/gemnasium/lzwme/bootstrap-suggest-plugin.svg?style=flat-square" style="max-width:100%;"></a>
+<a href="http://nodejs.org/download/"><img src="https://camo.githubusercontent.com/83d21b8684f160ecb050ca622a91456279018a64/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6e6f64652e6a732d2533453d5f302e31302d677265656e2e7376673f7374796c653d666c61742d737175617265" alt="node version" data-canonical-src="https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square" style="max-width:100%;"></a>
+<a href="https://npmjs.org/package/bootstrap-suggest-plugin"><img src="https://camo.githubusercontent.com/74d3cb753633d8fa9938c33c69b1bd320b5fe1de/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f646d2f626f6f7473747261702d737567676573742d706c7567696e2e7376673f7374796c653d666c61742d737175617265" alt="npm download" data-canonical-src="https://img.shields.io/npm/dm/bootstrap-suggest-plugin.svg?style=flat-square" style="max-width:100%;"></a></p>
+
+<h2>
+<a id="user-content-浏览器支持" class="anchor" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%94%AF%E6%8C%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>浏览器支持</h2>
+
+<ul>
+<li>支持 ie8+,chrome,firefox,safari</li>
+</ul>
 
 <h2>
 <a id="user-content-功能说明" class="anchor" href="#%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>功能说明</h2>
@@ -751,11 +763,23 @@ pre {
 <li>初始化插件</li>
 </ol>
 
-<div class="highlight highlight-source-js"><pre>    <span class="pl-k">var</span> bsSuggest <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>input#test<span class="pl-pds">"</span></span>).<span class="pl-en">bsSuggest</span>({
-      url<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>/rest/sys/getuserlist?keyword=<span class="pl-pds">"</span></span>
-    });</pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> bsSuggest <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>input#test<span class="pl-pds">"</span></span>).<span class="pl-en">bsSuggest</span>({
+    url<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>/rest/sys/getuserlist?keyword=<span class="pl-pds">"</span></span>
+});</pre></div>
 
-<p>具体使用请参考参数配置说明及demo 示例页面源码(<a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin/demo">Demo</a>)</p>
+<p>具体使用请参考参数配置说明及 demo 示例页面源码(<a href="http://lzw.me/pages/demo/bootstrap-suggest-plugin/demo">Demo</a>)</p>
+
+<h2>
+<a id="user-content-npm-方式" class="anchor" href="#npm-%E6%96%B9%E5%BC%8F" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>NPM 方式</h2>
+
+<p><a href="https://npmjs.org/package/bootstrap-suggest-plugin"><img src="https://camo.githubusercontent.com/c92388ef9c27bb612f922850bde7f915d16348b0/68747470733a2f2f6e6f6465692e636f2f6e706d2f626f6f7473747261702d737567676573742d706c7567696e2e706e67" alt="bootstrap-suggest-plugin" data-canonical-src="https://nodei.co/npm/bootstrap-suggest-plugin.png" style="max-width:100%;"></a></p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>bootstrap-suggest-plugin<span class="pl-pds">'</span></span>);
+<span class="pl-c">//import from 'bootstrap-suggest-plugin';</span>
+
+<span class="pl-k">var</span> bsSuggest <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#test<span class="pl-pds">"</span></span>).<span class="pl-en">bsSuggest</span>({
+    url<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>/rest/sys/getuserlist?keyword=<span class="pl-pds">"</span></span>
+});</pre></div>
 
 <h4>
 <a id="user-content-方法调用" class="anchor" href="#%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>方法调用</h4>
@@ -780,16 +804,21 @@ pre {
 <li>onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）</li>
 </ol>
 
-<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>input#test<span class="pl-pds">"</span></span>)
-    .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">"</span>dataRequestSuccess<span class="pl-pds">"</span></span>, <span class="pl-k">function</span> (<span class="pl-c1">event</span>, <span class="pl-smi">result</span>) {
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#test<span class="pl-pds">"</span></span>)
+    .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>dataRequestSuccess<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-c1">event</span>, <span class="pl-smi">result</span>) {
         <span class="pl-en">console</span>.<span class="pl-c1">log</span>(result);
     })
     .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>onSetSelectValue<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">e</span>, <span class="pl-smi">keyword</span>) {
         <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>onSetSelectValue: <span class="pl-pds">'</span></span>, keyword);
     })
     .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>onUnsetSelectValue<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">e</span>) {
-        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>onUnsetSelectValue<span class="pl-pds">"</span></span>);
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>onUnsetSelectValue<span class="pl-pds">'</span></span>);
     });</pre></div>
+
+<h2>
+<a id="user-content-使用示例" class="anchor" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用示例</h2>
+
+<p>请参考 demo/index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。</p>
 
 <h2>
 <a id="user-content-配置参数" class="anchor" href="#%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>配置参数</h2>
@@ -855,11 +884,6 @@ pre {
     fnAdjustAjaxParam<span class="pl-k">:</span> <span class="pl-c1">null</span>,        <span class="pl-c">//调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等</span>
     fnPreprocessKeyword<span class="pl-k">:</span> <span class="pl-c1">null</span>       <span class="pl-c">//搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串</span>
 };</pre></div>
-
-<h2>
-<a id="user-content-使用示例" class="anchor" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>使用示例</h2>
-
-<p>请参考 index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。</p>
 
 <h2>
 <a id="user-content-二次开发" class="anchor" href="#%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>二次开发</h2>

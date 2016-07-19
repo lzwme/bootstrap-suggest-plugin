@@ -78,12 +78,11 @@
          ) 的搜索建议插件。</p>
         <p>使用说明：<a href="../README.html" target="_blank">README.html</a> <a href="https://github.com/lzwme/bootstrap-suggest-plugin" target="_blank">Github</a></p>
 
-        <p>使用示例：<a href="demo.js" target="_blank">demo.js</a></p>
+        <p>使用示例：<a href="https://github.com/lzwme/bootstrap-suggest-plugin/blob/master/demo/demo.js" target="_blank">demo.js</a></p>
         <p id="bsVersion">
             <button class="btn btn-success btn-success-outline" data-version="3.3.6">bootstrap 3.3.6</button>
             <button class="btn btn-success btn-success-outline" data-version="4.0.0-alpha.2">bootstrap v4</button>
         </p>
-
 
         <div>
             <h3>测试(首次从 URL 获取数据)</h3>
@@ -115,8 +114,10 @@
                 </div>
             </div>
 
-            <h3>测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写)</h3>
+            <h3>测试(modal 中显示；不自动选中值；不显示按钮；)</h3>
             <a class="btn btn-primary" data-toggle="modal" data-target="#modalTest">modal test</a></p>
+
+            <h3>测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写)</h3>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="input-group">
@@ -134,6 +135,7 @@
             </div>
             <p>
                 <br><code>ignorecase: true,</code> //忽略大小写
+                <br><code>effectiveFieldsAlias:{userName: "姓名"},</code> //有效字段别名
                 <br><code>showHeader: true,</code> //显示 header
                 <br><code>showBtn: false,</code> //不显示下拉按钮
                 <br><code>delayUntilKeyup: true</code> //获取数据方式为 firstByUrl 时，延迟到有输入/获取到焦点时请求

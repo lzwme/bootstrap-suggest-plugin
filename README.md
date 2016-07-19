@@ -1,11 +1,30 @@
 [![Code Climate](http://lzw.me/images/logo.png)](http://lzw.me)
 
-Bootstrap Search Suggest [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+Bootstrap Search Suggest
 ========
 
 [Demo|示例](http://lzw.me/pages/demo/bootstrap-suggest-plugin)
 
 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
+
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![NPM version][npm-image]][npm-url]
+[![gemnasium deps][gemnasium-image]][gemnasium-url]
+[![node version][node-image]][node-url]
+[![npm download][download-image]][download-url]
+
+[npm-image]: http://img.shields.io/npm/v/bootstrap-suggest-plugin.svg?style=flat-square
+[npm-url]: http://npmjs.org/package/bootstrap-suggest-plugin
+[gemnasium-image]: http://img.shields.io/gemnasium/lzwme/bootstrap-suggest-plugin.svg?style=flat-square
+[gemnasium-url]: https://gemnasium.com/lzwme/bootstrap-suggest-plugin
+[node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
+[node-url]: http://nodejs.org/download/
+[download-image]: https://img.shields.io/npm/dm/bootstrap-suggest-plugin.svg?style=flat-square
+[download-url]: https://npmjs.org/package/bootstrap-suggest-plugin
+
+## 浏览器支持
+
+* 支持 ie8+,chrome,firefox,safari
 
 ## 功能说明
 
@@ -25,7 +44,20 @@ Bootstrap Search Suggest [![Built with Grunt](https://cdn.gruntjs.com/builtwith.
       url: "/rest/sys/getuserlist?keyword="
     });
 ```
-具体使用请参考参数配置说明及demo 示例页面源码([Demo](http://lzw.me/pages/demo/bootstrap-suggest-plugin/demo))
+具体使用请参考参数配置说明及 demo 示例页面源码([Demo](http://lzw.me/pages/demo/bootstrap-suggest-plugin/demo))
+
+## NPM 方式
+
+[![bootstrap-suggest-plugin](https://nodei.co/npm/bootstrap-suggest-plugin.png)](https://npmjs.org/package/bootstrap-suggest-plugin)
+
+```js
+require('bootstrap-suggest-plugin');
+//import from 'bootstrap-suggest-plugin';
+
+var bsSuggest = $("#test").bsSuggest({
+    url: "/rest/sys/getuserlist?keyword="
+});
+```
 
 ####方法调用
 1. 禁用提示： `$("input#test").bsSuggest("disable");`
@@ -38,7 +70,7 @@ Bootstrap Search Suggest [![Built with Grunt](https://cdn.gruntjs.com/builtwith.
 2. onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
 3. onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
 ```js
-$("input#test")
+$("#test")
     .on("dataRequestSuccess", function (event, result) {
         console.log(result);
     })
@@ -49,6 +81,10 @@ $("input#test")
         console.log("onUnsetSelectValue");
     });
 ```
+
+## 使用示例
+
+请参考 demo/index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。
 
 ## 配置参数
 
@@ -114,10 +150,6 @@ var defaultOptions = {
     fnPreprocessKeyword: null       //搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
 };
 ```
-
-## 使用示例
-
-请参考 index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。
 
 ## 二次开发
 

@@ -1,7 +1,6 @@
 (function() {
     /**
      * 测试(首次从 URL 获取数据)
-     * @return {[type]} [description]
      */
     function initTest() {
         $("#test").bsSuggest('init', {
@@ -42,18 +41,15 @@
     initTest();
 
     /**
-     * 测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写)
+     * 测试(modal 中显示；不自动选中值；不显示按钮)
      */
-    $("#testNoBtn").bsSuggest({
-        //url: "/rest/sys/getuserlist?keyword=",
+    $("#modalTest_input").bsSuggest({
         url: "data.json",
-        /*effectiveFields: ["userName", "shortAccount"],
+        effectiveFields: ["userName", "shortAccount"],
         searchFields: [ "shortAccount"],
-        effectiveFieldsAlias:{userName: "姓名"},*/
-        ignorecase: true,
-        showHeader: true,
-        showBtn: false,     //不显示下拉按钮
-        delayUntilKeyup: true, //获取数据的方式为 firstByUrl 时，延迟到有输入/获取到焦点时才请求数据
+        //showHeader: false,
+        autoSelect: false,
+        showBtn: false,
         idField: "userId",
         keyField: "userName"
     }).on('onDataRequestSuccess', function (e, result) {
@@ -64,11 +60,18 @@
         console.log("onUnsetSelectValue");
     });
 
-    //modal 中显示；不自动选中值；不显示按钮。
-    $("#modalTest_input").bsSuggest({
+    /**
+     * 测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写)
+     */
+    $("#testNoBtn").bsSuggest({
         url: "data.json",
-        autoSelect: false,
-        showBtn: false,
+        /*effectiveFields: ["userName", "shortAccount"],
+        searchFields: [ "shortAccount"],*/
+        effectiveFieldsAlias:{userName: "姓名"},
+        ignorecase: true,
+        showHeader: true,
+        showBtn: false,     //不显示下拉按钮
+        delayUntilKeyup: true, //获取数据的方式为 firstByUrl 时，延迟到有输入/获取到焦点时才请求数据
         idField: "userId",
         keyField: "userName"
     }).on('onDataRequestSuccess', function (e, result) {
@@ -110,7 +113,7 @@
         multiWord: true,         //以分隔符号分割的多关键字支持
         separator: ",",          //多关键字支持时的分隔符，默认为空格
         getDataMethod: "url",    //获取数据的方式，总是从 URL 获取
-        url: 'http://unionsug.baidu.com/su?p=3&t='+ (new Date()).getTime() +'&wd=', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
+        url: 'http://unionsug.baidu.com/su?p=3&wd=', //优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数
         jsonp: 'cb',                        //如果从 url 获取数据，并且需要跨域，则该参数必须设置
         fnProcessData: function (json) {    // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
             var index, len, data = {value: []};
@@ -187,8 +190,8 @@
         getDataMethod: "url",    //获取数据的方式，总是从 URL 获取
         url: 'http://unionsug.baidu.com/su?p=3', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
         jsonp: 'cb',
+        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
         fnAdjustAjaxParam: function(keyword, opts) {
-            //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
             console.log('ajax 请求参数调整：', keyword, opts);
             return {
                 jsonp: 'cb',
@@ -196,11 +199,12 @@
                 timeout: 10000,
                 data: {
                     t: (new Date()).getTime(),
-                    wd: $('#customKeyword').val() +  keyword
+                    wd: $('#customKeyword').val() + keyword
                 }
             };
         },
-        fnProcessData: function (json) {    // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
+        // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
+        fnProcessData: function (json) {
             var index, len, data = {value: []};
             if (!json || !json.s || json.s.length === 0) {
                 return false;
@@ -241,7 +245,8 @@
         effectiveFieldsAlias:{Id: "序号", Keyword: "关键字"},
         url: 'http://suggest.taobao.com/sug?code=utf-8&extras=1&q=', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
         jsonp: 'callback',               //如果从 url 获取数据，并且需要跨域，则该参数必须设置
-        fnProcessData: function(json){     // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
+        // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
+        fnProcessData: function(json){
             var index, len, data = {value: []};
 
             if(! json || ! json.result || ! json.result.length) {
@@ -278,5 +283,5 @@
         var ver = $(this).data('version');
         $('#bscss').attr('href', '//cdn.bootcss.com/bootstrap/' + ver + '/css/bootstrap.min.css');
         $('#bsjs').attr('src', '//cdn.bootcss.com/bootstrap/' + ver + '/js/bootstrap.min.js');
-    })
+    });
 }());
