@@ -1,49 +1,55 @@
 {
-    "name": "bootstrap-suggest-plugin",
-    "version": "0.1.9",
-    "description": "这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/lzwme/bootstrap-suggest-plugin.git"
-    },
-    "bugs": {
-        "url": "https://github.com/lzwme/bootstrap-suggest-plugin/issues"
-    },
-    "browser": "dist/bootstrap-suggest.min.js",
-    "main": "src/bootstrap-suggest.js",
-    "keywords": [
-        "bootstrap",
-        "suggest",
-        "dorpdown"
-    ],
-    "author": {
-        "name": "lzwme",
-        "url": "https://lzw.me"
-    },
-    "maintainers": [{
-        "name": "renxia",
-        "url": "https://lzw.me"
-    }],
-    "license": "MIT",
-    "homepage": "https://lzw.me/pages/demo/bootstrap-suggest-plugin",
-    "engines": {
-        "node": ">= 4.1.0"
-    },
-    "scripts": {
-        "test": "grunt qunit",
-        "build": "grunt production"
-    },
-    "dependencies": {
-        "jquery": ">1.11.0"
-    },
-    "devDependencies": {
-        "babel-eslint": ">5.0.0",
-        "grunt": ">0.4.1",
-        "grunt-contrib-concat": "~0.3.0",
-        "grunt-contrib-copy": "~0.7.0",
-        "grunt-contrib-eslint": "0.0.5",
-        "grunt-contrib-uglify": "~0.2.2",
-        "grunt-contrib-watch": "~0.5.3",
-        "gruntify-eslint": ">2.0.0"
+  "name": "bootstrap-suggest-plugin",
+  "version": "0.1.9",
+  "description": "这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lzwme/bootstrap-suggest-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lzwme/bootstrap-suggest-plugin/issues"
+  },
+  "browser": "dist/bootstrap-suggest.min.js",
+  "main": "src/bootstrap-suggest.js",
+  "keywords": [
+    "bootstrap",
+    "suggest",
+    "dorpdown"
+  ],
+  "author": {
+    "name": "lzwme",
+    "url": "https://lzw.me"
+  },
+  "maintainers": [
+    {
+      "name": "renxia",
+      "url": "https://lzw.me"
     }
+  ],
+  "license": "MIT",
+  "homepage": "https://lzw.me/pages/demo/bootstrap-suggest-plugin",
+  "engines": {
+    "node": ">= 4.1.0"
+  },
+  "scripts": {
+    "test": "mocha-phantomjs test/index.html -v 1366x768",
+    "build": "npm test && grunt production"
+  },
+  "dependencies": {
+    "jquery": ">=1.11.1 <3.0.0",
+    "bootstrap": "3.3.6"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "chai": "^3.5.0",
+    "grunt": ">0.4.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-eslint": "^0.0.5",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "gruntify-eslint": "^2.0.0",
+    "mocha": "^2.5.3",
+    "mocha-phantomjs": "^4.1.0"
+  }
 }

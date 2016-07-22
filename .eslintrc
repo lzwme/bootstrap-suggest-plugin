@@ -1,5 +1,7 @@
-// 使用 eslint 校验，sublime text 中请配置相应检测插件
+// 使用 eslint 校验，sublime text 中请配置相应检测插件。fis 构建时添加 -l 参数
+// npm install -g fis-lint-eslint
 // sublime text 中配置 eslist：
+// http://wiki.meizu.com/index.php?title=Eslint:_%E5%9C%A8_sublime_text_%E7%BC%96%E8%BE%91%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE_JavaScript_%E4%BB%A3%E7%A0%81%E6%A0%A1%E9%AA%8C%E5%99%A8_eslint
 // 规则参考：http://smocean.github.io/docs/rules/
 
 {
@@ -11,43 +13,62 @@
         "es6": true
     },
     "globals": {
-        "jest": false,
-        "describe": false,
-        "it": false,
-        "expect": false,
-        "_": false,
+        "mocha": true,
+        "chai": true,
+        "describe": true,
+        "it": true,
+        "expect": true,
+        "context": true,
+        "specify": true,
+        "before": true,
+        "after": true,
+        "beforeEach": true,
+        "afterEach": true,
+        "suit": true,
+        "_": true,
         "$": true,
-        "__uri": false,
+        "__uri": true,
         "__inline": true,
         "fis": true,
-        "__NAPI_SOURCE__": false,
-        "createUnitStore": false,
-        "StateTypes": false,
+        "__NAPI_SOURCE__": true,
+        "createUnitStore": true,
+        "StateTypes": true,
         "require": true,
         "define": true,
         "module": true,
         "MZ": true,
+        "DW": true,
         "console": true,
         "window": true,
+        "$Cookie": true,
+        "$D": true,
+        "$Html": true,
+        "$JSON": true,
+        "$Mobile": true,
+        "$T": true,
+        "$TextUtils": true,
+        "$Url": true,
+        "$Xml": true,
         "Vue": true
     },
     "rules": { //0 关闭，1 警告，2 错误
-        "block-scoped-var": 0,                                                 //把 var 语句看作是在块级作用域范围之内
-        "curly": 1,                                                            //为所有控制语句指定花括号约定，警告
-        "eol-last": 0,                                                         //强制文件最后一行为空行，关闭
-        "eqeqeq": [1, "allow-null"],                                           //要求使用 === 和 !==，但允许 == null
-        "dot-notation": 2,                                                     //尽可能的使用点符号
-        "no-console": 0,                                                       //不允许存在 console。关闭
-        "no-empty": 1,                                                         //空的代码块
-        "no-multi-spaces": 1,                                                  //不允许多个空格
-        "no-self-compare": 1,                                                  //禁止自身比较
-        "no-shadow": 1,                                                        //不允许声明在外层作用域下已声明过的变量
-        "no-undef": 2,                                                         //不允许使用未申明变量
-        "no-underscore-dangle": 0,                                             //禁止标识符中有悬空下划线。关闭
-        "no-unused-expressions": [1, { allowShortCircuit: true }],             // 禁止在语句的位置使用表达式，但允许a && a()
-        "no-unused-vars": 2,                                                   //变量定义后未使用
-        "no-use-before-define": 1,                                             //不允许在变量定义之前使用它们
-        "quotes": [0, "single", "avoid-escape"]                                //使用单引号，除非为了避免转义
+        "block-scoped-var": 0,                                     //把 var 语句看作是在块级作用域范围之内
+        "comma-dangle": 0,                                         // 不对数组或对象末尾逗号做强制要求
+        "curly": 1,                                                //为所有控制语句指定花括号约定，警告
+        "eol-last": 0,                                             //强制文件最后一行为空行，关闭
+        "eqeqeq": [1, "allow-null"],                               //要求使用 === 和 !==，但允许 == null
+        "dot-notation": 2,                                         //尽可能的使用点符号
+        "no-console": 0,                                           //不允许存在 console。关闭
+        "no-empty": 1,                                             //空的代码块
+        "no-multi-spaces": 1,                                      //不允许多个空格
+        "no-self-compare": 1,                                      //禁止自身比较
+        "no-shadow": 1,                                            //不允许声明在外层作用域下已声明过的变量
+        "no-undef": 2,                                             //不允许使用未申明变量
+        "no-underscore-dangle": 0,                                 //禁止标识符中有悬空下划线。关闭
+        "no-unused-expressions": [1, { allowShortCircuit: true }], // 禁止在语句的位置使用表达式，但允许a && a()
+        "no-unused-vars": 2,                                       //变量定义后未使用
+        "no-use-before-define": 1,                                 //不允许在变量定义之前使用它们
+        "quotes": [0, "single", "avoid-escape"]                    //使用单引号，除非为了避免转义
     },
     "extends": "eslint:recommended",
     "ecmaFeatures": {
@@ -55,6 +76,7 @@
         "experimentalObjectRestSpread": true
     },
     "plugins": [
-        //"react"
+        //"react",
+        //"vue"
     ]
 }

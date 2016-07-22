@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <title>mocha-chai-test: Bootstrap 搜索建议插件</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link id="bscss" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../node_modules/mocha/mocha.css" rel="stylesheet">
+    <style>
+        h3{
+            margin-top: 1.2rem;
+            border-bottom: 1px #eee solid;
+        }
+        .container {
+            margin-top: 600px;
+            margin-bottom: 160px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mocha"></div>
+
+	<div class="modal fade" id="modalTest">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Modal title</h4>
+				</div>
+				<div class="modal-body">
+                    <ul>
+                        <li>不显示按钮；<code>showBtn: false</code></li>
+                        <li>向上/下方向键，不自动选中值。<code>autoSelect: false</code></li>
+                    </ul>
+					<div class="input-group">
+                        <input type="text" class="form-control" id="modalTest_input" autocomplete="off">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-primary-outline" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+    <div class="container">
+        <h3>测试</h3>
+
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="test">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        </ul>
+                    </div>
+                    <!-- /btn-group -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<!-- script src="http://cdn.bootcss.com/tether/1.2.0/js/tether.min.js"></script -->
+<script id="bsjs" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../src/bootstrap-suggest.js"></script>
+<script src="../node_modules/mocha/mocha.js"></script>
+<script src="../node_modules/chai/chai.js"></script>
+
+<script src="helper/setup.js"></script>
+<script src="helper/helper-test.js"></script>
+<script src="spec/test.1.js"></script>
+<script src="spec/test.2.js"></script>
+<script src="spec/test.3.js"></script>
+<script src="spec/test.4.js"></script>
+<script src="spec/test.5.js"></script>
+<script src="spec/test.6.js"></script>
+<script src="helper/run.js"></script>
+</body>
+
+</html>

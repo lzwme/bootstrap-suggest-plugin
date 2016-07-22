@@ -40,9 +40,9 @@ Bootstrap Search Suggest
 3. 初始化插件
 
 ```js
-    var bsSuggest = $("input#test").bsSuggest({
-      url: "/rest/sys/getuserlist?keyword="
-    });
+var bsSuggest = $("input#test").bsSuggest({
+    url: "/rest/sys/getuserlist?keyword="
+});
 ```
 具体使用请参考参数配置说明及 demo 示例页面源码([Demo](http://lzw.me/pages/demo/bootstrap-suggest-plugin/demo))
 
@@ -71,14 +71,14 @@ var bsSuggest = $("#test").bsSuggest({
 3. onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
 ```js
 $("#test")
-    .on("dataRequestSuccess", function (event, result) {
+    .on('dataRequestSuccess', function (event, result) {
         console.log(result);
     })
     .on('onSetSelectValue', function (e, keyword) {
         console.log('onSetSelectValue: ', keyword);
     })
     .on('onUnsetSelectValue', function (e) {
-        console.log("onUnsetSelectValue");
+        console.log('onUnsetSelectValue');
     });
 ```
 
@@ -153,9 +153,14 @@ var defaultOptions = {
 
 ## 二次开发
 
-1. `npm install grunt-cli -g`
-2. `npm install`
-3. `grunt watch`
+`git clone` 项目，进入项目目录，执行如下命令：
+
+1. 安装grunt `npm install grunt-cli -g`
+2. 安装依赖 `npm install`
+3. 实时编译 `grunt watch`
+4. 执行编译 `npm build`
+
+提示：对于 phantomjs 的依赖，如下载超时，可使用其他工具下载，然后放到命令行提示的目录，解压，将解压的目录重命名为命令行提示正在解压的名称。然后重新执行 `npm install`。
 
 ## Note on Patches / Pull Requests
 
@@ -163,6 +168,8 @@ var defaultOptions = {
 * Make your feature addition or bug fix.
 * Send me a pull request. Bonus points for topic branches.
 
-## 设计制作
+## License
 
-该插件由[志文工作室](http://lzw.me)开发和维护.
+bootstrap-suggest-plugin is released under the MIT license.
+
+该插件由[志文工作室](http://lzw.me)开发和维护。

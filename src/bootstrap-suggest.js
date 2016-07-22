@@ -818,7 +818,7 @@
         destroy: function() {
             return this.each(function() {
                 $(this).off().removeData('bsSuggest').removeAttr('style')
-                    .parent().find('.btn:eq(0)').off().attr('data-toggle', 'dropdown').prop('disabled', false) //.addClass('disabled');
+                    .parent().find('.btn:eq(0)').off().show().attr('data-toggle', 'dropdown').prop('disabled', false) //.addClass('disabled');
                     .next().css('display', '').off();
             });
         },
