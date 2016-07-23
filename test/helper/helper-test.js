@@ -7,6 +7,9 @@
 var lintAsync = window.lintAsync;
 
 window.helperTest = {
+    initInput: function($input, param) {
+        return $input.bsSuggest('hide').bsSuggest('destroy').val('').bsSuggest(param);
+    },
     /**
      * 基本方法测试
      */

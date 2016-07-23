@@ -838,7 +838,7 @@
             });
             //只要有一个未初始化，则全部都不执行方法，除非是 init 或 version
             if (!inited && 'init' !== options && 'version' !== options) {
-                return false;
+                return this;
             }
 
             //如果是方法，则参数第一个为函数名，从第二个开始为函数参数

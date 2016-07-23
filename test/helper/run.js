@@ -1,6 +1,6 @@
 function mochaRun() {
-    mocha.checkLeaks();
-    mocha.globals(['jQuery']);
+    // mocha.checkLeaks();
+    // mocha.globals(['jQuery']);
     mocha.run();
 }
 

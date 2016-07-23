@@ -55,6 +55,7 @@ function setup() {
 
     window.mocha.setup({
         ui: 'bdd',
+        ignoreLeaks: true,
         timeout: 10000
     });
 

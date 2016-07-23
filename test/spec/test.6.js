@@ -36,8 +36,7 @@ describe('测试六：(百度搜索 API 测试)', function() {
 
     it('基本初始化测试', function() {
         lintAsync(function() {
-            $input.val('').bsSuggest('destroy');
-            $input.bsSuggest(param);
+            window.helperTest.initInput($input, param);
             expect($input.data('bsSuggest').options.multiWord).to.be.true;
         });
     });

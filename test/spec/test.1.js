@@ -15,12 +15,12 @@ describe('测试一：(首次从 URL 获取数据)', function() {
 
     it('基本初始化，数据请求成功测试', function(done) {
         lintAsync(function($d) {
-            $input.val('').bsSuggest('destroy');
-            $input.bsSuggest(param).one('onDataRequestSuccess', function(e, result) {
-                expect(result).to.have.property('value').with.length(31);
-                $d.resolve();
-                done();
-            });
+            window.helperTest.initInput($input, param)
+                .one('onDataRequestSuccess', function(e, result) {
+                    expect(result).to.have.property('value').with.length(31);
+                    $d.resolve();
+                    done();
+                });
         });
     });
 

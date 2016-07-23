@@ -20,12 +20,11 @@ describe('测试四：(自动判断向上/下测试: autoDropup: true)', functio
 
     it('基本初始化，数据请求成功测试', function() {
         return lintAsync(function($d) {
-            $input.val('').bsSuggest('destroy');
-            $input.bsSuggest(param).one('onDataRequestSuccess', function(e, result) {
-
-                expect(result).to.have.property('value').with.length(31);
-                $d.resolve();
-            });
+            window.helperTest.initInput($input, param)
+                .one('onDataRequestSuccess', function(e, result) {
+                    expect(result).to.have.property('value').with.length(31);
+                    $d.resolve();
+                });
         });
     });
 

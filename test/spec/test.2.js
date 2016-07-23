@@ -20,7 +20,7 @@ describe('测试二：(首次从 URL 获取数据，显示 header，不显示按
 
     it('基本初始化，数据延迟测试，不显示按钮测试', function() {
         return lintAsync(function() {
-            $input.bsSuggest('destroy').val('').bsSuggest(param);
+            window.helperTest.initInput($input, param);
         }).then(function() {
             expect($input.data('bsSuggest').options.data.value.length).to.equal(0);
             expect($input.next().find('button').is(':visible')).to.be.false;

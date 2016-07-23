@@ -24,8 +24,8 @@ describe('测试三：(从 json.data 中获取数据)', function() {
 
     it('基本初始化测试', function() {
         return lintAsync(function() {
-            $input.val('').bsSuggest('destroy');
-            $input.bsSuggest(param).trigger('keydown').trigger('keyup');
+            window.helperTest.initInput($input, param)
+                .trigger('keydown').trigger('keyup');
         }).then(function() {
             expect($input.data('bsSuggest').options.data.value.length).to.equal(50);
             expect($input.next().find('button').is(':visible')).to.be.true;

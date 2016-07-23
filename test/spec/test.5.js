@@ -26,11 +26,11 @@ describe('测试五：(modal 中显示；不自动选中值；不显示按钮)',
             });
         }).then(function() {
             return lintAsync(function($d) {
-                $input.val('').bsSuggest('destroy');
-                $input.bsSuggest(param).one('onDataRequestSuccess', function(e, result) {
-                    expect(result).to.have.property('value').with.length(31);
-                    $d.resolve();
-                });
+                window.helperTest.initInput($input, param)
+                    .one('onDataRequestSuccess', function(e, result) {
+                        expect(result).to.have.property('value').with.length(31);
+                        $d.resolve();
+                    });
             });
         })
     });
