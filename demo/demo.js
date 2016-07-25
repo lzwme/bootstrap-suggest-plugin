@@ -201,7 +201,6 @@
                 dataType: 'jsonp',
                 timeout: 10000,
                 data: {
-                    t: (new Date()).getTime(),
                     wd: $('#customKeyword').val() + keyword
                 }
             };

@@ -37,7 +37,7 @@ window.lintAsync = function(callback, timeout, done) {
 function takeScreenshot() {
     if (window.callPhantom) {
         var date = new Date();
-        var filename = ["test_screenshots/" + data.getFullYear(),date.getTime()].join('');
+        var filename = ['test_screenshots/' + date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()].join('-') + '.' + date.getMilliseconds();
         console.log("Taking screenshot " + filename);
         callPhantom({
             'screenshot': filename
@@ -67,11 +67,6 @@ function setup() {
     window.$dropdown = $input.next().find('ul');
 
     /** root hooks */
-    afterEach(function() {
-        // $input.val('');
-        // $dropdown.html('');
-    });
-
     afterEach(function() {
         //每一步执行后，执行截图
         //takeScreenshot();

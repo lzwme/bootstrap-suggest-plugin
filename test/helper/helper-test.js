@@ -41,7 +41,7 @@ window.helperTest = {
             });
 
             it('方法测试：version', function() {
-                expect(/^\d\.\d\.\d$/.test($.fn.bsSuggest('version'))).to.be.true;
+                expect(/^\d+\.\d+\.\d+$/.test($.fn.bsSuggest('version'))).to.be.true;
             });
 
             it('方法测试：destory', function(done) {
@@ -73,46 +73,66 @@ window.helperTest = {
         describe(params.title + '各种基本输入操作模拟', function() {
             it('触发 keyup/keydown 事件', function() {
                 return lintAsync(function() {
-                    $dropdown.html('');
-                    $input.val('').trigger('keydown').trigger('keyup');
-                })
-                .then(function() {
-                    if (params.emptyShow !== false) {
-                        expect($dropdown.is(':visible')).to.be.true;
-                        expect(!! $dropdown.find('tr').length).to.be.true;
-                    } else {
-                        expect($dropdown.is(':visible')).to.be.false;
-                        expect(!! $dropdown.find('tr').length).to.be.false;
-                    }
-                });
+                        $dropdown.html('').hide();
+                        $input.val('').trigger('keydown').trigger('keyup');
+                    })
+                    .then(function() {
+                        if (params.emptyShow !== false) {
+                            expect($dropdown.is(':visible')).to.be.true;
+                            expect(!!$dropdown.find('tr').length).to.be.true;
+                        } else {
+                            expect($dropdown.is(':visible')).to.be.false;
+                            expect(!!$dropdown.find('tr').length).to.be.false;
+                        }
+                    });
             });
 
-            //配置了该参数，才执行
-            params.val && it('输入模拟：' + params.val, function() {
-               return lintAsync(function() {
-                    $input.val(params.val).trigger('keydown').trigger('keyup');
-                }, 600)
-               .then(function() {
-                    expect($dropdown.is(':visible')).to.be.true;
-                    expect($dropdown.find('tr').length).to.be.ok;
-                });
+            //配置了 val 参数才执行
+            params.val !== undefined && it('输入模拟：' + params.val, function() {
+                return lintAsync(function($d) {
+                        //通过url获取数据的方式
+                        params.byurl &&
+                            $input.one('onDataRequestSuccess', function() {
+                                $d.resolve();
+                            });
+
+                        $input.val(params.val).trigger('keydown').trigger('keyup');
+                    }, params.byurl ? 3000 : 310)
+                    .then(function() {
+                        return lintAsync(function() {
+                            expect($dropdown.is(':visible')).to.be.true;
+                            expect($dropdown.find('tr').length).to.be.ok;
+                        }, 100)
+                    });
             });
 
             it('选择模拟', function() {
-                return lintAsync(function() {
-                    $input.val('');
-                    $dropdown.find('tr:eq(1)').trigger('mouseenter').trigger('mousedown');
-                })
-                .then(function() {
-                    expect($dropdown.is(':visible')).to.be.false;
-                    expect($input.val().length).to.be.ok;
-                });
+                return lintAsync(function($d) {
+                        $input.val('').one('onSetSelectValue', function(e, keyword) {
+                            expect(keyword.length).to.be.ok;
+                            $d.resolve();
+                        });
+                        $dropdown.find('tr:eq(1)').trigger('mouseenter').trigger('mousedown');
+                    })
+                    .then(function() {
+                        return lintAsync(function() {
+                            expect($dropdown.is(':visible')).to.be.false;
+                            expect($input.val().length).to.be.ok;
+                        }, 100)
+                    });
             });
 
             it('输入模拟：TANGTANGTANGTANGTANGTANGTANG', function() {
-               return lintAsync(function() {
+                return lintAsync(function($d) {
+                    //通过url获取数据的方式
+                    params.byurl &&
+                        $input.one('onDataRequestSuccess', function() {
+                            $d.resolve();
+                        });
+
                     $input.val('TANGTANGTANGTANGTANGTANGTANG').trigger('keydown').trigger('keyup');
-                }, 600).then(function() {
+                }, params.byurl ? 3000 : 310)
+                .then(function() {
                     expect($dropdown.html()).to.be.equal('');
                     expect($dropdown.find('tr').length).to.equal(0);
                 });
@@ -120,11 +140,11 @@ window.helperTest = {
 
             it('触发 blur 事件', function() {
                 return lintAsync(function() {
-                    $input.trigger('blur');
-                })
-               .then(function() {
-                    expect($dropdown.is(':visible')).to.be.false;
-                });
+                        $input.trigger('blur');
+                    })
+                    .then(function() {
+                        expect($dropdown.is(':visible')).to.be.false;
+                    });
             });
         });
     }

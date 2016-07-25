@@ -2,8 +2,8 @@
  * Bootstrap Search Suggest
  * @desc    这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
  * @author  renxia <lzwy0820#qq.com>
- * @see     https://github.com/lzwme/bootstrap-suggest-plugin.git
- * @since   2014-10-09 - 2016-07-19
+ * @github  https://github.com/lzwme/bootstrap-suggest-plugin.git
+ * @since   2014-10-09 - 2016-07-25
  *===============================================================================
  * (c) Copyright 2015-2016 lzw.me. All Rights Reserved.
  ********************************************************************************/
@@ -360,17 +360,6 @@
 
         var ajaxParam = {
             type: 'GET',
-            url: function() {
-                var type = '?';
-
-                if (/=$/.test(options.url)) {
-                    type = '';
-                } else if (/\?/.test(options.url)) {
-                    type = '&';
-                }
-
-                return options.url + type + keyword;
-            }(),
             dataType: options.jsonp ? 'jsonp' : 'json',
             timeout: 5000
         };
@@ -384,6 +373,22 @@
         if ($.isFunction(options.fnAdjustAjaxParam)) {
             ajaxParam = $.extend(ajaxParam, options.fnAdjustAjaxParam(keyword, options));
         }
+
+        //url 调整
+        ajaxParam.url = function() {
+            if (! keyword || ajaxParam.data) {
+                return ajaxParam.url || options.url;
+            }
+
+            var type = '?';
+            if (/=$/.test(options.url)) {
+                type = '';
+            } else if (/\?/.test(options.url)) {
+                type = '&';
+            }
+
+            return options.url + type + keyword;
+        }();
 
         return $.ajax(ajaxParam).done(function(result) {
             options.data = options.fnProcessData(result);
@@ -823,7 +828,7 @@
             });
         },
         version: function() {
-            return '0.1.9';
+            return '0.1.10';
         }
     };
 

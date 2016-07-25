@@ -59,6 +59,10 @@ var bsSuggest = $("#test").bsSuggest({
 });
 ```
 
+## 使用示例
+
+请参考 demo/index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。
+
 ####方法调用
 1. 禁用提示： `$("input#test").bsSuggest("disable");`
 2. 启用提示： `$("input#test").bsSuggest("enable");`
@@ -81,10 +85,6 @@ $("#test")
         console.log('onUnsetSelectValue');
     });
 ```
-
-## 使用示例
-
-请参考 demo/index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。
 
 ## 配置参数
 
@@ -157,8 +157,9 @@ var defaultOptions = {
 
 1. 安装grunt `npm install grunt-cli -g`
 2. 安装依赖 `npm install`
-3. 实时编译 `grunt watch`
-4. 执行编译 `npm build`
+3. 实时开发 `npm start`
+4. 执行测试 `npm test`
+4. 执行编译 `npm run build`
 
 提示：对于 phantomjs 的依赖，如下载超时，可使用其他工具下载，然后放到命令行提示的目录，解压，将解压的目录重命名为命令行提示正在解压的名称。然后重新执行 `npm install`。
 
