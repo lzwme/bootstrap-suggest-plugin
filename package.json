@@ -51,7 +51,7 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "gruntify-eslint": "^2.0.0",
-    "mocha": "^2.5.3",
+    "mocha": "^3.0.0",
     "mocha-phantomjs": "^4.1.0"
   }
 }

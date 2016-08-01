@@ -12,7 +12,7 @@ window.test5();
 window.test6();
 //淘宝接口测试，只支持浏览器测试
 //mocha-phantomjs 不支持 https
-if (typeof initMochaPhantomJS === 'undefined') {
+if (typeof window.callPhantom === 'undefined') {
     window.test7();
 }
 
