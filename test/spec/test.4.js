@@ -39,10 +39,10 @@ function test4() {
 
         it('录入关键字：chunyun，只有一条，自动向下', function() {
             return lintAsync(function() {
-                $input.val('chunyun').trigger('keydown').trigger('keyup');
+                $input.val('chunyun').focus().trigger('keydown').trigger('keyup');
             }, 400).then(function() {
                 expect($input.parent().hasClass('dropup')).to.be.false;
-            }, 3000).then(function() {
+            }).then(function() {
                 //销毁，还原
                 $input.parent().removeClass('dropup');
                 $input.bsSuggest('destroy').val('');
