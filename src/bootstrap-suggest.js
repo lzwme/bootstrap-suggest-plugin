@@ -3,14 +3,14 @@
  * @desc    这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
  * @author  renxia <lzwy0820#qq.com>
  * @github  https://github.com/lzwme/bootstrap-suggest-plugin.git
- * @since   2014-10-09 - 2016-07-25
+ * @since   2014-10-09 - 2016-09-16
  *===============================================================================
  * (c) Copyright 2015-2016 lzw.me. All Rights Reserved.
  ********************************************************************************/
 (function (factory) {
     if (typeof define === "function" && define.amd) {
         define(['jquery'], factory);
-    } else if ('undefined' !== typeof exports && 'undefined' === typeof module) {
+    } else if (typeof exports === 'object' && typeof module === 'object') {
         factory(require('jquery'));
     } else if (window.jQuery) {
         factory(window.jQuery);
