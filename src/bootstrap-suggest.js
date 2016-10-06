@@ -2,10 +2,10 @@
  * Bootstrap Search Suggest
  * @desc    这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
  * @author  renxia <lzwy0820#qq.com>
- * @github  https:// github.com/lzwme/bootstrap-suggest-plugin.git
+ * @github  https://github.com/lzwme/bootstrap-suggest-plugin.git
  * @since   2014-10-09
  *===============================================================================
- * (c) Copyright 2015-2016 lzw.me. All Rights Reserved.
+ * (c) Copyright 2014-2016 http://lzw.me All Rights Reserved.
  ********************************************************************************/
 (function (factory) {
     if (typeof define === "function" && define.amd) {
@@ -94,7 +94,7 @@
         }
 
         // 列表对齐方式
-        var dmcss;
+        var dmcss = {};
         if (options.listAlign === 'left') {
             dmcss = {
                 'left': $input.siblings('div').width() - $input.parent().width(),
@@ -103,7 +103,7 @@
         } else if (options.listAlign === 'right') {
             dmcss = {
                 'left': 'auto',
-                'right': '0'
+                'right': 0
             };
         }
 
@@ -119,7 +119,7 @@
         }
 
         // 是否自动最小宽度
-        if (options.autoMinWidth === false) {
+        if (!options.autoMinWidth) {
             dmcss['min-width'] = $input.parent().width();
         }
         /* else {
@@ -341,7 +341,7 @@
                 $dropdownMenu.height() < $dropdownMenu.find('table:eq(0)').height() &&
                 Number($dropdownMenu.css('min-width').replace('px', '')) < $dropdownMenu.width()
             ) {
-                $dropdownMenu.css('padding-right', '20px').find('table:eq(0)').css('margin-bottom', '20px');
+                $dropdownMenu.css('padding-right', '18px').find('table:eq(0)').css('margin-bottom', '20px');
             } else {
                 $dropdownMenu.css('padding-right', 0).find('table:eq(0)').css('margin-bottom', 0);
             }
