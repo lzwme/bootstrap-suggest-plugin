@@ -4,6 +4,7 @@ function mochaRun() {
     mocha.run();
 }
 
+window.test8();
 window.test1();
 window.test2();
 window.test3();
