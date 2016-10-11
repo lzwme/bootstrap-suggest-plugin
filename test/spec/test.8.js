@@ -1,11 +1,11 @@
 /**
- * 测试八: towWayMatch 配置项测试
+ * 测试八: twoWayMatch 配置项测试
  */
 /* eslint no-unused-vars:0 */
 function test8() {
     var lintAsync = window.lintAsync;
 
-    describe('测试八: towWayMatch 配置项测试', function() {
+    describe('测试八: twoWayMatch 配置项测试', function() {
         var $input = $('#test');
         var $dropdown = $input.next().find('ul');
 
@@ -15,7 +15,7 @@ function test8() {
             keyField: "userName"
         };
 
-        it('不设置 towWayMatch(默认为 true)', function() {
+        it('不设置 twoWayMatch(默认为 true)', function() {
             return lintAsync(function($d) {
                 window.helperTest.initInput($input, param)
                     .one('onDataRequestSuccess', function(e, result) {
@@ -51,9 +51,9 @@ function test8() {
             });
         });
 
-        it('towWayMatch = true', function() {
+        it('twoWayMatch = true', function() {
             return lintAsync(function($d) {
-                param.towWayMatch = true;
+                param.twoWayMatch = true;
 
                 window.helperTest.initInput($input, param)
                     .one('onDataRequestSuccess', function(e, result) {
@@ -81,9 +81,9 @@ function test8() {
             });
         });
 
-        it('towWayMatch = false', function() {
+        it('twoWayMatch = false', function() {
             return lintAsync(function($d) {
-                param.towWayMatch = false;
+                param.twoWayMatch = false;
 
                 window.helperTest.initInput($input, param)
                     .one('onDataRequestSuccess', function(e, result) {
