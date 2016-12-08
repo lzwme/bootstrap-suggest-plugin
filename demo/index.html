@@ -10,6 +10,7 @@
     <meta name="Keywords" content="Bootstrap Search Suggest,bootstrap,搜索建议插件">
     <meta name="author" content="http://lzw.me">
     <link id="bscss" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
         h3{
             margin-top: 1.2rem;
@@ -144,11 +145,20 @@
                 <br><code>showBtn: false,</code> //不显示下拉按钮
                 <br><code>delayUntilKeyup: true</code> //获取数据方式为 firstByUrl 时，延迟到有输入/获取到焦点时请求
             </p>
+            <p><b>提示：</b>
+                <br><code>clearable</code> 参数使用了 <code>glyphicons</code> 图标。<code>bootstrap v4</code> 默认不带该图标样式，所以该参数不会生效。此时可自行在 <code>html</code> 代码的 <code>input</code> 输入框标签前添加 <code>i.clearable</code> 标签元素来实现。
+                <br>例如，页面中引入了 <code>font-awesome</code>，可添加标签为（见下一个示例）：
+<pre class="bg-info pd10">
+&lt;i class="clearable fa fa-remove"&gt;&lt;/i&gt;
+</pre>
+            </p>
+
             <h3>测试(json 数据中获取)</h3>
             <p>默认启用空关键字检索。</p>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="input-group">
+                        <i class="clearable fa fa-remove"></i>
                         <input type="text" class="form-control" id="test_data">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">

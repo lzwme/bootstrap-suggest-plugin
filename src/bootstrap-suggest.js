@@ -465,13 +465,33 @@
             callback($input, filterData, options);
         } // else
     }
-
     /**
      * 数据处理
      * url 获取数据时，对数据的处理，作为 fnGetData 之后的回调处理
      */
     function processData(data) {
         return checkData(data);
+    }
+    /**
+     * 取得 clearable 清除按钮
+     */
+    function getIClear($input, options) {
+        var $iClear = $input.prev('i.clearable');
+
+        // 是否可清除已输入的内容(添加清除按钮)
+        if (options.clearable && !$iClear.length) {
+                $iClear = $('<i class="clearable glyphicon glyphicon-remove"></i>')
+                    .prependTo($input.parent());
+        }
+
+        return $iClear.css({
+            position: 'absolute',
+            top: 12,
+            right: options.showBtn ? ($input.next('.input-group-btn').width() || 33) + 2 : 12,
+            zIndex: 4,
+            cursor: 'pointer',
+            fontSize: 12
+        }).hide();
     }
     /**
      * 默认的配置选项
@@ -575,7 +595,7 @@
 
             return self.each(function() {
                 var $input = $(this),
-                    $iClear = $input.prev('i.glyphicon-remove'),
+                    $iClear = getIClear($input, options),
                     mouseenterDropdownMenu,
                     keyupTimer, // keyup 与 input 事件延时定时器
                     $dropdownMenu = $input.parents('.input-group:eq(0)').find('ul.dropdown-menu');
@@ -591,20 +611,6 @@
                     $input.css('border-radius', '4px')
                         .parents('.input-group:eq(0)').css('width', '100%')
                         .find('.btn:eq(0)').hide();
-                }
-
-                // 是否可清除已输入的内容(添加清除按钮)
-                if (options.clearable && !$iClear.length) {
-                        $iClear = $('<i class="glyphicon glyphicon-remove"></i>')
-                            .prependTo($input.parent())
-                            .css({
-                                position: 'absolute',
-                                top: 12,
-                                right: options.showBtn ? ($input.next('.input-group-btn').width() || 33) + 2 : 12,
-                                zIndex: 4,
-                                cursor: 'pointer',
-                                fontSize: 12
-                            }).hide();
                 }
 
                 // 移除 disabled 类，并禁用自动完成
