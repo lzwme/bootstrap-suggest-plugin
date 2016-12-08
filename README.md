@@ -136,6 +136,7 @@ var defaultOptions = {
     listAlign: 'left',              //提示列表对齐位置，left/right/auto
     listHoverStyle: 'background: #07d; color:#fff', //提示框列表鼠标悬浮的样式
     listHoverCSS: 'jhover',         //提示框列表鼠标悬浮的样式名称
+    clearable: false,               // 是否可清除已输入的内容
 
     /* key */
     keyLeft: 37,                    //向左方向键，不同的操作系统可能会有差别，则自行定义

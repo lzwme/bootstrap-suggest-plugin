@@ -37,11 +37,6 @@
      */
     function getPointKeyword($list) {
         return $list.data();
-        // return {
-        //     id: $list.attr('data-id'),
-        //     key: $list.attr('data-key'),
-        //     index: $list.attr('data-index')
-        // };
     }
     /**
      * 设置选中的值
@@ -135,7 +130,6 @@
      * 当设置了 indexId，而输入框的 data-id 为空时，输入框加载警告色
      */
     function setBackground($input, options) {
-        // console.log('setBackground', options);
         var inputbg, bg, warnbg;
 
         if ((options.indexId === -1 && !options.idField) || options.multiWord) {
@@ -147,7 +141,7 @@
         bg = options.inputBgColor || 'rgba(255,255,255,0.1)';
         warnbg = options.inputWarnColor || 'rgba(255,255,0,0.1)';
 
-        if ($input.attr('data-id')) {
+        if ($input.attr('data-id') || !$input.val()) {
             return $input.css('background', bg);
         }
 
@@ -233,7 +227,6 @@
 
         return data;
     }
-
     /**
      * 判断字段名是否在 options.effectiveFields 配置项中
      * @param  {String} field   要判断的字段名
@@ -529,6 +522,7 @@
         listAlign: 'left',              // 提示列表对齐位置，left/right/auto
         listHoverStyle: 'background: #07d; color:#fff', // 提示框列表鼠标悬浮的样式
         listHoverCSS: 'jhover',         // 提示框列表鼠标悬浮的样式名称
+        clearable: false,               // 是否可清除已输入的内容
 
         /* key */
         keyLeft: 37,                    // 向左方向键，不同的操作系统可能会有差别，则自行定义
@@ -562,6 +556,7 @@
             if (options.processData) {
                 options.fnProcessData = options.processData;
             }
+
             if (options.getData) {
                 options.fnGetData = options.getData;
             }
@@ -580,12 +575,13 @@
 
             return self.each(function() {
                 var $input = $(this),
+                    $iClear = $input.prev('i.glyphicon-remove'),
                     mouseenterDropdownMenu,
                     keyupTimer, // keyup 与 input 事件延时定时器
                     $dropdownMenu = $input.parents('.input-group:eq(0)').find('ul.dropdown-menu');
 
                 // 验证输入框对象是否符合条件
-                if (checkInput($input, options) === false) {
+                if (!checkInput($input, options)) {
                     console.warn('不是一个标准的 bootstrap 下拉式菜单或已初始化:', $input);
                     return;
                 }
@@ -595,6 +591,20 @@
                     $input.css('border-radius', '4px')
                         .parents('.input-group:eq(0)').css('width', '100%')
                         .find('.btn:eq(0)').hide();
+                }
+
+                // 是否可清除已输入的内容(添加清除按钮)
+                if (options.clearable && !$iClear.length) {
+                        $iClear = $('<i class="glyphicon glyphicon-remove"></i>')
+                            .prependTo($input.parent())
+                            .css({
+                                position: 'absolute',
+                                top: 12,
+                                right: options.showBtn ? ($input.next('.input-group-btn').width() || 33) + 2 : 12,
+                                zIndex: 4,
+                                cursor: 'pointer',
+                                fontSize: 12
+                            }).hide();
                 }
 
                 // 移除 disabled 类，并禁用自动完成
@@ -802,6 +812,21 @@
                         setBackground($input, options);
                         $dropdownMenu.hide();
                     });
+
+                // 存在清空按钮
+                if ($iClear.length) {
+                    $iClear.on('click', function () {
+                        $input.val('').attr('data-id', '');
+                        setBackground($input, options);
+                    });
+
+                    $input.parent().on('mouseenter', function() {
+                        $iClear.show();
+                    }).on('mouseleave', function() {
+                        $iClear.hide();
+                    });
+                }
+
             });
         },
         show: function() {
@@ -834,7 +859,7 @@
             });
         },
         version: function() {
-            return '0.1.10';
+            return '0.1.15';
         }
     };
 

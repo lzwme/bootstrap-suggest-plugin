@@ -64,7 +64,7 @@
     });
 
     /**
-     * 测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写)
+     * 测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写，可清除)
      */
     $("#testNoBtn").bsSuggest({
         url: "data.json",
@@ -76,7 +76,8 @@
         showBtn: false,     //不显示下拉按钮
         delayUntilKeyup: true, //获取数据的方式为 firstByUrl 时，延迟到有输入/获取到焦点时才请求数据
         idField: "userId",
-        keyField: "userName"
+        keyField: "userName",
+        clearable: true
     }).on('onDataRequestSuccess', function (e, result) {
         console.log('onDataRequestSuccess: ', result);
     }).on('onSetSelectValue', function (e, keyword, data) {

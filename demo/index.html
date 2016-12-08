@@ -37,19 +37,19 @@
 </head>
 
 <body>
-	<div class="modal fade" id="modalTest">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Modal title</h4>
-				</div>
-				<div class="modal-body">
+    <div class="modal fade" id="modalTest">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
                     <ul>
                         <li>不显示按钮；<code>showBtn: false</code></li>
                         <li>向上/下方向键，不自动选中值。<code>autoSelect: false</code></li>
                     </ul>
-					<div class="input-group">
+                    <div class="input-group">
                         <input type="text" class="form-control" id="modalTest_input" autocomplete="off">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="">
@@ -59,16 +59,16 @@
                         </div>
                         <!-- /btn-group -->
                     </div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default btn-primary-outline" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-primary-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
     <div class="container">
         <h2>bootstrap combox 搜索建议插件</h2>
@@ -120,7 +120,7 @@
             <h3>测试(modal 中显示；不自动选中值；不显示按钮；)</h3>
             <a class="btn btn-primary" data-toggle="modal" data-target="#modalTest">modal test</a></p>
 
-            <h3>测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写)</h3>
+            <h3>测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写，显示清除按钮)</h3>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="input-group">
@@ -137,6 +137,7 @@
                 </div>
             </div>
             <p>
+                <br><code>clearable: true,</code> //可清除已输入内容
                 <br><code>ignorecase: true,</code> //忽略大小写
                 <br><code>effectiveFieldsAlias:{userName: "姓名"},</code> //有效字段别名
                 <br><code>showHeader: true,</code> //显示 header
