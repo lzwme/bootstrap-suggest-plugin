@@ -70,12 +70,12 @@ var bsSuggest = $("#test").bsSuggest({
 4. 查看版本：`$("input#test").bsSuggest("version");`
 
 ####事件监听
-1. dataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
+1. onDataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
 2. onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
 3. onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
 ```js
 $("#test")
-    .on('dataRequestSuccess', function (event, result) {
+    .on('onDataRequestSuccess', function (event, result) {
         console.log(result);
     })
     .on('onSetSelectValue', function (e, keyword) {
