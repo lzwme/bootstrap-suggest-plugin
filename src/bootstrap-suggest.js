@@ -827,6 +827,10 @@
                     });
 
                     $input.parent().on('mouseenter', function() {
+                        if ($input.prop('disabled')) {
+                            return;
+                        }
+
                         $iClear.show();
                     }).on('mouseleave', function() {
                         $iClear.hide();

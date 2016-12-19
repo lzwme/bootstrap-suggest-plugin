@@ -8,6 +8,7 @@
             effectiveFields: ["userName", "email"],
             searchFields: [ "shortAccount"],
             effectiveFieldsAlias:{userName: "姓名"},*/
+            clearable: true,
             url: "data.json",
             idField: "userId",
             keyField: "userName"
