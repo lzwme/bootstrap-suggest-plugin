@@ -18,8 +18,19 @@
         throw new Error('Not found jQuery.');
     }
 })(function($) {
+    var $window = $(window);
+
     // 用于对 IE 的兼容判断
     var isIe = !!window.ActiveXObject || 'ActiveXObject' in window;
+
+    // ie 下和 chrome 51 以上浏览器版本，出现滚动条时不计算 padding
+    var notNeedCalcPadding;
+    var chromeVer = navigator.userAgent.match(/Chrome\/(\d+)/);
+    if (chromeVer) {
+        chromeVer = Number(chromeVer[1]);
+    }
+    notNeedCalcPadding = isIe || chromeVer > 51;
+
     /**
      * 错误处理
      */
@@ -77,13 +88,15 @@
 
         if (options.autoDropup) {
             setTimeout(function() {
+                var $inputGroup = $dropdownMenu.parents('.input-group');
+
                 if ( // 自动判断菜单向上展开
-                    ($(window).height() + $(window).scrollTop() - $input.offset().top) < $dropdownMenu.height() && // 假如向下会撑长页面
-                    $input.offset().top > ($dropdownMenu.height() + $(window).scrollTop()) // 而且向上不会撑到顶部
+                    ($window.height() + $window.scrollTop() - $input.offset().top) < $dropdownMenu.height() && // 假如向下会撑长页面
+                    $input.offset().top > ($dropdownMenu.height() + $window.scrollTop()) // 而且向上不会撑到顶部
                 ) {
-                    $dropdownMenu.parents('.input-group').addClass('dropup');
+                    $inputGroup.addClass('dropup');
                 } else {
-                    $dropdownMenu.parents('.input-group.dropup').removeClass('dropup');
+                    $inputGroup.removeClass('dropup');
                 }
             }, 10);
         }
@@ -185,14 +198,10 @@
      *   1. 必须为 bootstrap 下拉式菜单
      *   2. 必须未初始化过
      */
-    function checkInput($input, options) {
-        var $dropdownMenu = $input.parent('.input-group').find('ul.dropdown-menu'),
-            data = $input.data('bsSuggest');
-
-
+    function checkInput($input, $dropdownMenu, options) {
         if (
             !$dropdownMenu.length || // 过滤非 bootstrap 下拉式菜单对象
-            data // 是否已经初始化的检测
+            $input.data('bsSuggest') // 是否已经初始化的检测
         ) {
             return false;
         }
@@ -209,8 +218,9 @@
      * data 格式：{"value": [{}, {}...]}
      */
     function checkData(data) {
-        var isEmpty = true;
-        for (var o in data) {
+        var isEmpty = true, o;
+
+        for (o in data) {
             if (o === 'value') {
                 isEmpty = false;
                 break;
@@ -234,9 +244,11 @@
      * @return {Boolean}        effectiveFields 为空时始终返回 true
      */
     function inEffectiveFields(field, options) {
+        var effectiveFields = options.effectiveFields;
+
         return !(field === '__index' ||
-            options.effectiveFields.length &&
-            !~$.inArray(field, options.effectiveFields));
+            effectiveFields.length &&
+            !~$.inArray(field, effectiveFields));
     }
     /**
      * 判断字段名是否在 options.searchFields 搜索字段配置中
@@ -252,7 +264,7 @@
         var $dropdownMenu = $input.parent().find('ul.dropdown-menu'),
             len, i, j, index = 0,
             tds,
-            html = ['<table class="table table-condensed table-sm">'],
+            html = ['<table class="table table-condensed table-sm" style="margin:0">'],
             idValue, keyValue; // 作为输入框 data-id 和内容的字段值
 
         if (!data || !(len = data.value.length)) {
@@ -260,11 +272,13 @@
             return $input;
         }
 
+        var dataList = data.value;
+
         // 相同数据，不用继续渲染了
         if (
             options._lastData &&
-            JSON.stringify(options._lastData.value) === JSON.stringify(data.value) &&
-            $dropdownMenu.find('tr').length === data.value.length
+            JSON.stringify(options._lastData.value) === JSON.stringify(dataList) &&
+            $dropdownMenu.find('tr').length === len
         ) {
             $dropdownMenu.show();
             adjustDropMenuPos($input, $dropdownMenu, options);
@@ -275,17 +289,14 @@
         // 生成表头
         if (options.showHeader) {
             html.push('<thead><tr>');
-            for (j in data.value[0]) {
+            for (j in dataList[0]) {
                 if (!inEffectiveFields(j, options)) {
                     continue;
                 }
 
-                if (index === 0) {
-                    // 表头第一列记录总数
-                    html.push('<th>' + (options.effectiveFieldsAlias[j] || j) + '(' + len + ')' + '</th>');
-                } else {
-                    html.push('<th>' + (options.effectiveFieldsAlias[j] || j) + '</th>');
-                }
+                html.push('<th>', (options.effectiveFieldsAlias[j] || j),
+                    index === 0 ? ('(' + len + ')') : '' , // 表头第一列记录总数
+                    '</th>');
 
                 index++;
             }
@@ -295,19 +306,21 @@
 
         // console.log(data, len);
         // 按列加数据
+        var dataI;
         for (i = 0; i < len; i++) {
             index = 0;
             tds = [];
-            idValue = data.value[i][options.idField] || '';
-            keyValue = data.value[i][options.keyField] || '';
+            dataI = dataList[i];
+            idValue = dataI[options.idField] || '';
+            keyValue = dataI[options.keyField] || '';
 
-            for (j in data.value[i]) {
+            for (j in dataI) {
                 // 标记作为 value 和 作为 id 的值
                 if (!keyValue && options.indexKey === index) {
-                    keyValue = data.value[i][j];
+                    keyValue = dataI[j];
                 }
                 if (!idValue && options.indexId === index) {
-                    idValue = data.value[i][j];
+                    idValue = dataI[j];
                 }
 
                 index++;
@@ -317,27 +330,36 @@
                     continue;
                 }
 
-                tds.push('<td data-name="', j, '">', data.value[i][j], '</td>');
+                tds.push('<td data-name="', j, '">', dataI[j], '</td>');
             }
 
-            html.push('<tr data-index="', (data.value[i].__index || i), '" data-id="', idValue,
+            html.push('<tr data-index="', (dataI.__index || i), '" data-id="', idValue,
                 '" data-key="', keyValue, '">', tds.join(''), '</tr>');
         }
         html.push('</tbody></table>');
 
         $dropdownMenu.html(html.join('')).show();
 
-        // scrollbar 存在时，调整 padding，延时到动画结束时开始
+        // scrollbar 存在时，延时到动画结束时调整 padding
         setTimeout(function() {
-            if (!isIe &&
-                // $dropdownMenu.css('max-height') &&
-                $dropdownMenu.height() < $dropdownMenu.find('table:eq(0)').height() &&
+            if (notNeedCalcPadding) {
+                return;
+            }
+
+            var $table = $dropdownMenu.find('table:eq(0)'),
+                pdr = 0,
+                mgb = 0;
+
+            if (
+                $dropdownMenu.height() < $table.height() &&
                 Number($dropdownMenu.css('min-width').replace('px', '')) < $dropdownMenu.width()
             ) {
-                $dropdownMenu.css('padding-right', '18px').find('table:eq(0)').css('margin-bottom', '20px');
-            } else {
-                $dropdownMenu.css('padding-right', 0).find('table:eq(0)').css('margin-bottom', 0);
+                pdr = 18;
+                mgb = 20;
             }
+
+            $dropdownMenu.css('padding-right', pdr);
+            $table.css('margin-bottom', mgb);
         }, 301);
 
         adjustDropMenuPos($input, $dropdownMenu, options);
@@ -562,11 +584,10 @@
         init: function(options) {
             // 参数设置
             var self = this;
-
-            options.effectiveFields = options.effectiveFields || [];
+            options = options || {};
 
             // 默认配置有效显示字段多于一个，则显示列表表头，否则不显示
-            if (undefined === options.showHeader && options.effectiveFields.length > 1) {
+            if (undefined === options.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
                 options.showHeader = true;
             }
 
@@ -598,10 +619,10 @@
                     $iClear = getIClear($input, options),
                     mouseenterDropdownMenu,
                     keyupTimer, // keyup 与 input 事件延时定时器
-                    $dropdownMenu = $input.parents('.input-group:eq(0)').find('ul.dropdown-menu');
+                    $dropdownMenu = $input.parents('.input-group').find('ul.dropdown-menu:eq(0)');
 
                 // 验证输入框对象是否符合条件
-                if (!checkInput($input, options)) {
+                if (!checkInput($input, $dropdownMenu, options)) {
                     console.warn('不是一个标准的 bootstrap 下拉式菜单或已初始化:', $input);
                     return;
                 }
@@ -614,7 +635,7 @@
                 }
 
                 // 移除 disabled 类，并禁用自动完成
-                $input.removeClass('disabled').attr('disabled', false).attr('autocomplete', 'off');
+                $input.removeClass('disabled').prop('disabled', false).attr('autocomplete', 'off');
                 // dropdown-menu 增加修饰
                 $dropdownMenu.css(options.listStyle);
 
@@ -626,7 +647,6 @@
                 // 开始事件处理
                 $input.on('keydown', function(event) {
                     var currentList, tipsKeyword; // 提示列表上被选中的关键字
-                    // console.log('input keydown');
 
                     // $input.attr('data-id', '');
 
@@ -640,15 +660,12 @@
 
                     unHoverAll($dropdownMenu, options);
 
-                    if (event.keyCode === options.keyDown) {
-                        // 如果按的是向下方向键
-
+                    if (event.keyCode === options.keyDown) { // 如果按的是向下方向键
                         if (!currentList.length) {
                             // 如果提示列表没有一个被选中,则将列表第一个选中
-                            tipsKeyword = getPointKeyword($dropdownMenu.find('table tbody tr:first').mouseover());
+                            tipsKeyword = getPointKeyword($dropdownMenu.find('tbody tr:first').mouseover());
                         } else if (!currentList.next().length) {
                             // 如果是最后一个被选中,则取消选中,即可认为是输入框被选中，并恢复输入的值
-
                             if (options.autoSelect) {
                                 $input.val($input.attr('alt')).attr('data-id', '');
                             }
@@ -664,7 +681,7 @@
                         }
                     } else if (event.keyCode === options.keyUp) { // 如果按的是向上方向键
                         if (!currentList.length) {
-                            tipsKeyword = getPointKeyword($dropdownMenu.find('table tbody tr:last').mouseover());
+                            tipsKeyword = getPointKeyword($dropdownMenu.find('tbody tr:last').mouseover());
                         } else if (!currentList.prev().length) {
                             if (options.autoSelect) {
                                 $input.val($input.attr('alt')).attr('data-id', '');
@@ -691,14 +708,16 @@
                     // console.log(tipsKeyword);
                     setValue($input, tipsKeyword, options);
                 }).on('keyup input', function(event) {
-                    var word, words;
+                    var word;
 
                     // 如果弹起的键是回车、向上或向下方向键则返回
-                    if (event.keyCode === options.keyDown || event.keyCode === options.keyUp || event.keyCode === options.keyEnter) {
+                    if (~$.inArray(event.keyCode, [options.keyDown, options.keyUp, options.keyEnter])) {
                         $input.val($input.val()); // 让鼠标输入跳到最后
                         setBackground($input, options);
                         return;
-                    } else if (event.keyCode) {
+                    }
+
+                    if (event.keyCode) {
                         // $input.attr('data-id', '');
                         setBackground($input, options);
                     }
@@ -709,54 +728,51 @@
 
                         word = $input.val();
 
-                        // 若输入框值没有改变或变为空则返回
-                        if ($.trim(word) !== '' && word === $input.attr('alt')) {
+                        // 若输入框值没有改变则返回
+                        if ($.trim(word) && word === $input.attr('alt')) {
                             return;
                         }
 
                         // 当按下键之前记录输入框值,以方便查看键弹起时值有没有变
-                        $input.attr('alt', $input.val());
+                        $input.attr('alt', word);
 
                         if (options.multiWord) {
-                            words = word.split(options.separator);
-                            word = words[words.length - 1];
+                            word = word.split(options.separator).reverse()[0];
                         }
+
                         // 是否允许空数据查询
                         if (!word.length && !options.allowNoKeyword) {
                             return;
                         }
 
                         options.fnGetData($.trim(word), $input, refreshDropMenu, options);
-
                     }, 300);
                 }).on('focus', function() {
                     // console.log('input focus');
                     adjustDropMenuPos($input, $dropdownMenu, options);
                 }).on('blur', function() {
-                    // console.log('blur');
                     if (!mouseenterDropdownMenu) { // 不是进入下拉列表状态，则隐藏列表
                         $dropdownMenu.css('display', '');
                     }
                 }).on('click', function() {
                     // console.log('input click');
-                    var word = $input.val(),
-                        words;
+                    var word = $input.val();
 
                     if (
-                        $.trim(word) !== '' &&
+                        $.trim(word) &&
                         word === $input.attr('alt') &&
                         $dropdownMenu.find('table tr').length
                     ) {
                         return $dropdownMenu.show();
                     }
 
-                    if ($dropdownMenu.css('display') !== 'none') {
+                    // if ($dropdownMenu.css('display') !== 'none') {
+                    if ($dropdownMenu.is(':visible')) {
                         return;
                     }
 
                     if (options.multiWord) {
-                        words = word.split(options.separator);
-                        word = words[words.length - 1];
+                        word = word.split(options.separator).reverse()[0];
                     }
 
                     // 是否允许空数据查询
@@ -769,17 +785,11 @@
                 });
 
                 // 下拉按钮点击时
-                $input.parent().find('.btn:eq(0)').attr('data-toggle', '').on('click', function() {
-                    /*var type = 'show';
-                    if ($dropdownMenu.is(':visible')) {
-                        type = 'hide';
-                    }
-                    $input.bsSuggest(type);
-
-                    return false;*/
-
+                $input.parent().find('.btn:eq(0)').attr('data-toggle', '').click(function() {
                     var display = 'none';
-                    if ($dropdownMenu.css('display') === 'none') {
+
+                    // if ($dropdownMenu.is(':visible')) {
+                    if ($dropdownMenu.css('display') === display) {
                         display = 'block';
                         if (options.url) {
                             $input.click().focus();
@@ -797,12 +807,11 @@
                 });
 
                 // 列表中滑动时，输入框失去焦点
-                $dropdownMenu.on('mouseenter', function() {
+                $dropdownMenu.mouseenter(function() {
                         // console.log('mouseenter')
                         mouseenterDropdownMenu = 1;
                         $input.blur();
-                        // $(this).show();
-                    }).on('mouseleave', function() {
+                    }).mouseleave(function() {
                         // console.log('mouseleave')
                         mouseenterDropdownMenu = 0;
                         $input.focus();
@@ -821,18 +830,16 @@
 
                 // 存在清空按钮
                 if ($iClear.length) {
-                    $iClear.on('click', function () {
+                    $iClear.click(function () {
                         $input.val('').attr('data-id', '');
                         setBackground($input, options);
                     });
 
-                    $input.parent().on('mouseenter', function() {
-                        if ($input.prop('disabled')) {
-                            return;
+                    $input.parent().mouseenter(function() {
+                        if (!$input.prop('disabled')) {
+                            $iClear.show();
                         }
-
-                        $iClear.show();
-                    }).on('mouseleave', function() {
+                    }).mouseleave(function() {
                         $iClear.hide();
                     });
                 }
@@ -869,7 +876,7 @@
             });
         },
         version: function() {
-            return '0.1.16';
+            return '0.1.17';
         }
     };
 
@@ -889,7 +896,7 @@
 
             // 如果是方法，则参数第一个为函数名，从第二个开始为函数参数
             return methods[options].apply(this, [].slice.call(arguments, 1));
-        } else if (typeof options === 'object' || !options) {
+        } else {
             // 调用初始化方法
             return methods.init.apply(this, arguments);
         }
