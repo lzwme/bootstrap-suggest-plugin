@@ -1,4 +1,4 @@
-[![Code Climate](http://lzw.me/images/logo.png)](http://lzw.me)
+[![Code Climate](https://lzw.me/images/logo.png)](https://lzw.me)
 
 Bootstrap Search Suggest
 ========
@@ -7,18 +7,18 @@ Bootstrap Search Suggest
 
 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
 
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](https://gruntjs.com/)
 [![NPM version][npm-image]][npm-url]
 [![gemnasium deps][gemnasium-image]][gemnasium-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
 
-[npm-image]: http://img.shields.io/npm/v/bootstrap-suggest-plugin.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/bootstrap-suggest-plugin
-[gemnasium-image]: http://img.shields.io/gemnasium/lzwme/bootstrap-suggest-plugin.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/bootstrap-suggest-plugin.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/bootstrap-suggest-plugin
+[gemnasium-image]: https://img.shields.io/gemnasium/lzwme/bootstrap-suggest-plugin.svg?style=flat-square
 [gemnasium-url]: https://gemnasium.com/lzwme/bootstrap-suggest-plugin
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
-[node-url]: http://nodejs.org/download/
+[node-url]: https://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/bootstrap-suggest-plugin.svg?style=flat-square
 [download-url]: https://npmjs.org/package/bootstrap-suggest-plugin
 
@@ -175,4 +175,4 @@ var defaultOptions = {
 
 bootstrap-suggest-plugin is released under the MIT license.
 
-该插件由[志文工作室](http://lzw.me)开发和维护。
+该插件由[志文工作室](https://lzw.me)开发和维护。
