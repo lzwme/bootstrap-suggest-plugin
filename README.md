@@ -7,12 +7,23 @@ Bootstrap Search Suggest
 
 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
 
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](https://gruntjs.com/)
+[![Built with Grunt][grunt-img]][grunt-url]
 [![NPM version][npm-image]][npm-url]
-[![gemnasium deps][gemnasium-image]][gemnasium-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
+[![gemnasium deps][gemnasium-image]][gemnasium-url]
+[![GitHub issues][issues-img]][issues-url]
+[![GitHub forks][forks-img]][forks-url]
+[![GitHub stars][stars-img]][stars-url]
 
+[grunt-img]: https://cdn.gruntjs.com/builtwith.png
+[grunt-url]: https://gruntjs.com
+[stars-img]: https://img.shields.io/github/stars/lzwme/bootstrap-suggest-plugin.svg
+[stars-url]: https://github.com/lzwme/bootstrap-suggest-plugin/stargazers
+[forks-img]: https://img.shields.io/github/forks/lzwme/bootstrap-suggest-plugin.svg
+[forks-url]: https://github.com/lzwme/bootstrap-suggest-plugin/network
+[issues-img]: https://img.shields.io/github/issues/lzwme/bootstrap-suggest-plugin.svg
+[issues-url]: https://github.com/lzwme/bootstrap-suggest-plugin/issues
 [npm-image]: https://img.shields.io/npm/v/bootstrap-suggest-plugin.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/bootstrap-suggest-plugin
 [gemnasium-image]: https://img.shields.io/gemnasium/lzwme/bootstrap-suggest-plugin.svg?style=flat-square
