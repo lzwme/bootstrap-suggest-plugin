@@ -19,9 +19,8 @@
     }
 })(function($) {
     var $window = $(window);
-
-    // 用于对 IE 的兼容判断
-    var isIe = !!window.ActiveXObject || 'ActiveXObject' in window;
+    var isIe = 'ActiveXObject' in window; // 用于对 IE 的兼容判断
+    var inputLock; // 用于中文输入法输入时锁定搜索
 
     // ie 下和 chrome 51 以上浏览器版本，出现滚动条时不计算 padding
     var notNeedCalcPadding;
@@ -542,6 +541,7 @@
         twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
         multiWord: false,               // 以分隔符号分割的多关键字支持
         separator: ',',                 // 多关键字支持时的分隔符，默认为半角逗号
+        delay: 300,                     // 搜索触发的延时时间间隔，单位毫秒
 
         /* UI */
         autoDropup: false,              // 选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
@@ -707,7 +707,15 @@
                     // 设置值 tipsKeyword
                     // console.log(tipsKeyword);
                     setValue($input, tipsKeyword, options);
-                }).on('keyup input', function(event) {
+                }).on('compositionstart', function(event) {
+                    // 中文输入开始，锁定
+                    // console.log('compositionstart');
+                    inputLock = true;
+                }).on('compositionend', function(event) {
+                    // 中文输入结束，解除锁定
+                    // console.log('compositionend');
+                    inputLock = false;
+                }).on('keyup input paste', function(event) {
                     var word;
 
                     // 如果弹起的键是回车、向上或向下方向键则返回
@@ -725,6 +733,11 @@
                     clearTimeout(keyupTimer);
                     keyupTimer = setTimeout(function() {
                         // console.log('input keyup', event);
+
+                        // 锁定状态，返回
+                        if (inputLock) {
+                            return;
+                        }
 
                         word = $input.val();
 
@@ -746,7 +759,7 @@
                         }
 
                         options.fnGetData($.trim(word), $input, refreshDropMenu, options);
-                    }, 300);
+                    }, options.delay || 300);
                 }).on('focus', function() {
                     // console.log('input focus');
                     adjustDropMenuPos($input, $dropdownMenu, options);
