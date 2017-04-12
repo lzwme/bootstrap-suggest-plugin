@@ -51,7 +51,7 @@ Bootstrap Search Suggest
 3. 初始化插件
 
 ```js
-var bsSuggest = $("input#test").bsSuggest({
+$("input#test").bsSuggest({
     url: "/rest/sys/getuserlist?keyword="
 });
 ```
@@ -65,7 +65,7 @@ var bsSuggest = $("input#test").bsSuggest({
 require('bootstrap-suggest-plugin');
 //import from 'bootstrap-suggest-plugin';
 
-var bsSuggest = $("#test").bsSuggest({
+$("#test").bsSuggest({
     url: "/rest/sys/getuserlist?keyword="
 });
 ```
@@ -125,6 +125,7 @@ var defaultOptions = {
 
     multiWord: false,               //以分隔符号分割的多关键字支持
     separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
+    delay: 300,                     //搜索触发的延时时间间隔，单位毫秒
 
     /* UI */
     autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
