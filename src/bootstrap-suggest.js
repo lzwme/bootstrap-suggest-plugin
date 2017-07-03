@@ -18,6 +18,7 @@
         throw new Error('Not found jQuery.');
     }
 })(function($) {
+    var VERSION = '0.1.19';
     var $window = $(window);
     var isIe = 'ActiveXObject' in window; // 用于对 IE 的兼容判断
     var inputLock; // 用于中文输入法输入时锁定搜索
@@ -47,6 +48,12 @@
      */
     function getPointKeyword($list) {
         return $list.data();
+    }
+    /**
+     * 设置或获取输入框的 alt 值
+     */
+    function setOrGetAlt($input, val) {
+        return val ? $input.attr('alt', val) : $input.attr('alt');
     }
     /**
      * 设置选中的值
@@ -102,9 +109,10 @@
 
         // 列表对齐方式
         var dmcss = {};
+        var $parent = $input.parent();
         if (options.listAlign === 'left') {
             dmcss = {
-                'left': $input.siblings('div').width() - $input.parent().width(),
+                'left': $input.siblings('div').width() - $parent.width(),
                 'right': 'auto'
             };
         } else if (options.listAlign === 'right') {
@@ -117,17 +125,17 @@
         // ie 下，不显示按钮时的 top/bottom
         if (isIe && !options.showBtn) {
             if (!$dropdownMenu.parents('.input-group').hasClass('dropup')) {
-                dmcss.top = $input.parent().height();
+                dmcss.top = $parent.height();
                 dmcss.bottom = 'auto';
             } else {
                 dmcss.top = 'auto';
-                dmcss.bottom = $input.parent().height();
+                dmcss.bottom = $parent.height();
             }
         }
 
         // 是否自动最小宽度
         if (!options.autoMinWidth) {
-            dmcss['min-width'] = $input.parent().width();
+            dmcss['min-width'] = $parent.width();
         }
         /* else {
             dmcss['width'] = 'auto';
@@ -616,6 +624,7 @@
 
             return self.each(function() {
                 var $input = $(this),
+                    $parent = $input.parent(),
                     $iClear = getIClear($input, options),
                     mouseenterDropdownMenu,
                     keyupTimer, // keyup 与 input 事件延时定时器
@@ -667,7 +676,7 @@
                         } else if (!currentList.next().length) {
                             // 如果是最后一个被选中,则取消选中,即可认为是输入框被选中，并恢复输入的值
                             if (options.autoSelect) {
-                                $input.val($input.attr('alt')).attr('data-id', '');
+                                $input.val(setOrGetAlt($input)).attr('data-id', '');
                             }
                         } else {
                             // 选中下一行
@@ -684,7 +693,7 @@
                             tipsKeyword = getPointKeyword($dropdownMenu.find('tbody tr:last').mouseover());
                         } else if (!currentList.prev().length) {
                             if (options.autoSelect) {
-                                $input.val($input.attr('alt')).attr('data-id', '');
+                                $input.val(setOrGetAlt($input)).attr('data-id', '');
                             }
                         } else {
                             // 选中前一行
@@ -742,12 +751,12 @@
                         word = $input.val();
 
                         // 若输入框值没有改变则返回
-                        if ($.trim(word) && word === $input.attr('alt')) {
+                        if ($.trim(word) && word === setOrGetAlt($input)) {
                             return;
                         }
 
                         // 当按下键之前记录输入框值,以方便查看键弹起时值有没有变
-                        $input.attr('alt', word);
+                        setOrGetAlt($input, word);
 
                         if (options.multiWord) {
                             word = word.split(options.separator).reverse()[0];
@@ -773,7 +782,7 @@
 
                     if (
                         $.trim(word) &&
-                        word === $input.attr('alt') &&
+                        word === setOrGetAlt($input) &&
                         $dropdownMenu.find('table tr').length
                     ) {
                         return $dropdownMenu.show();
@@ -798,7 +807,7 @@
                 });
 
                 // 下拉按钮点击时
-                $input.parent().find('.btn:eq(0)').attr('data-toggle', '').click(function() {
+                $parent.find('.btn:eq(0)').attr('data-toggle', '').click(function() {
                     var display = 'none';
 
                     // if ($dropdownMenu.is(':visible')) {
@@ -836,7 +845,9 @@
                         return false; // 阻止冒泡
                     })
                     .on('mousedown', 'tbody tr', function() {
-                        setValue($input, getPointKeyword($(this)), options);
+                        var keywords = getPointKeyword($(this));
+                        setValue($input, keywords, options);
+                        setOrGetAlt($input, keywords.key);
                         setBackground($input, options);
                         $dropdownMenu.hide();
                     });
@@ -848,7 +859,7 @@
                         setBackground($input, options);
                     });
 
-                    $input.parent().mouseenter(function() {
+                    $parent.mouseenter(function() {
                         if (!$input.prop('disabled')) {
                             $iClear.show();
                         }
@@ -889,7 +900,7 @@
             });
         },
         version: function() {
-            return '0.1.17';
+            return VERSION;
         }
     };
 
