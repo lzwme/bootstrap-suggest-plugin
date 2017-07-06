@@ -9,9 +9,14 @@
     <meta name="description" content="这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件">
     <meta name="Keywords" content="Bootstrap Search Suggest,bootstrap,搜索建议插件">
     <meta name="author" content="http://lzw.me">
-    <link id="bscss" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link id="bscss" href="../lib/bsv3/style.css" rel="stylesheet">
     <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
+        body {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
         h3{
             margin-top: 1.2rem;
             border-bottom: 1px #eee solid;
@@ -38,63 +43,20 @@
 </head>
 
 <body>
-    <div class="modal fade" id="modalTest">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li>不显示按钮；<code>showBtn: false</code></li>
-                        <li>向上/下方向键，不自动选中值。<code>autoSelect: false</code></li>
-                    </ul>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="modalTest_input" autocomplete="off">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
-                        </div>
-                        <!-- /btn-group -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-primary-outline" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
     <div class="container">
-        <h2>bootstrap combox 搜索建议插件</h2>
+        <h2>bootstrap combox 搜索建议插件（独立引用方式示例）</h2>
         <p>这是一个基于 bootstrap 按钮式下拉菜单组件 (
         <a target="_blank" href="http://getbootstrap.com/components/#input-groups-buttons-dropdowns">V3</a> /
         <a target="_blank" href="http://v4-alpha.getbootstrap.com/components/input-group/#buttons-with-dropdowns">V4</a>
          ) 的搜索建议插件。</p>
+        <p>使用说明：<a href="../README.html" target="_blank">README.html</a> <a href="https://github.com/lzwme/bootstrap-suggest-plugin" target="_blank">Github</a></p>
 
-        <ul>
-        <li>使用说明：
-            <a href="../README.html" target="_blank">README.html</a>
-            <a href="https://github.com/lzwme/bootstrap-suggest-plugin" target="_blank">Github</a>
-        </li>
-
-        <li>独立引用(不依赖 bootstrap 方式示例)： <a href="index-sep.html" target="_blank">BSV3</a></li>
-
-        <li>使用示例：
+        <p>使用示例：
             <a class="btn btn-info" href="https://github.com/lzwme/bootstrap-suggest-plugin/blob/master/demo/demo.js" target="_blank">demo.js</a>
             <a class="btn btn-info" href="../test/" target="_blank">功能测试</a>
-        </li>
-        </ul>
-        <p id="bsVersion">
-            <button class="btn btn-success btn-success-outline" data-version="3.3.7">bootstrap 3.3.7</button>
-            <button class="btn btn-success btn-success-outline" data-version="4.0.0-alpha.4">bootstrap v4</button>
         </p>
+
+         <p><b>注意：当前页面为不依赖 bootstrap 整个库，只提取(bootstrap 3.3.7)必要内容使用的示例。</b></p>
 
         <div>
             <h3>测试(首次从 URL 获取数据)</h3>
@@ -125,9 +87,6 @@
                     </div>
                 </div>
             </div>
-
-            <h3>测试(modal 中显示；不自动选中值；不显示按钮；)</h3>
-            <a class="btn btn-primary" data-toggle="modal" data-target="#modalTest">modal test</a></p>
 
             <h3>测试(首次从 URL 获取数据，显示 header，不显示按钮，忽略大小写，显示清除按钮)</h3>
             <div class="row">
@@ -319,8 +278,7 @@ fnAdjustAjaxParam: function(keyword, opts) {
         </div>
     </div>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-    <script src="//cdn.bootcss.com/tether/1.2.0/js/tether.min.js"></script>
-    <script id="bsjs" src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script id="bsjs" src="../lib/bsv3/dropdown.js"></script>
     <script src="../src/bootstrap-suggest.js"></script>
     <script src="demo.js?ver=20160422"></script>
 </body>
