@@ -381,6 +381,13 @@
     function ajax(options, keyword) {
         keyword = keyword || '';
 
+        var preAjax = options._preAjax;
+
+        if (preAjax && preAjax.abort && preAjax.readyState !== 4) {
+            console.log('abort pre ajax');
+            preAjax.abort();
+        }
+
         var ajaxParam = {
             type: 'GET',
             dataType: options.jsonp ? 'jsonp' : 'json',
@@ -413,7 +420,7 @@
             return options.url + type + keyword;
         }();
 
-        return $.ajax(ajaxParam).done(function(result) {
+        return options._preAjax = $.ajax(ajaxParam).done(function(result) {
             options.data = options.fnProcessData(result);
         }).fail(handleError);
     }
