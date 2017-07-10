@@ -172,7 +172,6 @@
         // console.log(inputbg);
         bg = options.inputBgColor || 'rgba(255,255,255,0.1)';
         warnbg = options.inputWarnColor || 'rgba(255,255,0,0.1)';
-console.log(setOrGetDataId($input) , $input.val());
         if (setOrGetDataId($input) || !$input.val()) {
             return $input.css('background', bg);
         }
