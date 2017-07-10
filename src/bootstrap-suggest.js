@@ -391,7 +391,7 @@
         var ajaxParam = {
             type: 'GET',
             dataType: options.jsonp ? 'jsonp' : 'json',
-            timeout: 5000
+            timeout: 5000,
         };
 
         // jsonp
@@ -400,8 +400,18 @@
         }
 
         // 自定义 ajax 请求参数生成方法
-        if ($.isFunction(options.fnAdjustAjaxParam)) {
-            ajaxParam = $.extend(ajaxParam, options.fnAdjustAjaxParam(keyword, options));
+        var adjustAjaxParam,
+            fnAdjustAjaxParam = options.fnAdjustAjaxParam;
+
+        if ($.isFunction(fnAdjustAjaxParam)) {
+            adjustAjaxParam = fnAdjustAjaxParam(keyword, options);
+
+            // options.fnAdjustAjaxParam 返回false，则终止 ajax 请求
+            if (false === adjustAjaxParam) {
+                return;
+            }
+
+            $.extend(ajaxParam, adjustAjaxParam);
         }
 
         // url 调整
