@@ -24,12 +24,18 @@
     var inputLock; // 用于中文输入法输入时锁定搜索
 
     // ie 下和 chrome 51 以上浏览器版本，出现滚动条时不计算 padding
-    var notNeedCalcPadding;
     var chromeVer = navigator.userAgent.match(/Chrome\/(\d+)/);
     if (chromeVer) {
         chromeVer = Number(chromeVer[1]);
     }
-    notNeedCalcPadding = isIe || chromeVer > 51;
+    var notNeedCalcPadding = isIe || chromeVer > 51;
+
+    // 一些常量
+    var BSSUGGEST = 'bsSuggest';
+    var onDataRequestSuccess = 'onDataRequestSuccess';
+    var DISABLED = 'disabled';
+    var TRUE = true;
+    var FALSE = false;
 
     /**
      * 错误处理
@@ -53,7 +59,13 @@
      * 设置或获取输入框的 alt 值
      */
     function setOrGetAlt($input, val) {
-        return val ? $input.attr('alt', val) : $input.attr('alt');
+        return val !== undefined ? $input.attr('alt', val) : $input.attr('alt');
+    }
+    /**
+     * 设置或获取输入框的 data-id 值
+     */
+    function setOrGetDataId($input, val) {
+        return val !== undefined ? $input.attr('data-id', val) : $input.attr('data-id');
     }
     /**
      * 设置选中的值
@@ -76,7 +88,7 @@
                 // .attr('data-id', inputIdList.join(options.separator))
                 .focus();
         } else {
-            $input.attr('data-id', keywords.id).focus().val(keywords.key);
+            setOrGetDataId($input, keywords.id).val(keywords.key).focus();
         }
 
         $input.trigger('onSetSelectValue', [keywords, (options.data.value || options._lastData.value)[keywords.index]]);
@@ -92,9 +104,9 @@
             return;
         }
 
+        var $inputGroup = $dropdownMenu.parents('.input-group');
         if (options.autoDropup) {
             setTimeout(function() {
-                var $inputGroup = $dropdownMenu.parents('.input-group');
 
                 if ( // 自动判断菜单向上展开
                     ($window.height() + $window.scrollTop() - $input.offset().top) < $dropdownMenu.height() && // 假如向下会撑长页面
@@ -124,7 +136,7 @@
 
         // ie 下，不显示按钮时的 top/bottom
         if (isIe && !options.showBtn) {
-            if (!$dropdownMenu.parents('.input-group').hasClass('dropup')) {
+            if (!$inputGroup.hasClass('dropup')) {
                 dmcss.top = $parent.height();
                 dmcss.bottom = 'auto';
             } else {
@@ -135,7 +147,7 @@
 
         // 是否自动最小宽度
         if (!options.autoMinWidth) {
-            dmcss['min-width'] = $parent.width();
+            dmcss.minWidth = $parent.width();
         }
         /* else {
             dmcss['width'] = 'auto';
@@ -160,8 +172,8 @@
         // console.log(inputbg);
         bg = options.inputBgColor || 'rgba(255,255,255,0.1)';
         warnbg = options.inputWarnColor || 'rgba(255,255,0,0.1)';
-
-        if ($input.attr('data-id') || !$input.val()) {
+console.log(setOrGetDataId($input) , $input.val());
+        if (setOrGetDataId($input) || !$input.val()) {
             return $input.css('background', bg);
         }
 
@@ -208,16 +220,16 @@
     function checkInput($input, $dropdownMenu, options) {
         if (
             !$dropdownMenu.length || // 过滤非 bootstrap 下拉式菜单对象
-            $input.data('bsSuggest') // 是否已经初始化的检测
+            $input.data(BSSUGGEST) // 是否已经初始化的检测
         ) {
-            return false;
+            return FALSE;
         }
 
-        $input.data('bsSuggest', {
+        $input.data(BSSUGGEST, {
             options: options
         });
 
-        return true;
+        return TRUE;
     }
     /**
      * 数据格式检测
@@ -225,21 +237,21 @@
      * data 格式：{"value": [{}, {}...]}
      */
     function checkData(data) {
-        var isEmpty = true, o;
+        var isEmpty = TRUE, o;
 
         for (o in data) {
             if (o === 'value') {
-                isEmpty = false;
+                isEmpty = FALSE;
                 break;
             }
         }
         if (isEmpty) {
             handleError('返回数据格式错误!');
-            return false;
+            return FALSE;
         }
         if (!data.value.length) {
             // handleError('返回数据为空!');
-            return false;
+            return FALSE;
         }
 
         return data;
@@ -407,7 +419,7 @@
             adjustAjaxParam = fnAdjustAjaxParam(keyword, options);
 
             // options.fnAdjustAjaxParam 返回false，则终止 ajax 请求
-            if (false === adjustAjaxParam) {
+            if (FALSE === adjustAjaxParam) {
                 return;
             }
 
@@ -416,7 +428,7 @@
 
         // url 调整
         ajaxParam.url = function() {
-            if (! keyword || ajaxParam.data) {
+            if (!keyword || ajaxParam.data) {
                 return ajaxParam.url || options.url;
             }
 
@@ -468,12 +480,13 @@
         var data, validData, filterData = {
                 value: []
             },
-            i, key, len;
+            i, key, len,
+            fnPreprocessKeyword = options.fnPreprocessKeyword;
 
         keyword = keyword || '';
         // 获取数据前对关键字预处理方法
-        if ($.isFunction(options.fnPreprocessKeyword)) {
-            keyword = options.fnPreprocessKeyword(keyword, options);
+        if ($.isFunction(fnPreprocessKeyword)) {
+            keyword = fnPreprocessKeyword(keyword, options);
         }
 
         // 给了url参数，则从服务器 ajax 请求
@@ -481,7 +494,7 @@
         if (options.url) {
             ajax(options, keyword).done(function(result) {
                 callback($input, options.data, options); // 为 refreshDropMenu
-                $input.trigger('onDataRequestSuccess', result);
+                $input.trigger(onDataRequestSuccess, result);
                 if (options.getDataMethod === 'firstByUrl') {
                     options.url = null;
                 }
@@ -559,24 +572,24 @@
         keyField: '',                   // 每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
 
         /* 搜索相关 */
-        autoSelect: true,               // 键盘向上/下方向键时，是否自动选择值
-        allowNoKeyword: true,           // 是否允许无关键字时请求数据
+        autoSelect: TRUE,               // 键盘向上/下方向键时，是否自动选择值
+        allowNoKeyword: TRUE,           // 是否允许无关键字时请求数据
         getDataMethod: 'firstByUrl',    // 获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-        delayUntilKeyup: false,         // 获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-        ignorecase: false,              // 前端搜索匹配时，是否忽略大小写
+        delayUntilKeyup: FALSE,         // 获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+        ignorecase: FALSE,              // 前端搜索匹配时，是否忽略大小写
         effectiveFields: [],            // 有效显示于列表中的字段，非有效字段都会过滤，默认全部有效。
         effectiveFieldsAlias: {},       // 有效字段的别名对象，用于 header 的显示
         searchFields: [],               // 有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
-        twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
-        multiWord: false,               // 以分隔符号分割的多关键字支持
+        twoWayMatch: TRUE,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
+        multiWord: FALSE,               // 以分隔符号分割的多关键字支持
         separator: ',',                 // 多关键字支持时的分隔符，默认为半角逗号
         delay: 300,                     // 搜索触发的延时时间间隔，单位毫秒
 
         /* UI */
-        autoDropup: false,              // 选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
-        autoMinWidth: false,            // 是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
-        showHeader: false,              // 是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
-        showBtn: true,                  // 是否显示下拉按钮
+        autoDropup: FALSE,              // 选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
+        autoMinWidth: FALSE,            // 是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
+        showHeader: FALSE,              // 是否显示选择列表的 header。为 true 时，有效字段大于一列则显示表头
+        showBtn: TRUE,                  // 是否显示下拉按钮
         inputBgColor: '',               // 输入框背景色，当与容器背景色不同时，可能需要该项的配置
         inputWarnColor: 'rgba(255,0,0,.1)', // 输入框内容不是下拉列表选择时的警告色
         listStyle: {
@@ -593,7 +606,7 @@
         listAlign: 'left',              // 提示列表对齐位置，left/right/auto
         listHoverStyle: 'background: #07d; color:#fff', // 提示框列表鼠标悬浮的样式
         listHoverCSS: 'jhover',         // 提示框列表鼠标悬浮的样式名称
-        clearable: false,               // 是否可清除已输入的内容
+        clearable: FALSE,               // 是否可清除已输入的内容
 
         /* key */
         keyLeft: 37,                    // 向左方向键，不同的操作系统可能会有差别，则自行定义
@@ -618,10 +631,10 @@
 
             // 默认配置有效显示字段多于一个，则显示列表表头，否则不显示
             if (undefined === options.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
-                options.showHeader = true;
+                options.showHeader = TRUE;
             }
 
-            options = $.extend(true, {}, defaultOptions, options);
+            options = $.extend(TRUE, {}, defaultOptions, options);
 
             // 旧的方法兼容
             if (options.processData) {
@@ -635,13 +648,13 @@
             if (options.getDataMethod === 'firstByUrl' && options.url && !options.delayUntilKeyup) {
                 ajax(options).done(function(result) {
                     options.url = null;
-                    self.trigger('onDataRequestSuccess', result);
+                    self.trigger(onDataRequestSuccess, result);
                 });
             }
 
             // 鼠标滑动到条目样式
-            if (!$('#bsSuggest').length) {
-                $('head:eq(0)').append('<style id="bsSuggest">.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
+            if (!$('#' + BSSUGGEST).length) {
+                $('head:eq(0)').append('<style id="' + BSSUGGEST + '">.' + options.listHoverCSS + '{' + options.listHoverStyle + '}</style>');
             }
 
             return self.each(function() {
@@ -666,7 +679,7 @@
                 }
 
                 // 移除 disabled 类，并禁用自动完成
-                $input.removeClass('disabled').prop('disabled', false).attr('autocomplete', 'off');
+                $input.removeClass(DISABLED).prop(DISABLED, FALSE).attr('autocomplete', 'off');
                 // dropdown-menu 增加修饰
                 $dropdownMenu.css(options.listStyle);
 
@@ -679,7 +692,7 @@
                 $input.on('keydown', function(event) {
                     var currentList, tipsKeyword; // 提示列表上被选中的关键字
 
-                    // $input.attr('data-id', '');
+                    // setOrGetDataId($input, '');
 
                     // 当提示层显示时才对键盘事件处理
                     if (!$dropdownMenu.is(':visible')) {
@@ -698,7 +711,7 @@
                         } else if (!currentList.next().length) {
                             // 如果是最后一个被选中,则取消选中,即可认为是输入框被选中，并恢复输入的值
                             if (options.autoSelect) {
-                                $input.val(setOrGetAlt($input)).attr('data-id', '');
+                                setOrGetDataId($input, '').val(setOrGetAlt($input));
                             }
                         } else {
                             // 选中下一行
@@ -715,7 +728,7 @@
                             tipsKeyword = getPointKeyword($dropdownMenu.find('tbody tr:last').mouseover());
                         } else if (!currentList.prev().length) {
                             if (options.autoSelect) {
-                                $input.val(setOrGetAlt($input)).attr('data-id', '');
+                                setOrGetDataId($input, '').val(setOrGetAlt($input));
                             }
                         } else {
                             // 选中前一行
@@ -732,7 +745,7 @@
                         tipsKeyword = getPointKeyword(currentList);
                         $dropdownMenu.hide(); // .empty();
                     } else {
-                        $input.attr('data-id', '');
+                        setOrGetDataId($input, '');
                     }
 
                     // 设置值 tipsKeyword
@@ -741,11 +754,11 @@
                 }).on('compositionstart', function(event) {
                     // 中文输入开始，锁定
                     // console.log('compositionstart');
-                    inputLock = true;
+                    inputLock = TRUE;
                 }).on('compositionend', function(event) {
                     // 中文输入结束，解除锁定
                     // console.log('compositionend');
-                    inputLock = false;
+                    inputLock = FALSE;
                 }).on('keyup input paste', function(event) {
                     var word;
 
@@ -757,7 +770,7 @@
                     }
 
                     if (event.keyCode) {
-                        // $input.attr('data-id', '');
+                        // setOrGetDataId($input, '');
                         setBackground($input, options);
                     }
 
@@ -847,7 +860,7 @@
                     }
 
                     $dropdownMenu.css('display', display);
-                    return false;
+                    return FALSE;
                 });
 
                 // 列表中滑动时，输入框失去焦点
@@ -864,7 +877,7 @@
                         unHoverAll($dropdownMenu, options);
                         $(this).addClass(options.listHoverCSS);
 
-                        return false; // 阻止冒泡
+                        return FALSE; // 阻止冒泡
                     })
                     .on('mousedown', 'tbody tr', function() {
                         var keywords = getPointKeyword($(this));
@@ -877,12 +890,12 @@
                 // 存在清空按钮
                 if ($iClear.length) {
                     $iClear.click(function () {
-                        $input.val('').attr('data-id', '');
+                        setOrGetDataId($input, '').val('');
                         setBackground($input, options);
                     });
 
                     $parent.mouseenter(function() {
-                        if (!$input.prop('disabled')) {
+                        if (!$input.prop(DISABLED)) {
                             $iClear.show();
                         }
                     }).mouseleave(function() {
@@ -904,20 +917,20 @@
         },
         disable: function() {
             return this.each(function() {
-                $(this).attr('disabled', true)
-                    .parent().find('.btn:eq(0)').prop('disabled', true);
+                $(this).attr(DISABLED, TRUE)
+                    .parent().find('.btn:eq(0)').prop(DISABLED, TRUE);
             });
         },
         enable: function() {
             return this.each(function() {
-                $(this).attr('disabled', false)
-                    .parent().find('.btn:eq(0)').prop('disabled', false);
+                $(this).attr(DISABLED, FALSE)
+                    .parent().find('.btn:eq(0)').prop(DISABLED, FALSE);
             });
         },
         destroy: function() {
             return this.each(function() {
-                $(this).off().removeData('bsSuggest').removeAttr('style')
-                    .parent().find('.btn:eq(0)').off().show().attr('data-toggle', 'dropdown').prop('disabled', false) // .addClass('disabled');
+                $(this).off().removeData(BSSUGGEST).removeAttr('style')
+                    .parent().find('.btn:eq(0)').off().show().attr('data-toggle', 'dropdown').prop(DISABLED, FALSE) // .addClass(DISABLED);
                     .next().css('display', '').off();
             });
         },
@@ -926,13 +939,13 @@
         }
     };
 
-    $.fn.bsSuggest = function(options) {
+    $.fn[BSSUGGEST] = function(options) {
         // 方法判断
         if (typeof options === 'string' && methods[options]) {
-            var inited = true;
+            var inited = TRUE;
             this.each(function() {
-                if (!$(this).data('bsSuggest')) {
-                    return inited = false;
+                if (!$(this).data(BSSUGGEST)) {
+                    return inited = FALSE;
                 }
             });
             // 只要有一个未初始化，则全部都不执行方法，除非是 init 或 version
