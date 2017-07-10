@@ -432,7 +432,11 @@
 
         return options._preAjax = $.ajax(ajaxParam).done(function(result) {
             options.data = options.fnProcessData(result);
-        }).fail(handleError);
+        }).fail(function(err) {
+            if (options.fnAjaxFail) {
+                options.fnAjaxFail(err, options);
+            }
+        });
     }
     /**
      * 检测 keyword 与 value 是否存在互相包含
@@ -602,7 +606,8 @@
         fnProcessData: processData,     // 格式化数据的方法，返回数据格式参考 data 参数
         fnGetData: getData,             // 获取数据的方法，无特殊需求一般不作设置
         fnAdjustAjaxParam: null,        // 调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
-        fnPreprocessKeyword: null       // 搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
+        fnPreprocessKeyword: null,      // 搜索过滤数据前，对输入关键字作进一步处理方法。注意，应返回字符串
+        fnAjaxFail: null,               // ajax 失败时回调方法
     };
 
     var methods = {
