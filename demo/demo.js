@@ -114,6 +114,7 @@
      * 百度搜索 API 测试
      */
     $("#baidu").bsSuggest({
+        emptyTip: '未检索到匹配的数据',
         allowNoKeyword: false,   //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
         multiWord: true,         //以分隔符号分割的多关键字支持
         separator: ",",          //多关键字支持时的分隔符，默认为空格

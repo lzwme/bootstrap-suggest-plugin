@@ -286,7 +286,11 @@
             idValue, keyValue; // 作为输入框 data-id 和内容的字段值
 
         if (!data || !(len = data.value.length)) {
-            $dropdownMenu.empty().hide();
+            if (options.emptyTip) {
+                $dropdownMenu.html('<div style="padding:10px 5px 5px">' + options.emptyTip + '</div>').show();
+            } else {
+                $dropdownMenu.empty().hide();
+            }
             return $input;
         }
 
@@ -583,7 +587,7 @@
         multiWord: FALSE,               // 以分隔符号分割的多关键字支持
         separator: ',',                 // 多关键字支持时的分隔符，默认为半角逗号
         delay: 300,                     // 搜索触发的延时时间间隔，单位毫秒
-
+        emptyTip: '',                   // 查询为空时显示的内容，可为 html
         /* UI */
         autoDropup: FALSE,              // 选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
         autoMinWidth: FALSE,            // 是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
