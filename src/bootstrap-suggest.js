@@ -279,7 +279,7 @@
      * 作为 fnGetData 的 callback 函数调用
      */
     function refreshDropMenu($input, data, options) {
-        var $dropdownMenu = $input.parent().find('ul.dropdown-menu'),
+        var $dropdownMenu = $input.parent().find('ul:eq(0)'),
             len, i, j, index = 0,
             tds,
             html = ['<table class="table table-condensed table-sm" style="margin:0">'],
@@ -666,7 +666,7 @@
                     $iClear = getIClear($input, options),
                     mouseenterDropdownMenu,
                     keyupTimer, // keyup 与 input 事件延时定时器
-                    $dropdownMenu = $input.parents('.input-group').find('ul.dropdown-menu:eq(0)');
+                    $dropdownMenu = $parent.find('ul:eq(0)');
 
                 // 验证输入框对象是否符合条件
                 if (!checkInput($input, $dropdownMenu, options)) {
@@ -676,8 +676,8 @@
 
                 // 是否显示 button 按钮
                 if (!options.showBtn) {
-                    $input.css('border-radius', '4px')
-                        .parents('.input-group:eq(0)').css('width', '100%')
+                    $input.css('border-radius', '4px');
+                    $parent.css('width', '100%')
                         .find('.btn:eq(0)').hide();
                 }
 
@@ -765,16 +765,14 @@
                 }).on('keyup input paste', function(event) {
                     var word;
 
+                    if (event.keyCode) {
+                        setBackground($input, options);
+                    }
+
                     // 如果弹起的键是回车、向上或向下方向键则返回
                     if (~$.inArray(event.keyCode, [options.keyDown, options.keyUp, options.keyEnter])) {
                         $input.val($input.val()); // 让鼠标输入跳到最后
-                        setBackground($input, options);
                         return;
-                    }
-
-                    if (event.keyCode) {
-                        // setOrGetDataId($input, '');
-                        setBackground($input, options);
                     }
 
                     clearTimeout(keyupTimer);
@@ -915,7 +913,7 @@
         },
         hide: function() {
             return this.each(function() {
-                $(this).parent().find('ul.dropdown-menu').css('display', '');
+                $(this).parent().find('ul:eq(0)').css('display', '');
             });
         },
         disable: function() {
