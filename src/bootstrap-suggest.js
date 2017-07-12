@@ -104,7 +104,7 @@
             return;
         }
 
-        var $inputGroup = $dropdownMenu.parents('.input-group');
+        var $parent = $input.parent();
         if (options.autoDropup) {
             setTimeout(function() {
 
@@ -112,16 +112,15 @@
                     ($window.height() + $window.scrollTop() - $input.offset().top) < $dropdownMenu.height() && // 假如向下会撑长页面
                     $input.offset().top > ($dropdownMenu.height() + $window.scrollTop()) // 而且向上不会撑到顶部
                 ) {
-                    $inputGroup.addClass('dropup');
+                    $parent.addClass('dropup');
                 } else {
-                    $inputGroup.removeClass('dropup');
+                    $parent.removeClass('dropup');
                 }
             }, 10);
         }
 
         // 列表对齐方式
         var dmcss = {};
-        var $parent = $input.parent();
         if (options.listAlign === 'left') {
             dmcss = {
                 'left': $input.siblings('div').width() - $parent.width(),
@@ -136,7 +135,7 @@
 
         // ie 下，不显示按钮时的 top/bottom
         if (isIe && !options.showBtn) {
-            if (!$inputGroup.hasClass('dropup')) {
+            if (!$parent.hasClass('dropup')) {
                 dmcss.top = $parent.height();
                 dmcss.bottom = 'auto';
             } else {
@@ -275,6 +274,13 @@
         return ~$.inArray(field, options.searchFields);
     }
     /**
+     * 通过下拉菜单显示提示文案
+     */
+    function showTip(tip, $input, $dropdownMenu, options) {
+        $dropdownMenu.html('<div style="padding:10px 5px 5px">' + tip + '</div>').show();
+        adjustDropMenuPos($input, $dropdownMenu, options);
+    }
+    /**
      * 下拉列表刷新
      * 作为 fnGetData 的 callback 函数调用
      */
@@ -287,7 +293,7 @@
 
         if (!data || !(len = data.value.length)) {
             if (options.emptyTip) {
-                $dropdownMenu.html('<div style="padding:10px 5px 5px">' + options.emptyTip + '</div>').show();
+                showTip(options.emptyTip, $input, $dropdownMenu, options);
             } else {
                 $dropdownMenu.empty().hide();
             }
@@ -399,7 +405,7 @@
         var preAjax = options._preAjax;
 
         if (preAjax && preAjax.abort && preAjax.readyState !== 4) {
-            console.log('abort pre ajax');
+            // console.log('abort pre ajax');
             preAjax.abort();
         }
 
@@ -495,12 +501,21 @@
         // 给了url参数，则从服务器 ajax 请求
         // console.log(options.url + keyword);
         if (options.url) {
+            var timer;
+            if (options.searchingTip) {
+                timer = setTimeout(function() {
+                    showTip(options.searchingTip, $input, $input.parent().find('ul'), options);
+                }, 600);
+            }
+
             ajax(options, keyword).done(function(result) {
                 callback($input, options.data, options); // 为 refreshDropMenu
                 $input.trigger(onDataRequestSuccess, result);
                 if (options.getDataMethod === 'firstByUrl') {
                     options.url = null;
                 }
+            }).always(function() {
+                timer && clearTimeout(timer);
             });
         } else {
             // 没有给出 url 参数，则从 data 参数获取
@@ -588,6 +603,8 @@
         separator: ',',                 // 多关键字支持时的分隔符，默认为半角逗号
         delay: 300,                     // 搜索触发的延时时间间隔，单位毫秒
         emptyTip: '',                   // 查询为空时显示的内容，可为 html
+        searchingTip: '搜索中...',      // ajax 搜索时显示的提示内容，当搜索时间较长时给出正在搜索的提示
+
         /* UI */
         autoDropup: FALSE,              // 选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
         autoMinWidth: FALSE,            // 是否自动最小宽度，设为 false 则最小宽度不小于输入框宽度
