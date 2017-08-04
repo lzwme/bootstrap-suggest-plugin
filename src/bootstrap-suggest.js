@@ -76,16 +76,29 @@
         }
 
         var separator = options.separator || ',',
-            inputValList /*, inputIdList*/ ;
+            inputValList, inputIdList;
 
-        if (options && options.multiWord) { // 多关键字支持，只设置 val
+        if (options && options.multiWord) { 
             inputValList = $input.val().split(separator);
             inputValList[inputValList.length - 1] = keywords.key;
-            /*inputIdList = $input.attr('data-id').split(separator);
-            inputIdList[inputIdList.length - 1] = id;*/
+
+            //多关键字检索支持设置id
+            if ($input.attr('data-id') == undefined || $input.attr('data-id') == null) {
+                inputIdList = new Array();
+                inputIdList.push(keywords.id);
+            } else {
+                if ($input.attr('data-id').indexOf(",") == -1) {
+                    inputIdList = new Array();
+                    inputIdList.push($input.attr('data-id'));
+                    inputIdList.push(keywords.id);
+                } else {
+                    inputIdList = $input.attr('data-id').split(separator);
+                    inputIdList.push(keywords.id);
+                }
+            }
 
             $input.val(inputValList.join(separator))
-                // .attr('data-id', inputIdList.join(options.separator))
+                .attr('data-id', inputIdList.join(options.separator))
                 .focus();
         } else {
             setOrGetDataId($input, keywords.id).val(keywords.key).focus();
@@ -410,7 +423,7 @@
         }
 
         var ajaxParam = {
-            type: 'GET',
+            type: 'POST',
             dataType: options.jsonp ? 'jsonp' : 'json',
             timeout: 5000,
         };
