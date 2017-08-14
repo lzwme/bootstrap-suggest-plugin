@@ -76,29 +76,24 @@
         }
 
         var separator = options.separator || ',',
-            inputValList, inputIdList;
+            inputValList,
+            inputIdList = [],
+            dataId = setOrGetDataId($input);
 
-        if (options && options.multiWord) { 
+        if (options && options.multiWord) {
             inputValList = $input.val().split(separator);
             inputValList[inputValList.length - 1] = keywords.key;
 
-            //多关键字检索支持设置id
-            if ($input.attr('data-id') == undefined || $input.attr('data-id') == null) {
-                inputIdList = new Array();
+            //多关键字检索支持设置id --- 存在 bug，不建议使用
+            if (!dataId) {
                 inputIdList.push(keywords.id);
             } else {
-                if ($input.attr('data-id').indexOf(",") == -1) {
-                    inputIdList = new Array();
-                    inputIdList.push($input.attr('data-id'));
-                    inputIdList.push(keywords.id);
-                } else {
-                    inputIdList = $input.attr('data-id').split(separator);
-                    inputIdList.push(keywords.id);
-                }
+                inputIdList = dataId.split(separator);
+                inputIdList.push(keywords.id);
             }
 
-            $input.val(inputValList.join(separator))
-                .attr('data-id', inputIdList.join(options.separator))
+            setOrGetDataId($input, inputIdList.join(options.separator))
+                .val(inputValList.join(separator))
                 .focus();
         } else {
             setOrGetDataId($input, keywords.id).val(keywords.key).focus();
@@ -423,7 +418,7 @@
         }
 
         var ajaxParam = {
-            type: 'POST',
+            type: 'GET',
             dataType: options.jsonp ? 'jsonp' : 'json',
             timeout: 5000,
         };
@@ -536,9 +531,7 @@
             validData = checkData(data);
             // 本地的 data 数据，则在本地过滤
             if (validData) {
-                if (!keyword) {
-                    filterData = data;
-                } else {
+                if (keyword) {
                     // 输入不为空时则进行匹配
                     len = data.value.length;
                     for (i = 0; i < len; i++) {
@@ -553,6 +546,8 @@
                             }
                         }
                     }
+                } else {
+                    filterData = data;
                 }
             }
 
