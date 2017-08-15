@@ -77,7 +77,7 @@
 
         var separator = options.separator || ',',
             inputValList,
-            inputIdList = [],
+            inputIdList,
             dataId = setOrGetDataId($input);
 
         if (options && options.multiWord) {
@@ -86,13 +86,13 @@
 
             //多关键字检索支持设置id --- 存在 bug，不建议使用
             if (!dataId) {
-                inputIdList.push(keywords.id);
+                inputIdList = [keywords.id];
             } else {
                 inputIdList = dataId.split(separator);
                 inputIdList.push(keywords.id);
             }
 
-            setOrGetDataId($input, inputIdList.join(options.separator))
+            setOrGetDataId($input, inputIdList.join(separator))
                 .val(inputValList.join(separator))
                 .focus();
         } else {
