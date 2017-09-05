@@ -122,7 +122,7 @@ window.helperTest = {
                     });
             });
 
-            it('输入模拟：TANGTANGTANGTANGTANGTANGTANG', function() {
+            it('输入模拟：TANGTANGTANGTANGTANGTANGTANGFFFFFFFFFF', function() {
                 return lintAsync(function($d) {
                     //通过url获取数据的方式
                     params.byurl &&
@@ -130,7 +130,7 @@ window.helperTest = {
                             $d.resolve();
                         });
 
-                    $input.val('TANGTANGTANGTANGTANGTANGTANG666666').trigger('keydown').trigger('keyup');
+                    $input.val('TANGTANGTANGTANGTANGTANGTANGFFFFFFFFFF').trigger('keydown').trigger('keyup');
                 }, params.byurl ? 3000 : 310)
                 .then(function() {
                     expect($dropdown.html()).to.be.equal('');
