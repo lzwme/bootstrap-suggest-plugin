@@ -74,16 +74,16 @@ $("#test").bsSuggest({
 
 请参考 demo/index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。
 
-####方法调用
+### 方法调用
 1. 禁用提示： `$("input#test").bsSuggest("disable");`
 2. 启用提示： `$("input#test").bsSuggest("enable");`
 3. 销毁插件： `$("input#test").bsSuggest("destroy");`
 4. 查看版本：`$("input#test").bsSuggest("version");`
 
-####事件监听
-1. onDataRequestSuccess: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
-2. onSetSelectValue：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
-3. onUnsetSelectValue：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
+### 事件监听
+1. `onDataRequestSuccess`: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
+2. `onSetSelectValue`：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
+3. `onUnsetSelectValue`：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
 ```js
 $("#test")
     .on('onDataRequestSuccess', function (event, result) {
