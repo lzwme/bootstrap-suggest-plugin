@@ -48,7 +48,7 @@ function takeScreenshot() {
 /**
  * 执行 setup
  */
-function setup() {
+function start() {
     if (typeof initMochaPhantomJS === 'function') {
         initMochaPhantomJS();
     }
@@ -73,4 +73,4 @@ function setup() {
     });
 }
 
-setup();
+start();

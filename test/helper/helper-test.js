@@ -130,7 +130,7 @@ window.helperTest = {
                             $d.resolve();
                         });
 
-                    $input.val('TANGTANGTANGTANGTANGTANGTANG').trigger('keydown').trigger('keyup');
+                    $input.val('TANGTANGTANGTANGTANGTANGTANG666666').trigger('keydown').trigger('keyup');
                 }, params.byurl ? 3000 : 310)
                 .then(function() {
                     expect($dropdown.html()).to.be.equal('');
