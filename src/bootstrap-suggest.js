@@ -65,7 +65,7 @@
      * 设置或获取输入框的 data-id 值
      */
     function setOrGetDataId($input, val) {
-        return val !== undefined ? $input.attr('data-id', val) : $input.attr('data-id');
+        return val !== (void 0) ? $input.attr('data-id', val) : $input.attr('data-id');
     }
     /**
      * 设置选中的值
@@ -96,7 +96,7 @@
                 .val(inputValList.join(separator))
                 .focus();
         } else {
-            setOrGetDataId($input, keywords.id).val(keywords.key).focus();
+            setOrGetDataId($input, keywords.id || '').val(keywords.key).focus();
         }
 
         $input.trigger('onSetSelectValue', [keywords, (options.data.value || options._lastData.value)[keywords.index]]);
@@ -725,10 +725,10 @@
                 $input.on('keydown', function(event) {
                     var currentList, tipsKeyword; // 提示列表上被选中的关键字
 
-                    // setOrGetDataId($input, '');
 
                     // 当提示层显示时才对键盘事件处理
                     if (!$dropdownMenu.is(':visible')) {
+                        setOrGetDataId($input, '');
                         return;
                     }
 
