@@ -18,7 +18,7 @@
         throw new Error('Not found jQuery.');
     }
 })(function($) {
-    var VERSION = '0.1.20';
+    var VERSION = '0.1.21';
     var $window = $(window);
     var isIe = 'ActiveXObject' in window; // 用于对 IE 的兼容判断
     var inputLock; // 用于中文输入法输入时锁定搜索
