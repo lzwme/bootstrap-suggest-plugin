@@ -47,26 +47,32 @@ module.exports = function(grunt) {
             js: {
                 options: {
                     separator: "\n", //多文件分隔符,
-                    stripBanners: true,
+                    // stripBanners: true,
                     process: function(src) {
                         return src.replace('VERSION_PLACEHOLDER', pkg.version);
                     },
-                    banner: "/**\r\n * <%= pkg.name %> - v<%= pkg.version %>\r\n" +
-                        " * @description <%= pkg.description %>\r\n" +
-                        " * @author <%= pkg.author %>\r\n" +
-                        " * @GitHub <%= pkg.repository.url %>\r\n" +
-                        ' * @since <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\r\n' +
-                        " */\r\n"
                 },
-                src: ['dist/bootstrap-suggest.min.js'], //合并哪些文件
+                src: ['src/bootstrap-suggest.js'], //合并哪些文件
                 dest: 'dist/bootstrap-suggest.min.js' //合并后输出
             }
         },
         //uglify 压缩任务，压缩 js
         uglify: {
+            options: {
+                sourceMap: true,
+                compress: {
+                    drop_console: true
+                },
+                banner: "/**\r\n * <%= pkg.name %> - v<%= pkg.version %>\r\n" +
+                    " * @description <%= pkg.description %>\r\n" +
+                    " * @author <%= pkg.author %>\r\n" +
+                    " * @GitHub <%= pkg.repository.url %>\r\n" +
+                    ' * @since <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\r\n' +
+                    " */\r\n"
+            },
             js: {
                 files: {
-                    'dist/bootstrap-suggest.min.js': ['src/bootstrap-suggest.js'] //替换保存
+                    'dist/bootstrap-suggest.min.js': ['dist/bootstrap-suggest.min.js'] //替换保存
                 }
             }
         }
@@ -98,5 +104,5 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['serve']);
     //自定义任务列表
     grunt.registerTask('serve', ['connect:server','watch']);
-    grunt.registerTask('prod', ['eslint', 'uglify', 'concat']);
+    grunt.registerTask('prod', ['eslint', 'concat', 'uglify']);
 };
