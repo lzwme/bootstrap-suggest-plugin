@@ -170,7 +170,7 @@ var defaultOptions = {
 `git clone` 项目，进入项目目录，执行如下命令：
 
 1. 安装grunt `npm install grunt-cli -g`
-2. 安装依赖 `npm install`
+2. 安装依赖 `yarn` 或 `npm install`
 3. 实时开发 `npm start`
 4. 执行测试 `npm test`
 4. 执行编译 `npm run build`

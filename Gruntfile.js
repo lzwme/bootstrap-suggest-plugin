@@ -1,7 +1,9 @@
 module.exports = function(grunt) {
+    var pkg = grunt.file.readJSON('package.json');
+
     grunt.initConfig({
         //如果需要用到 package.json 中的参数变量，可使用 pkg 引用（如 pkg.name）
-        pkg: grunt.file.readJSON('package.json'),
+        pkg: pkg,
         //监控自动编译
         watch: {
             livereload: {
@@ -46,6 +48,9 @@ module.exports = function(grunt) {
                 options: {
                     separator: "\n", //多文件分隔符,
                     stripBanners: true,
+                    process: function(src) {
+                        return src.replace('VERSION_PLACEHOLDER', pkg.version);
+                    },
                     banner: "/**\r\n * <%= pkg.name %> - v<%= pkg.version %>\r\n" +
                         " * @description <%= pkg.description %>\r\n" +
                         " * @author <%= pkg.author %>\r\n" +

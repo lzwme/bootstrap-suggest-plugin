@@ -32,7 +32,8 @@
     "node": ">= 4.1.0"
   },
   "scripts": {
-    "start": "grunt",
+    "bootstrap": "yarn || npm install",
+    "start": "npm run bootstrap && grunt",
     "test": "node_modules/.bin/mocha-phantomjs test/index.html -v 1366x768",
     "build": "grunt prod"
   },
