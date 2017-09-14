@@ -41,7 +41,7 @@ window.helperTest = {
             });
 
             it('方法测试：version', function() {
-                expect(/^\d+\.\d+\.\d+$/.test($.fn.bsSuggest('version'))).to.be.true;
+                expect(/^.+$/i.test($.fn.bsSuggest('version'))).to.be.true;
             });
 
             it('方法测试：destory', function(done) {

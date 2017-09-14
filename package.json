@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "jquery": ">=1.11.1"
+    "jquery": ">=1.11.1",
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
@@ -52,6 +52,7 @@
     "grunt-contrib-uglify": "^3.1.0",
     "grunt-contrib-watch": "^1.0.0",
     "gruntify-eslint": "^3.1.0",
+    "mocha": "^3.5.3",
     "mocha-phantomjs": "^4.1.0"
   }
 }

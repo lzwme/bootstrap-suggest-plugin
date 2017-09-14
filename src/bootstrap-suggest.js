@@ -181,14 +181,13 @@
             return $input;
         }
 
-        inputbg = $input.css('backgroundColor').replace(/ /g, '').split(',', 3).join(',');
-        // console.log(inputbg);
-        bg = options.inputBgColor || 'rgba(255,255,255,0.1)';
-        warnbg = options.inputWarnColor || 'rgba(255,255,0,0.1)';
+        bg = options.inputBgColor;
+        warnbg = options.inputWarnColor;
         if (setOrGetDataId($input) || !$input.val()) {
-            return $input.css('background', bg);
+            return $input.css('background', bg || '');
         }
 
+        inputbg = $input.css('backgroundColor').replace(/ /g, '').split(',', 3).join(',');
         // 自由输入的内容，设置背景色
         if (!~warnbg.indexOf(inputbg)) {
             $input.trigger('onUnsetSelectValue') // 触发取消data-id事件
