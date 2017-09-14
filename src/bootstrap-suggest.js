@@ -461,7 +461,7 @@
                 type = '&';
             }
 
-            return options.url + type + keyword;
+            return options.url + type + encodeURIComponent(keyword);
         }();
 
         return options._preAjax = $.ajax(ajaxParam).done(function(result) {
