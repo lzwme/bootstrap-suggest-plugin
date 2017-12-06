@@ -181,8 +181,6 @@
             return $input;
         }
 
-        console.log('setBackground', setOrGetDataId($input), $input.val())
-
         bg = options.inputBgColor;
         warnbg = options.inputWarnColor;
 
@@ -196,7 +194,7 @@
                 $input.trigger('onUnsetSelectValue');
             }
 
-            return;
+            return $input;
         }
 
         inputbg = $input.css('backgroundColor').replace(/ /g, '').split(',', 3).join(',');
