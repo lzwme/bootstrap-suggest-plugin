@@ -99,7 +99,8 @@
             setOrGetDataId($input, keywords.id || '').val(keywords.key).focus();
         }
 
-        $input.trigger('onSetSelectValue', [keywords, (options.data.value || options._lastData.value)[keywords.index]]);
+        $input.data('pre-id', setOrGetDataId($input))
+            .trigger('onSetSelectValue', [keywords, (options.data.value || options._lastData.value)[keywords.index]]);
     }
     /**
      * 调整选择菜单位置
@@ -176,15 +177,26 @@
      */
     function setBackground($input, options) {
         var inputbg, bg, warnbg;
-
         if ((options.indexId === -1 && !options.idField) || options.multiWord) {
             return $input;
         }
 
+        console.log('setBackground', setOrGetDataId($input), $input.val())
+
         bg = options.inputBgColor;
         warnbg = options.inputWarnColor;
-        if (setOrGetDataId($input) || !$input.val()) {
-            return $input.css('background', bg || '');
+
+        var curVal = $input.val();
+        var preId = $input.data('pre-id');
+
+        if (setOrGetDataId($input) || !curVal) {
+            $input.css('background', bg || '');
+
+            if (!curVal && preId) {
+                $input.trigger('onUnsetSelectValue');
+            }
+
+            return;
         }
 
         inputbg = $input.css('backgroundColor').replace(/ /g, '').split(',', 3).join(',');
@@ -723,7 +735,6 @@
                 // 开始事件处理
                 $input.on('keydown', function(event) {
                     var currentList, tipsKeyword; // 提示列表上被选中的关键字
-
 
                     // 当提示层显示时才对键盘事件处理
                     if (!$dropdownMenu.is(':visible')) {

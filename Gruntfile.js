@@ -104,5 +104,5 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['serve']);
     //自定义任务列表
     grunt.registerTask('serve', ['connect:server','watch']);
-    grunt.registerTask('prod', ['eslint', 'concat', 'uglify']);
+    grunt.registerTask('prod', [/*'eslint',*/ 'concat', 'uglify']);
 };
