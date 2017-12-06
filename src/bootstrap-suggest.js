@@ -99,7 +99,7 @@
             setOrGetDataId($input, keywords.id || '').val(keywords.key).focus();
         }
 
-        $input.data('pre-id', setOrGetDataId($input))
+        $input.data('pre-val', $input.val())
             .trigger('onSetSelectValue', [keywords, (options.data.value || options._lastData.value)[keywords.index]]);
     }
     /**
@@ -185,12 +185,12 @@
         warnbg = options.inputWarnColor;
 
         var curVal = $input.val();
-        var preId = $input.data('pre-id');
+        var preVal = $input.data('pre-val');
 
         if (setOrGetDataId($input) || !curVal) {
             $input.css('background', bg || '');
 
-            if (!curVal && preId) {
+            if (!curVal && preVal) {
                 $input.trigger('onUnsetSelectValue');
             }
 
