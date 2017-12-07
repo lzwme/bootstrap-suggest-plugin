@@ -191,7 +191,7 @@
             $input.css('background', bg || '');
 
             if (!curVal && preVal) {
-                $input.trigger('onUnsetSelectValue');
+                $input.trigger('onUnsetSelectValue').data('pre-val', '');
             }
 
             return $input;
@@ -201,6 +201,7 @@
         // 自由输入的内容，设置背景色
         if (!~warnbg.indexOf(inputbg)) {
             $input.trigger('onUnsetSelectValue') // 触发取消data-id事件
+                .data('pre-val', '')
                 .css('background', warnbg);
         }
 
