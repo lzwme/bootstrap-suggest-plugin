@@ -591,7 +591,7 @@
         return $iClear.css({
             position: 'absolute',
             top: 12,
-            right: options.showBtn ? ($input.next('.input-group-btn').width() || 33) + 2 : 12,
+            // right: options.showBtn ? Math.max($input.next('.input-group-btn').width(), 33) + 2 : 12,
             zIndex: 4,
             cursor: 'pointer',
             fontSize: 12
@@ -936,7 +936,8 @@
 
                     $parent.mouseenter(function() {
                         if (!$input.prop(DISABLED)) {
-                            $iClear.show();
+                            $iClear.css('right', options.showBtn ? Math.max($input.next('.input-group-btn').width(), 33) + 2 : 12)
+                                .show();
                         }
                     }).mouseleave(function() {
                         $iClear.hide();
