@@ -312,7 +312,7 @@
         if (!$dropdownMenu.is(':visible')) {
             // $dropdownMenu.css('display', 'block');
             $dropdownMenu.show();
-            $input.trigger('onShowDropdown', options ? options.data.value : []);
+            $input.trigger('onShowDropdown', [options ? options.data.value : []]);
         }
     }
     /**
@@ -323,7 +323,7 @@
         if ($dropdownMenu.is(':visible')) {
             // $dropdownMenu.css('display', '');
             $dropdownMenu.hide();
-            $input.trigger('onHideDropdown', options ? options.data.value : []);
+            $input.trigger('onHideDropdown', [options ? options.data.value : []]);
         }
     }
     /**
@@ -355,9 +355,7 @@
             $dropdownMenu.find('tr').length === len
         ) {
             showDropMenu($input, options);
-            // $dropdownMenu.show();
             return adjustDropMenuPos($input, $dropdownMenu, options);
-            // return $input;
         }
         options._lastData = data;
 
@@ -812,7 +810,6 @@
                     } else if (event.keyCode === options.keyEnter) {
                         tipsKeyword = getPointKeyword(currentList);
                         hideDropMenu($input, options);
-                        // $dropdownMenu.hide(); // .empty();
                     } else {
                         setOrGetDataId($input, '');
                     }
@@ -876,7 +873,7 @@
                     adjustDropMenuPos($input, $dropdownMenu, options);
                 }).on('blur', function() {
                     if (!isMouseenterMenu) { // 不是进入下拉列表状态，则隐藏列表
-                        $dropdownMenu.css('display', '');
+                        hideDropMenu($input, options);
                     }
                 }).on('click', function() {
                     // console.log('input click');
@@ -887,10 +884,9 @@
                         word === setOrGetAlt($input) &&
                         $dropdownMenu.find('table tr').length
                     ) {
-                        return showDropMenu($input, options); // $dropdownMenu.show();
+                        return showDropMenu($input, options);
                     }
 
-                    // if ($dropdownMenu.css('display') !== 'none') {
                     if ($dropdownMenu.is(':visible')) {
                         return;
                     }
@@ -910,23 +906,21 @@
 
                 // 下拉按钮点击时
                 $parent.find('.btn:eq(0)').attr('data-toggle', '').click(function() {
-                    var display = 'none';
-
-                    // if ($dropdownMenu.is(':visible')) {
-                    if ($dropdownMenu.css('display') === display) {
-                        display = 'block';
+                    if (!$dropdownMenu.is(':visible')) {
                         if (options.url) {
                             $input.click().focus();
                             if (!$dropdownMenu.find('tr').length) {
-                                display = 'none';
+                                return FALSE;
                             }
                         } else {
                             // 不以 keyword 作为过滤，展示所有的数据
                             refreshDropMenu($input, options.data, options);
                         }
+                        showDropMenu($input, options);
+                    } else {
+                        hideDropMenu($input, options);
                     }
 
-                    $dropdownMenu.css('display', display);
                     return FALSE;
                 });
 
@@ -952,7 +946,6 @@
                         setOrGetAlt($input, keywords.key);
                         setBackground($input, options);
                         hideDropMenu($input, options);
-                        // $dropdownMenu.hide();
                     });
 
                 // 存在清空按钮
