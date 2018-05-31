@@ -18,6 +18,10 @@
             console.log('onSetSelectValue: ', keyword, data);
         }).on('onUnsetSelectValue', function () {
             console.log('onUnsetSelectValue');
+        }).on('onShowDropdown', function (e, data) {
+            console.log('onShowDropdown', e.target.value, data);
+        }).on('onHideDropdown', function (e, data) {
+            console.log('onHideDropdown', e.target.value, data);
         });
     }
     //按钮方法事件监听
