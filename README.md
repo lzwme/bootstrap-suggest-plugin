@@ -72,8 +72,6 @@ $("#test").bsSuggest({
 
 ## 使用示例
 
-请参考 demo/index.html 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。
-
 ### 方法调用
 1. 禁用提示： `$("input#test").bsSuggest("disable");`
 2. 启用提示： `$("input#test").bsSuggest("enable");`
@@ -84,18 +82,33 @@ $("#test").bsSuggest({
 1. `onDataRequestSuccess`: 当  AJAX 请求数据成功时触发，并传回结果到第二个参数
 2. `onSetSelectValue`：当从下拉菜单选取值时触发，并传回设置的数据到第二个参数
 3. `onUnsetSelectValue`：当设置了 idField，且自由输入内容时触发（与背景警告色显示同步）
+4. `onShowDropdown`：下拉菜单显示时触发
+5. `onHideDropdown`：下拉菜单隐藏式触发
+
+### 示例参考
+
 ```js
-$("#test")
-    .on('onDataRequestSuccess', function (event, result) {
-        console.log(result);
-    })
-    .on('onSetSelectValue', function (e, keyword) {
-        console.log('onSetSelectValue: ', keyword);
-    })
-    .on('onUnsetSelectValue', function (e) {
-        console.log('onUnsetSelectValue');
-    });
+$("#test").bsSuggest('init', {
+    url: "/rest/sys/getuserlist?keyword=",
+    effectiveFields: ["userName", "email"],
+    searchFields: [ "shortAccount"],
+    effectiveFieldsAlias:{userName: "姓名"},
+    clearable: true,
+    idField: "userId",
+    keyField: "userName"
+}).on('onDataRequestSuccess', function (e, result) {
+    console.log('onDataRequestSuccess: ', result);
+}).on('onSetSelectValue', function (e, selectedData, selectedRawData) {
+    console.log('onSetSelectValue: ', e.target.value, selectedData, selectedRawData);
+}).on('onUnsetSelectValue', function () {
+    console.log('onUnsetSelectValue');
+}).on('onShowDropdown', function (e, data) {
+    console.log('onShowDropdown', e.target.value, data);
+}).on('onHideDropdown', function (e, data) {
+    console.log('onHideDropdown', e.target.value, data);
+});
 ```
+更多详细用法，可参考 [demo/index.html](https://github.com/lzwme/bootstrap-suggest-plugin/blob/master/demo/index.html) 和 [demo/demo.js](https://github.com/lzwme/bootstrap-suggest-plugin/blob/master/demo/demo.js) 文件源代码，提供了自定义数据、URL 请求数据、百度搜索 API、淘宝搜索 API 的接口演示。
 
 ## 配置参数
 
@@ -104,8 +117,8 @@ $("#test")
 var defaultOptions = {
     url: null,                      //请求数据的 URL 地址
     jsonp: null,                    //设置此参数名，将开启jsonp功能，否则使用json数据结构
-    data: {             
-        value: []               
+    data: {
+        value: []
     },                              //提示所用的数据，注意格式
     indexId: 0,                     //每组数据的第几个数据，作为input输入框的 data-id，设为 -1 且 idField 为空则不设置此值
     indexKey: 0,                    //每组数据的第几个数据，作为input输入框的内容
@@ -157,7 +170,7 @@ var defaultOptions = {
     keyDown: 40,                    //向下方向键
     keyEnter: 13,                   //回车键
 
-    /* methods */   
+    /* methods */
     fnProcessData: processData,     //格式化数据的方法，返回数据格式参考 data 参数
     fnGetData: getData,             //获取数据的方法，无特殊需求一般不作设置
     fnAdjustAjaxParam: null,        //调整 ajax 请求参数方法，用于更多的请求配置需求。如对请求关键字作进一步处理、修改超时时间等
