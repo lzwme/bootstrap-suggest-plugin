@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-suggest-plugin",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "description": "这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。",
   "repository": {
     "type": "git",
