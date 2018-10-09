@@ -65,7 +65,7 @@ module.exports = function(grunt) {
                 },
                 banner: "/**\r\n * <%= pkg.name %> - v<%= pkg.version %>\r\n" +
                     " * @description <%= pkg.description %>\r\n" +
-                    " * @author <%= pkg.author %>\r\n" +
+                    " * @author <%= pkg.author.name %> - <%= pkg.author.url %>\r\n" +
                     " * @GitHub <%= pkg.repository.url %>\r\n" +
                     ' * @since <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %>\r\n' +
                     " */\r\n"
