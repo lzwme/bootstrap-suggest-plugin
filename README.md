@@ -126,19 +126,21 @@ var defaultOptions = {
     keyField: '',                   //每组数据的哪个字段作为输入框内容，优先级高于 indexKey 设置（推荐）
 
     /* 搜索相关 */
-    autoSelect: true,               //键盘向上/下方向键时，是否自动选择值
-    allowNoKeyword: true,           //是否允许无关键字时请求数据
-    getDataMethod: 'firstByUrl',    //获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
-    delayUntilKeyup: false,         //获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
-    ignorecase: false,              //前端搜索匹配时，是否忽略大小写
-    effectiveFields: [],            //有效显示于列表中的字段，非有效字段都会过滤，默认全部。
-    effectiveFieldsAlias: {},       //有效字段的别名对象，用于 header 的显示
-    searchFields: [],               //有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
+    autoSelect: true,               // 键盘向上/下方向键时，是否自动选择值
+    allowNoKeyword: TRUE,           // 是否允许无关键字时请求数据
+    getDataMethod: 'firstByUrl',    // 获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
+    delayUntilKeyup: false,         // 获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
+    ignorecase: false,              // 前端搜索匹配时，是否忽略大小写
+    effectiveFields: [],            // 有效显示于列表中的字段，非有效字段都会过滤，默认全部有效。
+    effectiveFieldsAlias: {},       // 有效字段的别名对象，用于 header 的显示
+    searchFields: [],               // 有效搜索字段，从前端搜索过滤数据时使用，但不一定显示在列表中。effectiveFields 配置字段也会用于搜索过滤
     twoWayMatch: true,              // 是否双向匹配搜索。为 true 即输入关键字包含或包含于匹配字段均认为匹配成功，为 false 则输入关键字包含于匹配字段认为匹配成功
-
-    multiWord: false,               //以分隔符号分割的多关键字支持
-    separator: ',',                 //多关键字支持时的分隔符，默认为半角逗号
-    delay: 300,                     //搜索触发的延时时间间隔，单位毫秒
+    multiWord: false,               // 以分隔符号分割的多关键字支持
+    separator: ',',                 // 多关键字支持时的分隔符，默认为半角逗号
+    delay: 300,                     // 搜索触发的延时时间间隔，单位毫秒
+    emptyTip: '',                   // 查询为空时显示的内容，可为 html
+    searchingTip: '搜索中...',       // ajax 搜索时显示的提示内容，当搜索时间较长时给出正在搜索的提示
+    hideOnSelect: false,            // 鼠标从列表单击选择了值时，是否隐藏选择列表
 
     /* UI */
     autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出

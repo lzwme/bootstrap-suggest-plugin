@@ -650,7 +650,8 @@
         separator: ',',                 // 多关键字支持时的分隔符，默认为半角逗号
         delay: 300,                     // 搜索触发的延时时间间隔，单位毫秒
         emptyTip: '',                   // 查询为空时显示的内容，可为 html
-        searchingTip: '搜索中...',      // ajax 搜索时显示的提示内容，当搜索时间较长时给出正在搜索的提示
+        searchingTip: '搜索中...',       // ajax 搜索时显示的提示内容，当搜索时间较长时给出正在搜索的提示
+        hideOnSelect: FALSE,            // 鼠标从列表单击选择了值时，是否隐藏选择列表
 
         /* UI */
         autoDropup: FALSE,              // 选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
@@ -945,7 +946,10 @@
                         setValue($input, keywords, options);
                         setOrGetAlt($input, keywords.key);
                         setBackground($input, options);
-                        hideDropMenu($input, options);
+
+                        if (options.hideOnSelect) {
+                            hideDropMenu($input, options);
+                        }
                     });
 
                 // 存在清空按钮
