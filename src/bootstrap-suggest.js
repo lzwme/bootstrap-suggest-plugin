@@ -36,6 +36,11 @@
     var DISABLED = 'disabled';
     var TRUE = true;
     var FALSE = false;
+    var UNDEFINED = void(0);
+
+    function isUndefined(val) {
+        return val === UNDEFINED;
+    }
 
     /**
      * 错误处理
@@ -59,7 +64,7 @@
      * 设置或获取输入框的 alt 值
      */
     function setOrGetAlt($input, val) {
-        return val !== undefined ? $input.attr('alt', val) : $input.attr('alt');
+        return isUndefined(val) ? $input.attr('alt') : $input.attr('alt', val);
     }
     /**
      * 设置或获取输入框的 data-id 值
@@ -384,15 +389,15 @@
             index = 0;
             tds = [];
             dataI = dataList[i];
-            idValue = dataI[options.idField] || '';
-            keyValue = dataI[options.keyField] || '';
+            idValue = dataI[options.idField];
+            keyValue = dataI[options.keyField];
 
             for (field in dataI) {
                 // 标记作为 value 和 作为 id 的值
-                if (!keyValue && options.indexKey === index) {
+                if (isUndefined(keyValue) && options.indexKey === index) {
                     keyValue = dataI[field];
                 }
-                if (!idValue && options.indexId === index) {
+                if (isUndefined(idValue) && options.indexId === index) {
                     idValue = dataI[field];
                 }
 
@@ -698,7 +703,7 @@
             options = options || {};
 
             // 默认配置有效显示字段多于一个，则显示列表表头，否则不显示
-            if (undefined === options.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
+            if (UNDEFINED === options.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
                 options.showHeader = TRUE;
             }
 
