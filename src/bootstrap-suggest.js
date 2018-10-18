@@ -36,10 +36,9 @@
     var DISABLED = 'disabled';
     var TRUE = true;
     var FALSE = false;
-    var UNDEFINED = void(0);
 
     function isUndefined(val) {
-        return val === UNDEFINED;
+        return val === void(0);
     }
 
     /**
@@ -703,7 +702,7 @@
             options = options || {};
 
             // 默认配置有效显示字段多于一个，则显示列表表头，否则不显示
-            if (UNDEFINED === options.showHeader && options.effectiveFields && options.effectiveFields.length > 1) {
+            if (isUndefined(options.showHeader) && options.effectiveFields && options.effectiveFields.length > 1) {
                 options.showHeader = TRUE;
             }
 
