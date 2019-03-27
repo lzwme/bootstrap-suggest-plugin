@@ -673,7 +673,9 @@
             'transition': '0.3s',
             '-webkit-transition': '0.3s',
             '-moz-transition': '0.3s',
-            '-o-transition': '0.3s'
+            '-o-transition': '0.3s',
+            'word-break': 'keep-all',
+            'white-space': 'nowrap'
         },                              // 列表的样式控制
         listAlign: 'left',              // 提示列表对齐位置，left/right/auto
         listHoverStyle: 'background: #07d; color:#fff', // 提示框列表鼠标悬浮的样式
@@ -736,6 +738,9 @@
                     isMouseenterMenu,
                     keyupTimer, // keyup 与 input 事件延时定时器
                     $dropdownMenu = $parent.find('ul:eq(0)');
+
+                // 兼容 bs4
+                $dropdownMenu.parent().css('position', 'relative');
 
                 // 验证输入框对象是否符合条件
                 if (!checkInput($input, $dropdownMenu, options)) {

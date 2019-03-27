@@ -290,7 +290,7 @@
     //版本切换
     $('#bsVersion button').on('click', function() {
         var ver = $(this).data('version');
-        $('#bscss').attr('href', '//cdn.bootcss.com/bootstrap/' + ver + '/css/bootstrap.min.css');
-        $('#bsjs').attr('src', '//cdn.bootcss.com/bootstrap/' + ver + '/js/bootstrap.min.js');
+        $('#bscss').attr('href', '//stackpath.bootstrapcdn.com/bootstrap/' + ver + '/css/bootstrap.min.css');
+        $('#bsjs').attr('src', '//stackpath.bootstrapcdn.com/bootstrap/' + ver + '/js/bootstrap.min.js');
     });
 }());
