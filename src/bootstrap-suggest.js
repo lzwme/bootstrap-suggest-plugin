@@ -5,7 +5,7 @@
  * @github  https://github.com/lzwme/bootstrap-suggest-plugin.git
  * @since   2014-10-09
  *===============================================================================
- * (c) Copyright 2014-2018 http://lzw.me All Rights Reserved.
+ * (c) Copyright 2014-2019 http://lzw.me All Rights Reserved.
  ********************************************************************************/
 (function (factory) {
     if (typeof define === "function" && define.amd) {
@@ -612,16 +612,20 @@
 
         // 是否可清除已输入的内容(添加清除按钮)
         if (options.clearable && !$iClear.length) {
-                $iClear = $('<i class="clearable glyphicon glyphicon-remove"></i>')
+                $iClear = $('<i class="clearable glyphicon glyphicon-remove fa fa-plus"></i>')
                     .prependTo($input.parent());
         }
 
         return $iClear.css({
             position: 'absolute',
-            top: 12,
+            top: 'calc(50% - 6px)',
+            transform: 'rotate(45deg)',
             // right: options.showBtn ? Math.max($input.next('.input-group-btn').width(), 33) + 2 : 12,
             zIndex: 4,
             cursor: 'pointer',
+            width: '14px',
+            lineHeight: '14px',
+            textAlign: 'center',
             fontSize: 12
         }).hide();
     }
@@ -970,7 +974,7 @@
 
                     $parent.mouseenter(function() {
                         if (!$input.prop(DISABLED)) {
-                            $iClear.css('right', options.showBtn ? Math.max($input.next('.input-group-btn').width(), 33) + 2 : 12)
+                            $iClear.css('right', options.showBtn ? Math.max($input.next().width(), 33) + 2 : 12)
                                 .show();
                         }
                     }).mouseleave(function() {

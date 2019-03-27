@@ -290,7 +290,9 @@
     //版本切换
     $('#bsVersion button').on('click', function() {
         var ver = $(this).data('version');
-        $('#bscss').attr('href', '//stackpath.bootstrapcdn.com/bootstrap/' + ver + '/css/bootstrap.min.css');
-        $('#bsjs').attr('src', '//stackpath.bootstrapcdn.com/bootstrap/' + ver + '/js/bootstrap.min.js');
+        var cdnSite = '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/';
+        // var cdnSite = '//stackpath.bootstrapcdn.com/bootstrap/';
+        $('#bscss').attr('href', cdnSite + ver + '/css/bootstrap.min.css');
+        $('#bsjs').attr('src', cdnSite + ver + '/js/bootstrap.min.js');
     });
 }());
