@@ -180,6 +180,10 @@ var defaultOptions = {
 };
 ```
 
+<b>提示：</b>
+
+- 在 bootstrap v4 下， `clearable` 为 `true` 时，应引入 [font-awesome](https://fontawesome.com/icons/plus?style=solid) 图标库，该清除按钮使用了 `fa-plus` 图标。
+
 ## 二次开发
 
 `git clone` 项目，进入项目目录，执行如下命令：
