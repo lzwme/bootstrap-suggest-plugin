@@ -16,7 +16,7 @@ Bootstrap Search Suggest
 [![GitHub forks][forks-img]][forks-url]
 [![GitHub stars][stars-img]][stars-url]
 
-[grunt-img]: https://cdn.gruntjs.com/builtwith.png
+[grunt-img]: https://gruntjs.com/builtwith.png
 [grunt-url]: https://gruntjs.com
 [stars-img]: https://img.shields.io/github/stars/lzwme/bootstrap-suggest-plugin.svg
 [stars-url]: https://github.com/lzwme/bootstrap-suggest-plugin/stargazers
