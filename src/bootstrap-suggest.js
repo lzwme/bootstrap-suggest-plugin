@@ -364,7 +364,7 @@
         options._lastData = data;
 
         /** 显示于列表中的字段 */
-         var columns = options.effectiveFields.length ? options.effectiveFields : $.map(dataList[0], (val, key) => key);
+         var columns = options.effectiveFields.length ? options.effectiveFields : $.map(dataList[0], function(val, key) { return key; });
 
         // 生成表头
         if (options.showHeader) {
