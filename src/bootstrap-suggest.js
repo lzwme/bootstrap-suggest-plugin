@@ -1,11 +1,11 @@
-/**
+﻿/**
  * Bootstrap Search Suggest
  * @desc    这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
  * @author  renxia <lzwy0820#qq.com>
  * @github  https://github.com/lzwme/bootstrap-suggest-plugin.git
  * @since   2014-10-09
  *===============================================================================
- * (c) Copyright 2014-2019 http://lzw.me All Rights Reserved.
+ * (c) Copyright 2014-2019 https://lzw.me All Rights Reserved.
  ********************************************************************************/
 (function (factory) {
     if (typeof define === "function" && define.amd) {
@@ -363,20 +363,21 @@
         }
         options._lastData = data;
 
+        /** 显示于列表中的字段 */
+         var columns = options.effectiveFields.length ? options.effectiveFields : $.map(dataList[0], (val, key) => key);
+
         // 生成表头
         if (options.showHeader) {
             html.push('<thead><tr>');
-            for (field in dataList[0]) {
-                if (!inEffectiveFields(field, options)) {
-                    continue;
-                }
+            $.each(columns, function(index, field) {
+                if (!inEffectiveFields(field, options)) return;
 
                 html.push('<th>', (options.effectiveFieldsAlias[field] || field),
                     index === 0 ? ('(' + len + ')') : '' , // 表头第一列记录总数
                     '</th>');
 
                 index++;
-            }
+            });
             html.push('</tr></thead>');
         }
         html.push('<tbody>');
@@ -399,14 +400,15 @@
                 if (isUndefined(idValue) && options.indexId === index) {
                     idValue = dataI[field];
                 }
-
                 index++;
+            }
 
+            $.each(columns, function(index, field) {
                 // 列表中只显示有效的字段
                 if (inEffectiveFields(field, options)) {
                     tds.push('<td data-name="', field, '">', dataI[field], '</td>');
                 }
-            }
+            });
 
             html.push('<tr data-index="', (dataI.__index || i),
                 '" data-id="', idValue,
