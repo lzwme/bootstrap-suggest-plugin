@@ -127,7 +127,7 @@ var defaultOptions = {
 
     /* 搜索相关 */
     autoSelect: true,               // 键盘向上/下方向键时，是否自动选择值
-    allowNoKeyword: TRUE,           // 是否允许无关键字时请求数据
+    allowNoKeyword: true,           // 是否允许无关键字时请求数据
     getDataMethod: 'firstByUrl',    // 获取数据的方式，url：一直从url请求；data：从 options.data 获取；firstByUrl：第一次从Url获取全部数据，之后从options.data获取
     delayUntilKeyup: false,         // 获取数据的方式 为 firstByUrl 时，是否延迟到有输入时才请求数据
     ignorecase: false,              // 前端搜索匹配时，是否忽略大小写
@@ -141,6 +141,7 @@ var defaultOptions = {
     emptyTip: '',                   // 查询为空时显示的内容，可为 html
     searchingTip: '搜索中...',       // ajax 搜索时显示的提示内容，当搜索时间较长时给出正在搜索的提示
     hideOnSelect: false,            // 鼠标从列表单击选择了值时，是否隐藏选择列表
+    maxOptionCount: 200,            // 选择列表最多显示的可选项数量，默认为 200
 
     /* UI */
     autoDropup: false,              //选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出

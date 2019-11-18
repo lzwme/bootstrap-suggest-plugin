@@ -385,35 +385,43 @@
         // console.log(data, len);
         // 按列加数据
         var dataI;
-        for (i = 0; i < len; i++) {
-            index = 0;
-            tds = [];
-            dataI = dataList[i];
-            idValue = dataI[options.idField];
-            keyValue = dataI[options.keyField];
+        var maxOptionCount = Math.min(options.maxOptionCount, len);
+        for (i = 0; i < maxOptionCount; i++) {
+          index = 0;
+          tds = [];
+          dataI = dataList[i];
+          idValue = dataI[options.idField];
+          keyValue = dataI[options.keyField];
 
-            for (field in dataI) {
-                // 标记作为 value 和 作为 id 的值
-                if (isUndefined(keyValue) && options.indexKey === index) {
-                    keyValue = dataI[field];
-                }
-                if (isUndefined(idValue) && options.indexId === index) {
-                    idValue = dataI[field];
-                }
-                index++;
+          for (field in dataI) {
+            // 标记作为 value 和 作为 id 的值
+            if (isUndefined(keyValue) && options.indexKey === index) {
+              keyValue = dataI[field];
             }
+            if (isUndefined(idValue) && options.indexId === index) {
+              idValue = dataI[field];
+            }
+            index++;
+          }
 
-            $.each(columns, function(index, field) {
-                // 列表中只显示有效的字段
-                if (inEffectiveFields(field, options)) {
-                    tds.push('<td data-name="', field, '">', dataI[field], '</td>');
-                }
-            });
+          $.each(columns, function(index, field) {
+            // 列表中只显示有效的字段
+            if (inEffectiveFields(field, options)) {
+              tds.push('<td data-name="', field, '">', dataI[field], "</td>");
+            }
+          });
 
-            html.push('<tr data-index="', (dataI.__index || i),
-                '" data-id="', idValue,
-                '" data-key="', keyValue, '">',
-                tds.join(''), '</tr>');
+          html.push(
+            '<tr data-index="',
+            dataI.__index || i,
+            '" data-id="',
+            idValue,
+            '" data-key="',
+            keyValue,
+            '">',
+            tds.join(""),
+            "</tr>"
+          );
         }
         html.push('</tbody></table>');
 
@@ -662,6 +670,7 @@
         emptyTip: '',                   // 查询为空时显示的内容，可为 html
         searchingTip: '搜索中...',       // ajax 搜索时显示的提示内容，当搜索时间较长时给出正在搜索的提示
         hideOnSelect: FALSE,            // 鼠标从列表单击选择了值时，是否隐藏选择列表
+        maxOptionCount: 200,            // 选择列表最多显示的可选项数量，默认为 200
 
         /* UI */
         autoDropup: FALSE,              // 选择菜单是否自动判断向上展开。设为 true，则当下拉菜单高度超过窗体，且向上方向不会被窗体覆盖，则选择菜单向上弹出
@@ -772,7 +781,7 @@
                 }
 
                 // 开始事件处理
-                $input.on('keydown', function(event) {
+                $input.on('keydown.bs', function(event) {
                     var currentList, tipsKeyword; // 提示列表上被选中的关键字
 
                     // 当提示层显示时才对键盘事件处理
@@ -833,15 +842,15 @@
                     // 设置值 tipsKeyword
                     // console.log(tipsKeyword);
                     setValue($input, tipsKeyword, options);
-                }).on('compositionstart', function(event) {
+                }).on('compositionstart.bs', function(event) {
                     // 中文输入开始，锁定
                     // console.log('compositionstart');
                     inputLock = TRUE;
-                }).on('compositionend', function(event) {
+                }).on('compositionend.bs', function(event) {
                     // 中文输入结束，解除锁定
                     // console.log('compositionend');
                     inputLock = FALSE;
-                }).on('keyup input paste', function(event) {
+                }).on('keyup.bs input.bs paste.bs', function(event) {
                     var word;
 
                     if (event.keyCode) {
@@ -884,14 +893,18 @@
 
                         options.fnGetData($.trim(word), $input, refreshDropMenu, options);
                     }, options.delay || 300);
-                }).on('focus', function() {
+                }).on('focus.bs', function() {
                     // console.log('input focus');
                     adjustDropMenuPos($input, $dropdownMenu, options);
-                }).on('blur', function() {
+                }).on('blur.bs', function() {
                     if (!isMouseenterMenu) { // 不是进入下拉列表状态，则隐藏列表
                         hideDropMenu($input, options);
+                        inputLock = true;
+                        setTimeout(function() {
+                            inputLock = FALSE;
+                        });
                     }
-                }).on('click', function() {
+                }).on('click.bs', function() {
                     // console.log('input click');
                     var word = $input.val();
 
@@ -1010,7 +1023,8 @@
         },
         destroy: function() {
             return this.each(function() {
-                $(this).off().removeData(BSSUGGEST).removeAttr('style')
+                var evNameList = 'click.bs keydown.bs compositionstart.bs compositionend.bs keyup.bs input.bs paste.bs focus.bs click.bs';
+                $(this).off(evNameList).removeData(BSSUGGEST).removeAttr('style')
                     .parent().find('.btn:eq(0)').off().show().attr('data-toggle', 'dropdown').prop(DISABLED, FALSE) // .addClass(DISABLED);
                     .next().css('display', '').off();
             });
