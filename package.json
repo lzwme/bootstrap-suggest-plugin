@@ -37,22 +37,19 @@
     "test": "node_modules/.bin/mocha-phantomjs test/index.html -v 1366x768",
     "build": "grunt prod"
   },
-  "dependencies": {
-    "bootstrap": "^3.4.1",
-    "jquery": ">=1.11.1"
+  "peerDependencies": {
+    "jquery": ">=1.11.1",
+    "bootstrap": ">= 3.4.1"
   },
   "devDependencies": {
-    "babel-eslint": "^6.1.2",
-    "chai": "^3.5.0",
-    "grunt": ">0.4.1",
+    "chai": "^4.2.0",
+    "grunt": "^1.0.4",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-connect": "^2.1.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-eslint": "^0.0.5",
-    "grunt-contrib-uglify": "^3.1.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "gruntify-eslint": "^3.1.0",
-    "mocha": "^3.5.3",
-    "mocha-phantomjs": "^4.1.0"
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-watch": "^1.1.0",
+    "mocha": "^7.0.0"
   }
 }

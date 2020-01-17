@@ -7,7 +7,6 @@ Bootstrap Search Suggest
 
 这是一个基于 bootstrap 按钮式下拉菜单组件的搜索建议插件，必须使用于按钮式下拉菜单组件上。
 
-[![Built with Grunt][grunt-img]][grunt-url]
 [![NPM version][npm-image]][npm-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
@@ -16,7 +15,6 @@ Bootstrap Search Suggest
 [![GitHub forks][forks-img]][forks-url]
 [![GitHub stars][stars-img]][stars-url]
 
-[grunt-img]: https://gruntjs.com/builtwith.png
 [grunt-url]: https://gruntjs.com
 [stars-img]: https://img.shields.io/github/stars/lzwme/bootstrap-suggest-plugin.svg
 [stars-url]: https://github.com/lzwme/bootstrap-suggest-plugin/stargazers

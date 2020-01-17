@@ -1,8 +1,10 @@
 test
-.gitignore
 publish.bat
 Gruntfile.js
-.eslintrc
 index.html
 _config.yml
+.editorconfig
+.eslintrc
 .github
+.gitignore
+yarn.lock
